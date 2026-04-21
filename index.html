@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glimmerfell | Strategic Visual Evidence for Property Development</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff; /* Clean White */
+            --bg-secondary: #f4f4f5; /* Very Light Grey for sectioning */
+            --bg-dark: #111111; /* Sharp Black for contrast */
+            --text-main: #111111; /* Almost Black for high legibility */
+            --text-muted: #555555; /* Medium Grey for paragraphs */
+            --accent: #c5a059; /* Corporate Gold */
+        }
+
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background: var(--bg-primary); 
+            color: var(--text-main); 
+            margin: 0; 
+            line-height: 1.7; 
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 100px 20px; 
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 { font-weight: 700; margin-top: 0; color: var(--bg-dark); }
+        h1 { font-size: 4rem; margin: 0 0 20px 0; letter-spacing: -1.5px; line-height: 1.1; }
+        h2 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 25px; }
+        h3 { font-size: 1.5rem; margin-bottom: 15px; }
+        p { color: var(--text-muted); font-size: 1.1rem; }
+        
+        .accent-text { 
+            color: var(--accent); 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-size: 0.85rem; 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 15px; 
+        }
+
+        /* Hero Section */
+        header {
+            padding: 180px 20px 120px;
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.95)), url('https://cdn.shopify.com/s/files/1/0632/5511/7885/files/promo2.jpg') center/cover;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .hero-inner { max-width: 900px; margin: 0 auto; }
+        .hero-desc { font-size: 1.35rem; color: var(--text-muted); margin-bottom: 40px; }
+
+        /* Strategy Grid (3 Columns) */
+        .core-strategy { background: var(--bg-secondary); }
+        .strategy-intro { max-width: 800px; margin: 0 0 60px 0; }
+        .strategy-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 40px; 
+        }
+        .strategy-card { 
+            background: var(--bg-primary); 
+            padding: 50px 40px; 
+            border-top: 4px solid var(--bg-dark); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease;
+        }
+        .strategy-card:hover { transform: translateY(-5px); border-top-color: var(--accent); }
+
+        /* Sliders Section (Juxtapose) */
+        .impact-assessment { background: var(--bg-primary); }
+        .slider-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        .slider-container iframe {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        .slider-caption { margin-top: 15px; font-weight: bold; font-size: 1rem; color: var(--bg-dark); }
+
+   /* Interactive Showcase - Refined for Experience Centers */
+.interactive-showcase { 
+    background: var(--bg-secondary); 
+    border-top: 1px solid #eaeaea; 
+    border-bottom: 1px solid #eaeaea; 
+}
+
+.interactive-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+    margin-top: 60px; 
+}
+
+.showcase-item { 
+    cursor: pointer; 
+    position: relative; 
+    overflow: hidden; 
+    border-radius: 4px; 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+    background: #000; 
+    aspect-ratio: 16 / 9; /* Keeps both boxes identical in height */
+}
+
+.showcase-item img { 
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+    display: block; 
+    opacity: 0.7; 
+    transition: opacity 0.3s, transform 0.5s; 
+}
+
+.showcase-item:hover img { 
+    opacity: 0.4; 
+    transform: scale(1.05); 
+}
+
+/* Centered Overlay Content */
+.overlay { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; /* Centers text lines horizontally */
+    padding: 30px;
+    box-sizing: border-box;
+    color: white; 
+    pointer-events: none; 
+}
+
+/* Glassmorphism Play Button */
+.play-btn-refined { 
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%; 
+    
+    /* These four lines ensure it stays round */
+    width: 75px; 
+    height: 75px; 
+    min-width: 75px; 
+    min-height: 75px; 
+
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin-bottom: 20px; 
+    transition: all 0.3s ease; 
+    box-sizing: border-box;
+}
+
+.showcase-item:hover .play-btn-refined {
+    background: rgba(255, 255, 255, 0.95);
+    transform: scale(1.1);
+}
+
+/* The Triangle Icon */
+.play-icon {
+    width: 0; 
+    height: 0; 
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 20px solid #fff;
+    margin-left: 5px; /* Visual centering for triangle */
+    transition: border-left-color 0.3s;
+}
+
+.showcase-item:hover .play-icon {
+    border-left-color: #000; /* Flips to black when button turns white */
+}
+
+.overlay h3 {
+    color: #ffffff !important; /* !important ensures it beats any other global black text rules */
+    font-size: 1.6rem;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    text-align: center;
+    width: 100%;
+}
+
+.overlay p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 1rem;
+    max-width: 320px;
+    margin: 0 auto;
+    text-align: center;
+}
+        
+
+        /* Comparison Table */
+        .table-section { background: var(--bg-primary); }
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 50px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .comparison-table th { background: var(--bg-dark); color: var(--bg-primary); padding: 30px; font-size: 1.2rem; }
+        .comparison-table td { padding: 30px; border-bottom: 1px solid #eaeaea; font-size: 1.1rem; background: var(--bg-primary); }
+        .comparison-table tr td:first-child { color: var(--text-muted); width: 50%; border-right: 1px solid #eaeaea; }
+        .comparison-table tr td:last-child { color: var(--bg-dark); font-weight: 600; width: 50%; border-left: 4px solid var(--accent); }
+
+        /* CTA Section */
+        .cta-section { text-align: center; padding: 120px 20px; background: var(--bg-dark); color: var(--bg-primary); }
+        .cta-section h2 { color: var(--bg-primary); }
+        .cta-section p { color: #a3a3a3; }
+        .btn { display: inline-block; padding: 20px 50px; background: var(--accent); color: var(--bg-dark); text-decoration: none; font-weight: 800; border-radius: 2px; margin-top: 40px; letter-spacing: 1px; transition: background 0.3s; font-size: 1.1rem; }
+        .btn:hover { background: var(--bg-primary); }
+
+        /* Modal System */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
+        .modal-content { width: 100%; height: 100%; position: relative; }
+        .close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; z-index: 10000; line-height: 1; }
+        .close-btn:hover { color: var(--accent); }
+        .modal iframe { width: 100%; height: 100%; border: none; background: #000; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            .slider-grid, .interactive-grid { grid-template-columns: 1fr; }
+            .comparison-table tr { display: flex; flex-direction: column; }
+            .comparison-table tr td:first-child { width: 100%; border-right: none; }
+            .comparison-table tr td:last-child { width: 100%; border-left: none; border-top: 4px solid var(--accent); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="hero-inner">
+        <span class="accent-text">Strategic Project Facilitation</span>
+        <h1>Visual Clarity.<br>Project Certainty.</h1>
+        <p class="hero-desc">
+            Complex developments require clear communication. We provide the objective visual data needed to assist council planners and community stakeholders in understanding the true relationship between your project and its environment.
+        </p>
+        <a href="#demo" class="btn" style="margin-top: 0;">REVIEW THE EVIDENCE</a>
+    </div>
+</header>
+
+<section class="impact-assessment container">
+    <div class="strategy-intro" style="margin-bottom: 80px;">
+        <span class="accent-text">Consenting & Consultation</span>
+        <h2>Facilitating Informed Decisions</h2>
+        <p style="max-width: 800px;">
+            Project approvals rely on a shared understanding of impact. We facilitate the marriage between your raw engineering data and the physical world, providing council planners and community stakeholders with the clarity required to move toward a confident 'yes'.
+        </p>
+    </div>
+    
+    <div class="slider-grid">
+        <div class="slider-container">
+            <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=eaf58c86-2212-11ef-9396-d93975fe8866"></iframe>
+            <div class="slider-caption">Architectural Bulk & Massing Validation</div>
+        </div>
+        <div class="slider-container">
+            <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=7269eda8-f49e-11ee-9e97-9dade61bb597"></iframe>
+            <div class="slider-caption">Neighborhood Context & Amenity Alignment</div>
+        </div>
+    </div>
+
+    <div class="split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 100px;">
+        <div class="split-text">
+            <h3>Where Data Meet Context</h3>
+            <p>
+                The primary cause of project delays is a disconnect between technical plans and perceived reality. We bridge this gap by photorealistically embedding your planned building into high-fidelity captures of the desired location.
+            </p>
+            <ul style="list-style: none; padding: 0; color: var(--text-muted);">
+                <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+                    <span style="position: absolute; left: 0; color: var(--accent);">■</span>
+                    <strong>Survey-Controlled Assets:</strong> We utilize strategic drone and ground-level footage to capture the site's unique lighting, elevation, and surrounding textures.
+                </li>
+                <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
+                    <span style="position: absolute; left: 0; color: var(--accent);">■</span>
+                    <strong>Precision Alignment:</strong> Your engineering data is mapped onto our site captures with pixel-perfect accuracy, ensuring the height and setback are 100% representative of the final build.
+                </li>
+            </ul>
+        </div>
+        <div class="split-image">
+            <img src="https://cdn.shopify.com/s/files/1/0632/5511/7885/files/Class_02.jpg?v=1765869588" alt="Data Integration Example" style="width:100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+        </div>
+    </div>
+</section>
+
+<section class="interactive-showcase" id="demo">
+    <div class="container" style="padding-top: 80px; padding-bottom: 100px;">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 60px;">
+            <span class="accent-text">Strategic Project Assets</span>
+            <h2>The Digital Twin Ecosystem</h2>
+            <p>
+                A project only moves as fast as its slowest approval. We deploy high-fidelity Digital Twins to eliminate the friction points in your development timeline, providing the immersive experience required to move stakeholders from hesitation to commitment.
+            </p>
+        </div>
+        
+        <div class="interactive-grid">
+            <div class="showcase-item" id="openPivot">
+                <img src="https://cdn.shopify.com/s/files/1/0632/5511/7885/files/pivotPreview.jpg?v=1766092077" alt="External Site Intelligence">
+                <div class="overlay">
+                    <div class="play-btn-refined"><div class="play-icon"></div></div>
+                    <h3>Contextual Approval Experience</h3>
+                    <p>Streamline the consenting process through factual site transparency</p>
+                </div>
+            </div>
+
+            <div class="showcase-item" id="openWalk">
+                <img src="https://cdn.shopify.com/s/files/1/0632/5511/7885/files/walkPreview.jpg?v=1770921429" alt="Internal VR Experience">
+                <div class="overlay">
+                    <div class="play-btn-refined"><div class="play-icon"></div></div>
+                    <h3>Immersive Sales Experience</h3>
+                    <p>Trigger visceral buyer connection through 1:1 spatial occupancy</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="vr-specs" style="margin-top: 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; text-align: left;">
+            <div>
+                <h4 style="margin-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block;">External: Logic & Consent</h4>
+                <p style="font-size: 0.95rem; color: var(--text-muted);">
+                    The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.
+                </p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block;">Internal: Emotion & Conversion</h4>
+                <p style="font-size: 0.95rem; color: var(--text-muted);">
+                    The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="table-section container">
+    <h2 style="text-align: center; margin-bottom: 15px;">A Catalyst for Project Success</h2>
+    <p style="text-align: center; max-width: 700px; margin: 0 auto 50px;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
+    
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>The Traditional Friction</th>
+                <th>The Strategic Solution</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ambiguity:</strong> Relying on flat 2D plans leaves stakeholders guessing the physical impact of the build on neighbors.</td>
+                <td><strong>Certainty:</strong> Precise drone composites and slider comparisons prove the exact visual footprint and integration.</td>
+            </tr>
+            <tr>
+                <td><strong>Delays:</strong> Constant back-and-forth with skeptical councils due to a lack of clear, understandable project data.</td>
+                <td><strong>Momentum:</strong> Highly-accurate, defensible visual evidence that answers questions before they are asked, fast-tracking approvals.</td>
+            </tr>
+            <tr>
+                <td><strong>Sales Hurdles:</strong> Off-plan buyers struggling to "imagine" the lifestyle and true scale of a space from a brochure.</td>
+                <td><strong>Experience:</strong> Immersive VR environments that let buyers walk, feel, and "live in the space" today.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="cta-final" style="text-align: center; padding: 100px 20px; background: var(--bg-primary);">
+    <div class="container" style="max-width: 700px; margin: 0 auto;">
+        <span class="accent-text">Strategic Partnership</span>
+        <h2 style="margin-bottom: 20px;">Protect Your Project’s Momentum</h2>
+        <p style="margin-bottom: 40px; color: var(--text-muted);">
+            Your design represents a significant investment in engineering and vision. We invite you to experience a personalized demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project’s path to approval and sales success.
+        </p>
+        <a href="mailto:your@email.com" class="btn">REQUEST A STRATEGIC DEMONSTRATION</a>
+    </div>
+</section>
+
+<div id="visualisationModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeModal">&times;</span>
+        <iframe id="visualIframe" src=""></iframe>
+    </div>
+</div>
+
+<script>
+    const modal = document.getElementById('visualisationModal');
+    const iframe = document.getElementById('visualIframe');
+    const closeBtn = document.getElementById('closeModal');
+
+    document.getElementById('openPivot').onclick = function() {
+        iframe.src = 'https://mannyvandelight.github.io/TeRaki/Pivot/';
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
+
+    document.getElementById('openWalk').onclick = function() {
+        iframe.src = 'https://mannyvandelight.github.io/TeRaki/Walk/';
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
+
+    function closeModal() {
+        modal.style.display = 'none';
+        iframe.src = '';
+        document.body.style.overflow = 'auto';
+    }
+
+    closeBtn.onclick = closeModal;
+
+    window.onclick = function(event) {
+        if (event.target == modal) { closeModal(); }
+    };
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") { closeModal(); }
+    });
+</script>
+
+</body>
+</html>
