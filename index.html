@@ -144,6 +144,13 @@
     pointer-events: none; 
 }
 
+/*Review button background colour */
+.btn:link, .btn:visited {
+    background-color: var(--accent) !important;
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
 /* Glassmorphism Play Button */
 .play-btn-refined { 
     background: rgba(255, 255, 255, 0.15); 
@@ -233,7 +240,7 @@
             .comparison-table tr td:first-child { width: 100%; border-right: none; }
             .comparison-table tr td:last-child { width: 100%; border-left: none; border-top: 4px solid var(--accent); }
         }
-        
+
         /* Responsive Adjustments */
 @media (max-width: 768px) {
     /* Stack the grids vertically instead of side-by-side */
