@@ -6,13 +6,15 @@
     <title>Glimmerfell | Strategic Visual Evidence for Property Development</title>
     <style>
         :root {
-            --bg-primary: #ffffff; /* Clean White */
-            --bg-secondary: #f4f4f5; /* Very Light Grey for sectioning */
-            --bg-dark: #111111; /* Sharp Black for contrast */
-            --text-main: #111111; /* Almost Black for high legibility */
-            --text-muted: #555555; /* Medium Grey for paragraphs */
-            --accent: #c5a059; /* Corporate Gold */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f4f4f5;
+            --bg-dark: #111111;
+            --text-main: #111111;
+            --text-muted: #555555;
+            --accent: #c5a059;
         }
+
+        *, *::before, *::after { box-sizing: border-box; }
 
         body { 
             font-family: 'Helvetica Neue', Arial, sans-serif; 
@@ -25,15 +27,15 @@
         .container { 
             max-width: 1200px; 
             margin: 0 auto; 
-            padding: 100px 20px; 
+            padding: 80px 24px;
         }
         
-        /* Typography */
+        /* ── Typography ── */
         h1, h2, h3, h4 { font-weight: 700; margin-top: 0; color: var(--bg-dark); }
-        h1 { font-size: 4rem; margin: 0 0 20px 0; letter-spacing: -1.5px; line-height: 1.1; }
-        h2 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 25px; }
+        h1 { font-size: clamp(2.2rem, 6vw, 4rem); margin: 0 0 20px 0; letter-spacing: -1.5px; line-height: 1.1; }
+        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); letter-spacing: -1px; margin-bottom: 25px; }
         h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        p { color: var(--text-muted); font-size: 1.1rem; }
+        p  { color: var(--text-muted); font-size: 1.05rem; }
         
         .accent-text { 
             color: var(--accent); 
@@ -45,38 +47,39 @@
             margin-bottom: 15px; 
         }
 
-        /* Hero Section */
+        /* ── Hero ── */
         header {
-            padding: 180px 20px 120px;
+            padding: clamp(80px, 14vw, 180px) 24px clamp(60px, 10vw, 120px);
             background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.95)), url('assets/well-planned.jpg') center/cover;
             border-bottom: 1px solid #eaeaea;
         }
         .hero-inner { max-width: 900px; margin: 0 auto; }
-        .hero-desc { font-size: 1.35rem; color: var(--text-muted); margin-bottom: 40px; }
+        .hero-desc { font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--text-muted); margin-bottom: 40px; }
 
-        /* Strategy Grid (3 Columns) */
+        /* ── Strategy Grid ── */
         .core-strategy { background: var(--bg-secondary); }
         .strategy-intro { max-width: 800px; margin: 0 0 60px 0; }
         .strategy-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 40px; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 32px; 
         }
         .strategy-card { 
             background: var(--bg-primary); 
-            padding: 50px 40px; 
+            padding: 40px 32px; 
             border-top: 4px solid var(--bg-dark); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
             transition: transform 0.3s ease;
         }
         .strategy-card:hover { transform: translateY(-5px); border-top-color: var(--accent); }
 
-        /* Sliders Section (Juxtapose) */
+        /* ── Sliders ── */
         .impact-assessment { background: var(--bg-primary); }
+
         .slider-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
             margin-top: 50px;
         }
         .slider-container iframe {
@@ -85,241 +88,250 @@
             border: none;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             border-radius: 4px;
+            display: block;
         }
         .slider-caption { margin-top: 15px; font-weight: bold; font-size: 1rem; color: var(--bg-dark); }
 
-   /* Interactive Showcase - Refined for Experience Centers */
-.interactive-showcase { 
-    background: var(--bg-secondary); 
-    border-top: 1px solid #eaeaea; 
-    border-bottom: 1px solid #eaeaea; 
-}
+        /* ── Split (data meets context) ── */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 80px;
+        }
+        .split-image img {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            display: block;
+        }
+        .split-text ul {
+            list-style: none;
+            padding: 0;
+            color: var(--text-muted);
+        }
+        .split-text ul li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .split-text ul li span {
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
 
-.interactive-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 40px; 
-    margin-top: 60px; 
-}
+        /* ── Interactive Showcase ── */
+        .interactive-showcase { 
+            background: var(--bg-secondary); 
+            border-top: 1px solid #eaeaea; 
+            border-bottom: 1px solid #eaeaea; 
+        }
 
-.showcase-item { 
-    cursor: pointer; 
-    position: relative; 
-    overflow: hidden; 
-    border-radius: 4px; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
-    background: #000; 
-    aspect-ratio: 16 / 9; /* Keeps both boxes identical in height */
-}
+        .interactive-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 32px; 
+            margin-top: 48px; 
+        }
 
-.showcase-item img { 
-    width: 100%; 
-    height: 100%;
-    object-fit: cover;
-    display: block; 
-    opacity: 0.7; 
-    transition: opacity 0.3s, transform 0.5s; 
-}
+        .showcase-item { 
+            cursor: pointer; 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 4px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+            background: #000; 
+            aspect-ratio: 16 / 9;
+        }
 
-.showcase-item:hover img { 
-    opacity: 0.4; 
-    transform: scale(1.05); 
-}
+        .showcase-item img { 
+            width: 100%; 
+            height: 100%;
+            object-fit: cover;
+            display: block; 
+            opacity: 0.7; 
+            transition: opacity 0.3s, transform 0.5s; 
+        }
+        .showcase-item:hover img { opacity: 0.4; transform: scale(1.05); }
 
-/* Centered Overlay Content */
-.overlay { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: center; 
-    text-align: center; /* Centers text lines horizontally */
-    padding: 30px;
-    box-sizing: border-box;
-    color: white; 
-    pointer-events: none; 
-}
+        .overlay { 
+            position: absolute; 
+            inset: 0;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            padding: 24px;
+            color: white; 
+            pointer-events: none; 
+        }
 
-/*Review button background colour */
-.btn:link, .btn:visited {
-    background-color: var(--accent) !important;
-    color: #ffffff !important;
-    text-decoration: none;
-}
+        .play-btn-refined { 
+            background: rgba(255,255,255,0.15); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%; 
+            width: 70px; 
+            height: 70px; 
+            min-width: 70px; 
+            min-height: 70px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-bottom: 16px; 
+            transition: all 0.3s ease; 
+        }
+        .showcase-item:hover .play-btn-refined { background: rgba(255,255,255,0.95); transform: scale(1.1); }
 
-/* Glassmorphism Play Button */
-.play-btn-refined { 
-    background: rgba(255, 255, 255, 0.15); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%; 
-    
-    /* These four lines ensure it stays round */
-    width: 75px; 
-    height: 75px; 
-    min-width: 75px; 
-    min-height: 75px; 
+        .play-icon {
+            width: 0; 
+            height: 0; 
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-left: 18px solid #fff;
+            margin-left: 4px;
+            transition: border-left-color 0.3s;
+        }
+        .showcase-item:hover .play-icon { border-left-color: #000; }
 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    margin-bottom: 20px; 
-    transition: all 0.3s ease; 
-    box-sizing: border-box;
-}
+        .overlay h3 { color: #fff !important; font-size: clamp(1rem, 2.5vw, 1.6rem); margin: 0 0 8px 0; letter-spacing: -0.02em; }
+        .overlay p  { color: rgba(255,255,255,0.9) !important; font-size: 0.9rem; max-width: 300px; margin: 0 auto; }
 
-.showcase-item:hover .play-btn-refined {
-    background: rgba(255, 255, 255, 0.95);
-    transform: scale(1.1);
-}
+        /* ── Showcase columns (card + caption paired) ── */
+        .showcase-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .showcase-caption h4 {
+            margin: 0 0 10px 0;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+        .showcase-caption p { font-size: 0.95rem; color: var(--text-muted); margin: 0; }
 
-/* The Triangle Icon */
-.play-icon {
-    width: 0; 
-    height: 0; 
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-left: 20px solid #fff;
-    margin-left: 5px; /* Visual centering for triangle */
-    transition: border-left-color 0.3s;
-}
-
-.showcase-item:hover .play-icon {
-    border-left-color: #000; /* Flips to black when button turns white */
-}
-
-.overlay h3 {
-    color: #ffffff !important; /* !important ensures it beats any other global black text rules */
-    font-size: 1.6rem;
-    margin: 0 0 8px 0;
-    letter-spacing: -0.02em;
-    text-align: center;
-    width: 100%;
-}
-
-.overlay p {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 1rem;
-    max-width: 320px;
-    margin: 0 auto;
-    text-align: center;
-}
-        
-
-        /* Comparison Table */
+        /* ── Comparison Table ── */
         .table-section { background: var(--bg-primary); }
-        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 50px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .comparison-table th { background: var(--bg-dark); color: var(--bg-primary); padding: 30px; font-size: 1.2rem; }
-        .comparison-table td { padding: 30px; border-bottom: 1px solid #eaeaea; font-size: 1.1rem; background: var(--bg-primary); }
-        .comparison-table tr td:first-child { color: var(--text-muted); width: 50%; border-right: 1px solid #eaeaea; }
-        .comparison-table tr td:last-child { color: var(--bg-dark); font-weight: 600; width: 50%; border-left: 4px solid var(--accent); }
 
-        /* CTA Section */
-        .cta-section { text-align: center; padding: 120px 20px; background: var(--bg-dark); color: var(--bg-primary); }
-        .cta-section h2 { color: var(--bg-primary); }
-        .cta-section p { color: #a3a3a3; }
-        .btn { display: inline-block; padding: 20px 50px; background: var(--accent); color: var(--bg-dark); text-decoration: none; font-weight: 800; border-radius: 2px; margin-top: 40px; letter-spacing: 1px; transition: background 0.3s; font-size: 1.1rem; }
-        .btn:hover { background: var(--bg-primary); }
+        .comparison-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 50px; 
+            text-align: left; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+        }
+        .comparison-table th { 
+            background: var(--bg-dark); 
+            color: var(--bg-primary); 
+            padding: 24px 28px; 
+            font-size: 1.1rem; 
+        }
+        .comparison-table td { 
+            padding: 24px 28px; 
+            border-bottom: 1px solid #eaeaea; 
+            font-size: 1rem; 
+            background: var(--bg-primary); 
+            vertical-align: top;
+        }
+        .comparison-table tr td:first-child  { color: var(--text-muted); }
+        .comparison-table tr td:last-child   { color: var(--bg-dark); font-weight: 600; border-left: 4px solid var(--accent); }
 
-        /* Modal System */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
+        /* ── CTA sections ── */
+        .cta-final { text-align: center; padding: clamp(60px, 10vw, 100px) 24px; background: var(--bg-primary); }
+        .cta-inner { max-width: 700px; margin: 0 auto; }
+
+        .btn { 
+            display: inline-block; 
+            padding: 18px 40px; 
+            background: var(--accent); 
+            color: var(--bg-dark); 
+            text-decoration: none; 
+            font-weight: 800; 
+            border-radius: 2px; 
+            margin-top: 36px; 
+            letter-spacing: 1px; 
+            transition: background 0.3s; 
+            font-size: 1rem;
+        }
+        .btn:hover { background: var(--bg-dark); color: #fff; }
+
+        /* ── Modal ── */
+        .modal { display: none; position: fixed; z-index: 9999; inset: 0; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
         .modal-content { width: 100%; height: 100%; position: relative; }
-        .close-btn { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; z-index: 10000; line-height: 1; }
+        .close-btn { position: absolute; top: 16px; right: 24px; color: white; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1; }
         .close-btn:hover { color: var(--accent); }
         .modal iframe { width: 100%; height: 100%; border: none; background: #000; }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2.8rem; }
-            .slider-grid, .interactive-grid { grid-template-columns: 1fr; }
-            .comparison-table tr { display: flex; flex-direction: column; }
-            .comparison-table tr td:first-child { width: 100%; border-right: none; }
-            .comparison-table tr td:last-child { width: 100%; border-left: none; border-top: 4px solid var(--accent); }
+        /* ════════════════════════════════
+           RESPONSIVE BREAKPOINTS
+        ════════════════════════════════ */
+
+        /* Tablet – 900px */
+        @media (max-width: 900px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            /* Put image after text on smaller screens */
+            .split-image { order: 2; }
+            .split-text  { order: 1; }
+
+            .interactive-grid {
+                grid-template-columns: 1fr;
+            }
+            /* Make showcase taller when full-width so overlay text is readable */
+            .showcase-item { aspect-ratio: 16 / 7; }
+
+            .comparison-table thead { display: none; }
+            .comparison-table tbody tr {
+                display: block;
+                margin-bottom: 24px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            }
+            .comparison-table td {
+                display: block;
+                width: 100%;
+                border: none;
+                border-bottom: 1px solid #eaeaea;
+            }
+            .comparison-table tr td:first-child {
+                border-left: 4px solid var(--bg-dark);
+                background: var(--bg-secondary);
+            }
+            .comparison-table tr td:last-child {
+                border-left: 4px solid var(--accent);
+            }
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-    /* Stack the grids vertically instead of side-by-side */
-    .interactive-grid, 
-    .strategy-grid, 
-    .vr-specs,
-    .split-grid {
-        grid-template-columns: 1fr !important; /* Forces a single column */
-        gap: 30px;
-    }
+        /* Mobile – 600px */
+        @media (max-width: 600px) {
+            .container { padding: 56px 18px; }
 
-    /* keep Friction and solution together */
-    @media (max-width: 768px) {
-    /* This ensures the 'Friction' stays directly above its 'Solution' */
-    .catalyst-row {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 30px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
-    }
-    
-    .catalyst-row > div {
-        width: 100% !important;
-    }
-    
-    .strategy-solution {
-        margin-top: 10px;
-        font-weight: bold;
-        color: var(--accent);
-    }
-}
+            header { padding: 80px 18px 60px; }
 
-    /* meddia query zig zag layout */
-    @media (max-width: 768px) {
-    .split-grid {
-        display: flex;
-        flex-direction: column !important;
-    }
+            .strategy-grid { grid-template-columns: 1fr; }
+            .strategy-card  { padding: 32px 24px; }
 
-    /* This forces the image to always be on top for every section on mobile */
-    .split-grid.reverse {
-        flex-direction: column-reverse !important;
-    }
-}
+            .slider-grid { grid-template-columns: 1fr; gap: 24px; }
+            /* Taller aspect ratio on narrow screens for readability */
+            .slider-container iframe { aspect-ratio: 3/2; }
 
-    /* Adjust text sizes for smaller screens */
-    h1 { font-size: 2.2rem !important; }
-    h2 { font-size: 1.8rem !important; }
-    
-    .container {
-        padding: 40px 20px; /* Gives content breathing room on the edges */
-    }
+            .showcase-item { aspect-ratio: 4/3; }
+            .play-btn-refined { width: 56px; height: 56px; min-width: 56px; min-height: 56px; }
+            .play-icon { border-top-width: 9px; border-bottom-width: 9px; border-left-width: 15px; }
+            .overlay h3 { font-size: 1.1rem; }
+            .overlay p  { font-size: 0.82rem; }
 
-    /* Make the Digital Twin cards square or taller on mobile for better thumb-tapping */
-    .showcase-item {
-        aspect-ratio: 4 / 3; 
-    }
 
-    .overlay h3 {
-        font-size: 1.3rem;
-    }
 
-    .overlay p {
-        font-size: 0.9rem;
-        max-width: 90%;
-    }
+            .comparison-table td { padding: 18px 16px; font-size: 0.95rem; }
 
-    /* Ensure images in split sections stay below the text */
-    .split-grid {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .split-image {
-        order: 2; /* Moves the image below the text */
-        margin-top: 20px;
-    }
-}
+            .btn { padding: 16px 28px; font-size: 0.9rem; letter-spacing: 0.5px; width: 100%; text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -336,7 +348,7 @@
 </header>
 
 <section class="impact-assessment container">
-    <div class="strategy-intro" style="margin-bottom: 80px;">
+    <div class="strategy-intro" style="margin-bottom: 64px;">
         <span class="accent-text">Consenting & Consultation</span>
         <h2>Facilitating Informed Decisions</h2>
         <p style="max-width: 800px;">
@@ -347,40 +359,40 @@
     <div class="slider-grid">
         <div class="slider-container">
             <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=eaf58c86-2212-11ef-9396-d93975fe8866"></iframe>
-            <div class="slider-caption">Architectural Bulk & Massing Validation</div>
+            <div class="slider-caption">Architectural Bulk &amp; Massing Validation</div>
         </div>
         <div class="slider-container">
             <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=7269eda8-f49e-11ee-9e97-9dade61bb597"></iframe>
-            <div class="slider-caption">Neighborhood Context & Amenity Alignment</div>
+            <div class="slider-caption">Neighborhood Context &amp; Amenity Alignment</div>
         </div>
     </div>
 
-    <div class="split-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 100px;">
+    <div class="split-grid">
         <div class="split-text">
             <h3>Where Data Meets Context</h3>
             <p>
                 The primary cause of project delays is a disconnect between technical plans and perceived reality. We bridge this gap by photorealistically embedding your planned building into high-fidelity captures of the desired location.
             </p>
-            <ul style="list-style: none; padding: 0; color: var(--text-muted);">
-                <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
-                    <span style="position: absolute; left: 0; color: var(--accent);">■</span>
+            <ul>
+                <li>
+                    <span>■</span>
                     <strong>Survey-Controlled Assets:</strong> We utilize strategic drone and ground-level footage to capture the site's unique lighting, elevation, and surrounding textures.
                 </li>
-                <li style="margin-bottom: 15px; padding-left: 25px; position: relative;">
-                    <span style="position: absolute; left: 0; color: var(--accent);">■</span>
+                <li>
+                    <span>■</span>
                     <strong>Precision Alignment:</strong> Your engineering data is mapped onto our site captures with pixel-perfect accuracy, ensuring the height and setback are 100% representative of the final build.
                 </li>
             </ul>
         </div>
         <div class="split-image">
-            <img src="assets/MCP0878.jpg?v=1765869588" alt="Data Integration Example" style="width:100%; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+            <img src="assets/MCP0878.jpg?v=1765869588" alt="Data Integration Example">
         </div>
     </div>
 </section>
 
 <section class="interactive-showcase" id="demo">
-    <div class="container" style="padding-top: 80px; padding-bottom: 100px;">
-        <div style="text-align: center; max-width: 800px; margin: 0 auto 60px;">
+    <div class="container" style="padding-top: 72px; padding-bottom: 88px;">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 48px;">
             <span class="accent-text">Strategic Project Assets</span>
             <h2>The Digital Twin Ecosystem</h2>
             <p>
@@ -389,39 +401,34 @@
         </div>
         
         <div class="interactive-grid">
-            <div class="mobile-group">
-            <div class="showcase-item" id="openPivot"></div>
-                <img src="assets/pivotPreview.jpg?v=1766092077" alt="External Site Intelligence">
-                <div class="overlay">
-                    <div class="play-btn-refined"><div class="play-icon"></div></div>
-                    <h3>Contextual Approval Experience</h3>
-                    <p>Streamline the consenting process through factual site transparency</p>
+            <div class="showcase-col">
+                <div class="showcase-item" id="openPivot">
+                    <img src="assets/pivotPreview.jpg?v=1766092077" alt="External Site Intelligence">
+                    <div class="overlay">
+                        <div class="play-btn-refined"><div class="play-icon"></div></div>
+                        <h3>Contextual Approval Experience</h3>
+                        <p>Streamline the consenting process through factual site transparency</p>
+                    </div>
+                </div>
+                <div class="showcase-caption">
+                    <h4>External: Logic &amp; Consent</h4>
+                    <p>The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.</p>
                 </div>
             </div>
 
-            <div class="mobile-group">
-            <div class="showcase-item" id="openWalk"></div>
-                <img src="assets/walkPreview.jpg?v=1770921429" alt="Internal VR Experience">
-                <div class="overlay">
-                    <div class="play-btn-refined"><div class="play-icon"></div></div>
-                    <h3>Immersive Sales Experience</h3>
-                    <p>Trigger visceral buyer connection through 1:1 spatial occupancy</p>
+            <div class="showcase-col">
+                <div class="showcase-item" id="openWalk">
+                    <img src="assets/walkPreview.jpg?v=1770921429" alt="Internal VR Experience">
+                    <div class="overlay">
+                        <div class="play-btn-refined"><div class="play-icon"></div></div>
+                        <h3>Immersive Sales Experience</h3>
+                        <p>Trigger visceral buyer connection through 1:1 spatial occupancy</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="vr-specs" style="margin-top: 60px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; text-align: left;">
-            <div>
-                <h4 style="margin-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block;">External: Logic & Consent</h4>
-                <p style="font-size: 0.95rem; color: var(--text-muted);">
-                    The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.
-                </p>
-            </div>
-            <div>
-                <h4 style="margin-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block;">Internal: Emotion & Conversion</h4>
-                <p style="font-size: 0.95rem; color: var(--text-muted);">
-                    The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.
-                </p>
+                <div class="showcase-caption">
+                    <h4>Internal: Emotion &amp; Conversion</h4>
+                    <p>The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -429,7 +436,7 @@
 
 <section class="table-section container">
     <h2 style="text-align: center; margin-bottom: 15px;">A Catalyst for Project Success</h2>
-    <p style="text-align: center; max-width: 700px; margin: 0 auto 50px;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
+    <p style="text-align: center; max-width: 700px; margin: 0 auto;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
     
     <table class="comparison-table">
         <thead>
@@ -455,12 +462,12 @@
     </table>
 </section>
 
-<section class="cta-final" style="text-align: center; padding: 100px 20px; background: var(--bg-primary);">
-    <div class="container" style="max-width: 700px; margin: 0 auto;">
+<section class="cta-final">
+    <div class="cta-inner">
         <span class="accent-text">Strategic Partnership</span>
-        <h2 style="margin-bottom: 20px;">Protect Your Project’s Momentum</h2>
-        <p style="margin-bottom: 40px; color: var(--text-muted);">
-            Your design represents a significant investment in engineering and vision. We invite you to experience a personalized demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project’s path to approval and sales success.
+        <h2 style="margin-bottom: 20px;">Protect Your Project's Momentum</h2>
+        <p style="margin-bottom: 0; color: var(--text-muted);">
+            Your design represents a significant investment in engineering and vision. We invite you to experience a personalized demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.
         </p>
         <a href="mailto:manny@glimmerfell.com" class="btn">REQUEST A STRATEGIC DEMONSTRATION</a>
     </div>
@@ -474,8 +481,8 @@
 </div>
 
 <script>
-    const modal = document.getElementById('visualisationModal');
-    const iframe = document.getElementById('visualIframe');
+    const modal   = document.getElementById('visualisationModal');
+    const iframe  = document.getElementById('visualIframe');
     const closeBtn = document.getElementById('closeModal');
 
     document.getElementById('openPivot').onclick = function() {
@@ -497,14 +504,8 @@
     }
 
     closeBtn.onclick = closeModal;
-
-    window.onclick = function(event) {
-        if (event.target == modal) { closeModal(); }
-    };
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") { closeModal(); }
-    });
+    window.onclick = function(e) { if (e.target === modal) closeModal(); };
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 </script>
 
 </body>
