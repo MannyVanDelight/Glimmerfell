@@ -111,14 +111,8 @@
             margin-top: 50px;
         }
 
-        /* Groups the clipping box + caption as one unit */
-        .slider-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
+        .slider-wrapper { display: flex; flex-direction: column; }
 
-        /* 600x400 = 66.67% aspect ratio.
-           overflow:hidden clips the iframe so no scrollbars bleed out. */
         .slider-box {
             position: relative;
             width: 100%;
@@ -128,9 +122,6 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        /* iframe fills the box exactly.
-           left:50% + translateX(-50%) keeps it centred if Juxtapose
-           ever forces a minimum width wider than the container. */
         .slider-box iframe {
             position: absolute;
             top: 0;
@@ -143,7 +134,6 @@
             display: block;
         }
 
-        /* Caption is a sibling of .slider-box, never inside it */
         .slider-caption { 
             margin-top: 12px; 
             font-weight: bold; 
@@ -151,7 +141,7 @@
             color: var(--bg-dark); 
         }
 
-        /* ── Split (data meets context) ── */
+        /* ── Split (Data meets Context) ── */
         .split-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -159,26 +149,48 @@
             align-items: center;
             margin-top: 80px;
         }
-        .split-image img {
-            width: 100%;
+        
+        .split-text ul { list-style: none; padding: 0; color: var(--text-muted); }
+        .split-text ul li { margin-bottom: 15px; padding-left: 25px; position: relative; }
+        .split-text ul li span { position: absolute; left: 0; color: var(--accent); }
+
+        /* ── Gallery Grid (Option 1) ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 2 / 3;
+            overflow: hidden;
             border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
             display: block;
         }
-        .split-text ul {
-            list-style: none;
-            padding: 0;
-            color: var(--text-muted);
+        .gallery-item:hover img {
+            transform: scale(1.05);
         }
-        .split-text ul li {
-            margin-bottom: 15px;
-            padding-left: 25px;
-            position: relative;
-        }
-        .split-text ul li span {
+        .gallery-label {
             position: absolute;
+            bottom: 0;
             left: 0;
-            color: var(--accent);
+            width: 100%;
+            padding: 30px 15px 15px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            line-height: 1.2;
         }
 
         /* ── Interactive Showcase ── */
@@ -195,11 +207,7 @@
             margin-top: 48px; 
         }
 
-        .showcase-col {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
+        .showcase-col { display: flex; flex-direction: column; gap: 24px; }
 
         .showcase-item { 
             cursor: pointer; 
@@ -303,11 +311,11 @@
         .cta-final { text-align: center; padding: clamp(60px, 10vw, 100px) 24px; background: var(--bg-primary); }
         .cta-inner { max-width: 700px; margin: 0 auto; }
 
-        .btn { 
+        .btn:link, .btn:visited { 
             display: inline-block; 
             padding: 18px 40px; 
-            background: var(--accent); 
-            color: var(--bg-dark); 
+            background: var(--accent) !important; 
+            color: #ffffff !important; 
             text-decoration: none; 
             font-weight: 800; 
             border-radius: 2px; 
@@ -316,7 +324,7 @@
             transition: background 0.3s; 
             font-size: 1rem;
         }
-        .btn:hover { background: var(--bg-dark); color: #fff; }
+        .btn:hover { background: var(--bg-dark) !important; color: #fff !important; }
 
         /* ── Modal ── */
         .modal { display: none; position: fixed; z-index: 9999; inset: 0; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
@@ -334,7 +342,8 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
-            .split-image { order: 2; }
+            .gallery-grid { order: 2; grid-template-columns: 1fr; gap: 20px; }
+            .gallery-item { aspect-ratio: 16 / 9; } /* Stops the images from being overly tall on mobile */
             .split-text  { order: 1; }
 
             .interactive-grid { grid-template-columns: 1fr; }
@@ -378,7 +387,7 @@
 
             .comparison-table td { padding: 18px 16px; font-size: 0.95rem; }
 
-            .btn { padding: 16px 28px; font-size: 0.9rem; letter-spacing: 0.5px; width: 100%; text-align: center; }
+            .btn:link, .btn:visited { padding: 16px 28px; font-size: 0.9rem; letter-spacing: 0.5px; width: 100%; text-align: center; }
         }
     </style>
 </head>
@@ -426,22 +435,39 @@
         <div class="split-text">
             <h3>Where Data Meets Context</h3>
             <p>
-                The primary cause of project delays is a disconnect between technical plans and perceived reality. We bridge this gap by photorealistically embedding your planned building into high-fidelity captures of the desired location.
+                Our stills provide forensic-grade validation. By anchoring your design into survey-accurate digital environments, we provide indisputable evidence of project quality and impact.
             </p>
             <ul>
                 <li>
                     <span>■</span>
-                    <strong>Survey-Controlled Assets:</strong> We utilise strategic drone and ground-level footage to capture the site's unique lighting, elevation, and surrounding textures.
+                    <strong>Survey Alignment:</strong> We utilise strategic drone footage to map your engineering data to precise site captures.
                 </li>
                 <li>
                     <span>■</span>
-                    <strong>Precision Alignment:</strong> Your engineering data is mapped onto our site captures with pixel-perfect accuracy, ensuring the height and setback are 100% representative of the final build.
+                    <strong>Material Integrity:</strong> High-fidelity texture and light rendering proving how materials react to their environment.
+                </li>
+                <li>
+                    <span>■</span>
+                    <strong>Shadow Analysis:</strong> Factual proof of environmental integration through high-contrast light studies.
                 </li>
             </ul>
         </div>
-        <div class="split-image">
-            <img src="assets/MCP0878.jpg?v=1765869588" alt="Photorealistic architectural visualisation for a modern property development">
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="assets/class_02.jpg" alt="Ghosted Survey Alignment">
+                <div class="gallery-label">Survey Alignment</div>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/well-planned.jpg" alt="Material Integrity">
+                <div class="gallery-label">Material Detail</div>
+            </div>
+            <div class="gallery-item">
+                <img src="assets/domett_street_L.jpg" alt="Shadow Impact Study">
+                <div class="gallery-label">Shadow Study</div>
+            </div>
         </div>
+
     </div>
 </section>
 
@@ -502,7 +528,7 @@
         </thead>
         <tbody>
             <tr>
-                <td><strong>Ambiguity:</strong> Relying on flat 2D plans leaves stakeholders guessing the physical impact of the build on neighbors.</td>
+                <td><strong>Ambiguity:</strong> Relying on flat 2D plans leaves stakeholders guessing the physical impact of the build on neighbours.</td>
                 <td><strong>Certainty:</strong> Precise drone composites and slider comparisons prove the exact visual footprint and integration.</td>
             </tr>
             <tr>
@@ -522,7 +548,8 @@
         <span class="accent-text">Strategic Partnership</span>
         <h2 style="margin-bottom: 20px;">Protect Your Project's Momentum</h2>
         <p style="margin-bottom: 0; color: var(--text-muted);">
-            Your design represents a significant investment in engineering and vision. We invite you to experience a personalised demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.
+            Your design represents a significant investment in engineering and vision. We invite you to experience a 
+            personalised demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.
         </p>
         <a href="mailto:manny@glimmerfell.com" class="btn">REQUEST A STRATEGIC DEMONSTRATION</a>
     </div>
