@@ -86,10 +86,16 @@
             overflow: hidden;
             border-radius: 4px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            padding-top: 75%; /* 4:3 aspect ratio */
         }
         .slider-container iframe {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            aspect-ratio: 4/3;
+            height: 100%;
             border: none;
             display: block;
             overflow: hidden;
@@ -321,8 +327,6 @@
             .strategy-card  { padding: 32px 24px; }
 
             .slider-grid { grid-template-columns: 1fr; gap: 24px; }
-            /* Taller aspect ratio on narrow screens for readability */
-            .slider-container iframe { aspect-ratio: 3/2; }
 
             .showcase-item { aspect-ratio: 4/3; }
             .play-btn-refined { width: 56px; height: 56px; min-width: 56px; min-height: 56px; }
