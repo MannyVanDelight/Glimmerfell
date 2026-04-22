@@ -242,7 +242,7 @@
         }
 
         /* Responsive Adjustments */
-@media (max-width: 768px) {
+        @media (max-width: 768px) {
     /* Stack the grids vertically instead of side-by-side */
     .interactive-grid, 
     .strategy-grid, 
@@ -251,6 +251,41 @@
         grid-template-columns: 1fr !important; /* Forces a single column */
         gap: 30px;
     }
+
+    /* keep Friction and solution together */
+    @media (max-width: 768px) {
+    /* This ensures the 'Friction' stays directly above its 'Solution' */
+    .catalyst-row {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+    }
+    
+    .catalyst-row > div {
+        width: 100% !important;
+    }
+    
+    .strategy-solution {
+        margin-top: 10px;
+        font-weight: bold;
+        color: var(--accent);
+    }
+}
+
+    /* meddia query zig zag layout */
+    @media (max-width: 768px) {
+    .split-grid {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    /* This forces the image to always be on top for every section on mobile */
+    .split-grid.reverse {
+        flex-direction: column-reverse !important;
+    }
+}
 
     /* Adjust text sizes for smaller screens */
     h1 { font-size: 2.2rem !important; }
@@ -354,7 +389,8 @@
         </div>
         
         <div class="interactive-grid">
-            <div class="showcase-item" id="openPivot">
+            <div class="mobile-group">
+            <div class="showcase-item" id="openPivot"></div>
                 <img src="assets/pivotPreview.jpg?v=1766092077" alt="External Site Intelligence">
                 <div class="overlay">
                     <div class="play-btn-refined"><div class="play-icon"></div></div>
@@ -363,7 +399,8 @@
                 </div>
             </div>
 
-            <div class="showcase-item" id="openWalk">
+            <div class="mobile-group">
+            <div class="showcase-item" id="openWalk"></div>
                 <img src="assets/walkPreview.jpg?v=1770921429" alt="Internal VR Experience">
                 <div class="overlay">
                     <div class="play-btn-refined"><div class="play-icon"></div></div>
