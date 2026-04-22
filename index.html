@@ -82,13 +82,17 @@
             gap: 32px;
             margin-top: 50px;
         }
+        .slider-container {
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
         .slider-container iframe {
             width: 100%;
             aspect-ratio: 4/3;
             border: none;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-radius: 4px;
             display: block;
+            overflow: hidden;
         }
         .slider-caption { margin-top: 15px; font-weight: bold; font-size: 1rem; color: var(--bg-dark); }
 
@@ -358,11 +362,11 @@
     
     <div class="slider-grid">
         <div class="slider-container">
-            <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=eaf58c86-2212-11ef-9396-d93975fe8866"></iframe>
+            <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=eaf58c86-2212-11ef-9396-d93975fe8866" scrolling="no"></iframe>
             <div class="slider-caption">Architectural Bulk &amp; Massing Validation</div>
         </div>
         <div class="slider-container">
-            <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=7269eda8-f49e-11ee-9e97-9dade61bb597"></iframe>
+            <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=7269eda8-f49e-11ee-9e97-9dade61bb597" scrolling="no"></iframe>
             <div class="slider-caption">Neighborhood Context &amp; Amenity Alignment</div>
         </div>
     </div>
