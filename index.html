@@ -233,6 +233,51 @@
             .comparison-table tr td:first-child { width: 100%; border-right: none; }
             .comparison-table tr td:last-child { width: 100%; border-left: none; border-top: 4px solid var(--accent); }
         }
+        
+        /* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Stack the grids vertically instead of side-by-side */
+    .interactive-grid, 
+    .strategy-grid, 
+    .vr-specs,
+    .split-grid {
+        grid-template-columns: 1fr !important; /* Forces a single column */
+        gap: 30px;
+    }
+
+    /* Adjust text sizes for smaller screens */
+    h1 { font-size: 2.2rem !important; }
+    h2 { font-size: 1.8rem !important; }
+    
+    .container {
+        padding: 40px 20px; /* Gives content breathing room on the edges */
+    }
+
+    /* Make the Digital Twin cards square or taller on mobile for better thumb-tapping */
+    .showcase-item {
+        aspect-ratio: 4 / 3; 
+    }
+
+    .overlay h3 {
+        font-size: 1.3rem;
+    }
+
+    .overlay p {
+        font-size: 0.9rem;
+        max-width: 90%;
+    }
+
+    /* Ensure images in split sections stay below the text */
+    .split-grid {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .split-image {
+        order: 2; /* Moves the image below the text */
+        margin-top: 20px;
+    }
+}
     </style>
 </head>
 <body>
