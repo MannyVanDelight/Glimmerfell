@@ -89,25 +89,28 @@
             flex-direction: column;
         }
 
-        /* Clips the iframe — nothing else lives inside here */
+        /* 600x400 = 66.67% aspect ratio.
+           overflow:hidden clips the iframe so no scrollbars bleed out. */
         .slider-box {
             position: relative;
             width: 100%;
-            padding-top: 75%; /* 4:3 aspect ratio */
+            padding-top: 66.67%;
             overflow: hidden;
             border-radius: 4px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
-        /* iframe fills the box; left:50% + translateX(-50%) keeps it centred
-           so if Juxtapose forces a wider minimum, overflow crops both sides equally */
+        /* iframe fills the box exactly.
+           left:50% + translateX(-50%) keeps it centred if Juxtapose
+           ever forces a minimum width wider than the container. */
         .slider-box iframe {
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100%;
-            height: 100%;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100%;
             border: none;
             display: block;
         }
