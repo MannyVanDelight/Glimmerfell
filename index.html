@@ -84,23 +84,6 @@
         .hero-inner { max-width: 900px; margin: 0 auto; }
         .hero-desc { font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--text-muted); margin-bottom: 40px; }
 
-        /* ── Strategy Grid ── */
-        .core-strategy { background: var(--bg-secondary); }
-        .strategy-intro { max-width: 800px; margin: 0 0 60px 0; }
-        .strategy-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 32px; 
-        }
-        .strategy-card { 
-            background: var(--bg-primary); 
-            padding: 40px 32px; 
-            border-top: 4px solid var(--bg-dark); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            transition: transform 0.3s ease;
-        }
-        .strategy-card:hover { transform: translateY(-5px); border-top-color: var(--accent); }
-
         /* ── Sliders ── */
         .impact-assessment { background: var(--bg-primary); }
 
@@ -154,7 +137,7 @@
         .split-text ul li { margin-bottom: 15px; padding-left: 25px; position: relative; }
         .split-text ul li span { position: absolute; left: 0; color: var(--accent); }
 
-        /* ── Gallery Grid (Option 1) ── */
+        /* ── Gallery Grid (Clickable) ── */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -166,6 +149,7 @@
             overflow: hidden;
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            cursor: pointer; /* Indicates it can be clicked */
         }
         .gallery-item img {
             width: 100%;
@@ -191,6 +175,7 @@
             letter-spacing: 1px;
             text-align: center;
             line-height: 1.2;
+            pointer-events: none; /* Stops the label from blocking the click */
         }
 
         /* ── Interactive Showcase ── */
@@ -326,26 +311,32 @@
         }
         .btn:hover { background: var(--bg-dark) !important; color: #fff !important; }
 
-        /* ── Modal ── */
+        /* ── Modals (VR Iframe & Image Lightbox) ── */
         .modal { display: none; position: fixed; z-index: 9999; inset: 0; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
         .modal-content { width: 100%; height: 100%; position: relative; }
         .close-btn { position: absolute; top: 16px; right: 24px; color: white; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1; }
         .close-btn:hover { color: var(--accent); }
         .modal iframe { width: 100%; height: 100%; border: none; background: #000; }
+        
+        .modal-image {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            margin: auto;
+            display: block;
+        }
 
         /* ════════════════════════════
            RESPONSIVE BREAKPOINTS
         ════════════════════════════ */
 
         @media (max-width: 900px) {
-            .split-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
+            .split-grid { grid-template-columns: 1fr; gap: 40px; }
             .gallery-grid { order: 2; grid-template-columns: 1fr; gap: 20px; }
-            .gallery-item { aspect-ratio: 16 / 9; } /* Stops the images from being overly tall on mobile */
+            .gallery-item { aspect-ratio: 16 / 9; } 
             .split-text  { order: 1; }
-
             .interactive-grid { grid-template-columns: 1fr; }
             .showcase-item { aspect-ratio: 16 / 7; }
 
@@ -373,20 +364,13 @@
         @media (max-width: 600px) {
             .container { padding: 56px 18px; }
             header { padding: 80px 18px 60px; }
-
-            .strategy-grid { grid-template-columns: 1fr; }
-            .strategy-card  { padding: 32px 24px; }
-
             .slider-grid { grid-template-columns: 1fr; gap: 24px; }
-
             .showcase-item { aspect-ratio: 4/3; }
             .play-btn-refined { width: 56px; height: 56px; min-width: 56px; min-height: 56px; }
             .play-icon { border-top-width: 9px; border-bottom-width: 9px; border-left-width: 15px; }
             .overlay h3 { font-size: 1.1rem; }
             .overlay p  { font-size: 0.82rem; }
-
             .comparison-table td { padding: 18px 16px; font-size: 0.95rem; }
-
             .btn:link, .btn:visited { padding: 16px 28px; font-size: 0.9rem; letter-spacing: 0.5px; width: 100%; text-align: center; }
         }
     </style>
@@ -414,7 +398,6 @@
     </div>
     
     <div class="slider-grid">
-
         <div class="slider-wrapper">
             <div class="slider-box">
                 <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=eaf58c86-2212-11ef-9396-d93975fe8866" scrolling="no"></iframe>
@@ -428,7 +411,6 @@
             </div>
             <div class="slider-caption">Neighbourhood Context &amp; Amenity Alignment</div>
         </div>
-
     </div>
 
     <div class="split-grid">
@@ -438,18 +420,9 @@
                 Our stills provide forensic-grade validation. By anchoring your design into survey-accurate digital environments, we provide indisputable evidence of project quality and impact.
             </p>
             <ul>
-                <li>
-                    <span>■</span>
-                    <strong>Survey Alignment:</strong> We utilise strategic drone footage to map your engineering data to precise site captures.
-                </li>
-                <li>
-                    <span>■</span>
-                    <strong>Material Integrity:</strong> High-fidelity texture and light rendering proving how materials react to their environment.
-                </li>
-                <li>
-                    <span>■</span>
-                    <strong>Shadow Analysis:</strong> Factual proof of environmental integration through high-contrast light studies.
-                </li>
+                <li><span>■</span><strong>Survey Alignment:</strong> We utilise strategic drone footage to map your engineering data to precise site captures.</li>
+                <li><span>■</span><strong>Material Integrity:</strong> High-fidelity texture and light rendering proving how materials react to their environment.</li>
+                <li><span>■</span><strong>Shadow Analysis:</strong> Factual proof of environmental integration through high-contrast light studies.</li>
             </ul>
         </div>
         
@@ -459,15 +432,14 @@
                 <div class="gallery-label">Survey Alignment</div>
             </div>
             <div class="gallery-item">
-                <img src="assets/well-planned.jpg" alt="Material Integrity">
+                <img src="assets/domett_street_L.jpg" alt="Material Integrity">
                 <div class="gallery-label">Material Detail</div>
             </div>
             <div class="gallery-item">
-                <img src="assets/domett_street_L.jpg" alt="Shadow Impact Study">
+                <img src="assets/well-planned.jpg" alt="Shadow Impact Study">
                 <div class="gallery-label">Shadow Study</div>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -562,32 +534,70 @@
     </div>
 </div>
 
+<div id="imageLightboxModal" class="modal" style="display: none;">
+    <span class="close-btn" id="closeLightboxModal">&times;</span>
+    <img id="lightboxImg" class="modal-image" src="" alt="Enlarged view">
+</div>
+
 <script>
-    const modal    = document.getElementById('visualisationModal');
-    const iframe   = document.getElementById('visualIframe');
-    const closeBtn = document.getElementById('closeModal');
+    // VR Iframes Logic
+    const vrModal  = document.getElementById('visualisationModal');
+    const vrIframe = document.getElementById('visualIframe');
+    const vrCloseBtn = document.getElementById('closeModal');
 
     document.getElementById('openPivot').onclick = function() {
-        iframe.src = 'https://mannyvandelight.github.io/TeRaki/Pivot/';
-        modal.style.display = 'flex';
+        vrIframe.src = 'https://mannyvandelight.github.io/TeRaki/Pivot/';
+        vrModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
 
     document.getElementById('openWalk').onclick = function() {
-        iframe.src = 'https://mannyvandelight.github.io/TeRaki/Walk/';
-        modal.style.display = 'flex';
+        vrIframe.src = 'https://mannyvandelight.github.io/TeRaki/Walk/';
+        vrModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
 
-    function closeModal() {
-        modal.style.display = 'none';
-        iframe.src = '';
+    function closeVrModal() {
+        vrModal.style.display = 'none';
+        vrIframe.src = '';
         document.body.style.overflow = 'auto';
     }
+    vrCloseBtn.onclick = closeVrModal;
 
-    closeBtn.onclick = closeModal;
-    window.onclick = function(e) { if (e.target === modal) closeModal(); };
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+    // Image Lightbox Logic
+    const lightboxModal = document.getElementById('imageLightboxModal');
+    const lightboxImage = document.getElementById('lightboxImg');
+    const lightboxCloseBtn = document.getElementById('closeLightboxModal');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    galleryItems.forEach(item => {
+        item.onclick = function() {
+            const img = this.querySelector('img');
+            lightboxImage.src = img.src; // Copies the source from the small image
+            lightboxModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        };
+    });
+
+    function closeLightbox() {
+        lightboxModal.style.display = 'none';
+        lightboxImage.src = '';
+        document.body.style.overflow = 'auto';
+    }
+    lightboxCloseBtn.onclick = closeLightbox;
+
+    // Universal Close Events (Clicking background or pressing Escape)
+    window.onclick = function(e) { 
+        if (e.target === vrModal) closeVrModal(); 
+        if (e.target === lightboxModal) closeLightbox();
+    };
+
+    document.addEventListener('keydown', function(e) { 
+        if (e.key === 'Escape') {
+            closeVrModal();
+            closeLightbox();
+        }
+    });
 </script>
 
 </body>
