@@ -311,6 +311,131 @@
         }
         .btn:hover { background: var(--bg-dark) !important; color: #fff !important; }
 
+/* ── Footer Styles ── */
+.site-footer {
+    background: var(--bg-dark);
+    color: #ffffff;
+    padding: 80px 24px 30px;
+    border-top: 1px solid #222222;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+}
+.footer-col h4 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--accent);
+}
+.footer-brand h3 {
+    color: #ffffff;
+    font-size: 1.6rem;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+}
+.footer-brand p {
+    color: #a1a1aa;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-links li {
+    margin-bottom: 12px;
+}
+.footer-links a {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+.footer-links a:hover {
+    color: var(--accent);
+}
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid #222222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    color: #71717a;
+    font-size: 0.85rem;
+}
+.footer-bottom-links a {
+    color: #71717a;
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.3s;
+}
+.footer-bottom-links a:hover {
+    color: var(--accent);
+}
+
+/* ── Floating Back to Top Button Styles ── */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background: var(--bg-dark);
+    color: #ffffff;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.3s ease;
+    z-index: 900;
+}
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.back-to-top:hover {
+    background: var(--accent);
+    color: #111111;
+    box-shadow: 0 12px 28px rgba(197, 160, 89, 0.4);
+    transform: translateY(-3px);
+}
+.back-to-top svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.2s;
+}
+.back-to-top:hover svg {
+    transform: translateY(-2px);
+}
+
         /* ── Modals (VR Iframe & Image Lightbox) ── */
         .modal { display: none; position: fixed; z-index: 9999; inset: 0; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
         .modal-content { width: 100%; height: 100%; position: relative; }
@@ -534,6 +659,20 @@
     </div>
 </section>
 
+<!-- ── Footer ── -->
+<footer class="site-footer">
+    <div class="footer-bottom">
+        <div>&copy; 2025 Glimmerfell Ltd. All rights reserved. Strategic Property Evidence &amp; Spatial Intelligence.</div>
+    </div>
+</footer>
+
+<!-- ── Floating Back To Top Button ── -->
+<button id="backToTopBtn" class="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24">
+        <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+    </svg>
+</button>
+
 <div id="visualisationModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" id="closeModal">&times;</span>
@@ -605,6 +744,25 @@
             closeLightbox();
         }
     });
+
+    // Floating Back-to-Top Button Scroll & Click Logic
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+
+    backToTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
 </script>
 
 </body>
