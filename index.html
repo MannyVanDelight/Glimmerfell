@@ -1,769 +1,626 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Glimmerfell | Architectural Visualisation & Digital Twins for Developers</title>
-    <meta name="description" content="Glimmerfell provides high-fidelity architectural visualisation, 1:1 VR experiences, and survey-accurate Digital Twins to accelerate council approvals and pre-sales for property developers.">
-    <meta name="keywords" content="Architectural Visualisation, Digital Twins, Property Development VR, Council Approval Visuals, 3D Rendering New Zealand, Real Estate VR">
-    <link rel="canonical" href="https://www.glimmerfell.com/" />
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Glimmerfell | Architectural Visualisation & Digital Twins">
-    <meta property="og:description" content="Elevate architectural intent into project certainty with photorealistic Digital Twins and immersive VR.">
-    <meta property="og:image" content="https://www.glimmerfell.com/assets/well-planned.jpg">
-    <meta property="og:url" content="https://www.glimmerfell.com/">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Glimmerfell",
-      "description": "High-fidelity architectural visualisation and digital twin services for property developers.",
-      "image": "https://www.glimmerfell.com/assets/well-planned.jpg",
-      "url": "https://www.glimmerfell.com/",
-      "serviceType": [
-        "Architectural Visualisation",
-        "Digital Twins",
-        "VR Property Experiences",
-        "Council Consultation Visuals"
-      ]
-    }
-    </script>
-
-    <style>
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f4f4f5;
-            --bg-dark: #111111;
-            --text-main: #111111;
-            --text-muted: #555555;
-            --accent: #c5a059;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; }
-
-        body { 
-            font-family: 'Helvetica Neue', Arial, sans-serif; 
-            background: var(--bg-primary); 
-            color: var(--text-main); 
-            margin: 0; 
-            line-height: 1.7; 
-        }
-        
-        .container { 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 80px 24px;
-        }
-        
-        /* ── Typography ── */
-        h1, h2, h3, h4 { font-weight: 700; margin-top: 0; color: var(--bg-dark); }
-        h1 { font-size: clamp(2.2rem, 6vw, 4rem); margin: 0 0 20px 0; letter-spacing: -1.5px; line-height: 1.1; }
-        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); letter-spacing: -1px; margin-bottom: 25px; }
-        h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        p  { color: var(--text-muted); font-size: 1.05rem; }
-        
-        .accent-text { 
-            color: var(--accent); 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            font-size: 0.85rem; 
-            font-weight: 800; 
-            display: block; 
-            margin-bottom: 15px; 
-        }
-
-        /* ── Hero ── */
-        header {
-            padding: clamp(80px, 14vw, 180px) 24px clamp(60px, 10vw, 120px);
-            background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.95)), url('assets/well-planned.jpg') center/cover;
-            border-bottom: 1px solid #eaeaea;
-        }
-        .hero-inner { max-width: 900px; margin: 0 auto; }
-        .hero-desc { font-size: clamp(1rem, 2.5vw, 1.35rem); color: var(--text-muted); margin-bottom: 40px; }
-
-        /* ── Sliders ── */
-        .impact-assessment { background: var(--bg-primary); }
-
-        .slider-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-top: 50px;
-        }
-
-        .slider-wrapper { display: flex; flex-direction: column; }
-
-        .slider-box {
-            position: relative;
-            width: 100%;
-            padding-top: 66.67%;
-            overflow: hidden;
-            border-radius: 4px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        }
-
-        .slider-box iframe {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100% !important;
-            height: 100% !important;
-            max-width: 100%;
-            border: none;
-            display: block;
-        }
-
-        .slider-caption { 
-            margin-top: 12px; 
-            font-weight: bold; 
-            font-size: 1rem; 
-            color: var(--bg-dark); 
-        }
-
-        /* ── Split (Data meets Context) ── */
-        .split-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            margin-top: 80px;
-        }
-        
-        .split-text ul { list-style: none; padding: 0; color: var(--text-muted); }
-        .split-text ul li { margin-bottom: 15px; padding-left: 25px; position: relative; }
-        .split-text ul li span { position: absolute; left: 0; color: var(--accent); }
-
-        /* ── Gallery Grid (Clickable) ── */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-        .gallery-item {
-            position: relative;
-            aspect-ratio: 2 / 3;
-            overflow: hidden;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            cursor: pointer; /* Indicates it can be clicked */
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-            display: block;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-        .gallery-label {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px 15px 15px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            line-height: 1.2;
-            pointer-events: none; /* Stops the label from blocking the click */
-        }
-
-        /* ── Interactive Showcase ── */
-        .interactive-showcase { 
-            background: var(--bg-secondary); 
-            border-top: 1px solid #eaeaea; 
-            border-bottom: 1px solid #eaeaea; 
-        }
-
-        .interactive-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 32px; 
-            margin-top: 48px; 
-        }
-
-        .showcase-col { display: flex; flex-direction: column; gap: 24px; }
-
-        .showcase-item { 
-            cursor: pointer; 
-            position: relative; 
-            overflow: hidden; 
-            border-radius: 4px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
-            background: #000; 
-            aspect-ratio: 16 / 9;
-        }
-
-        .showcase-item img { 
-            width: 100%; 
-            height: 100%;
-            object-fit: cover;
-            display: block; 
-            opacity: 0.7; 
-            transition: opacity 0.3s, transform 0.5s; 
-        }
-        .showcase-item:hover img { opacity: 0.4; transform: scale(1.05); }
-
-        .overlay { 
-            position: absolute; 
-            inset: 0;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center;
-            padding: 24px;
-            color: white; 
-            pointer-events: none; 
-        }
-
-        .play-btn-refined { 
-            background: rgba(255,255,255,0.15); 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 50%; 
-            width: 70px; 
-            height: 70px; 
-            min-width: 70px; 
-            min-height: 70px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            margin-bottom: 16px; 
-            transition: all 0.3s ease; 
-        }
-        .showcase-item:hover .play-btn-refined { background: rgba(255,255,255,0.95); transform: scale(1.1); }
-
-        .play-icon {
-            width: 0; 
-            height: 0; 
-            border-top: 11px solid transparent;
-            border-bottom: 11px solid transparent;
-            border-left: 18px solid #fff;
-            margin-left: 4px;
-            transition: border-left-color 0.3s;
-        }
-        .showcase-item:hover .play-icon { border-left-color: #000; }
-
-        .overlay h3 { color: #fff !important; font-size: clamp(1rem, 2.5vw, 1.6rem); margin: 0 0 8px 0; letter-spacing: -0.02em; }
-        .overlay p  { color: rgba(255,255,255,0.9) !important; font-size: 0.9rem; max-width: 300px; margin: 0 auto; }
-
-        .showcase-caption h4 {
-            margin: 0 0 10px 0;
-            border-bottom: 2px solid var(--accent);
-            display: inline-block;
-        }
-        .showcase-caption p { font-size: 0.95rem; color: var(--text-muted); margin: 0; }
-
-        /* ── Comparison Table ── */
-        .table-section { background: var(--bg-primary); }
-
-        .comparison-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 50px; 
-            text-align: left; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-        }
-        .comparison-table th { 
-            background: var(--bg-dark); 
-            color: var(--bg-primary); 
-            padding: 24px 28px; 
-            font-size: 1.1rem; 
-        }
-        .comparison-table td { 
-            padding: 24px 28px; 
-            border-bottom: 1px solid #eaeaea; 
-            font-size: 1rem; 
-            background: var(--bg-primary); 
-            vertical-align: top;
-        }
-        .comparison-table tr td:first-child  { color: var(--text-muted); }
-        .comparison-table tr td:last-child   { color: var(--bg-dark); font-weight: 600; border-left: 4px solid var(--accent); }
-
-        /* ── CTA ── */
-        .cta-final { text-align: center; padding: clamp(60px, 10vw, 100px) 24px; background: var(--bg-primary); }
-        .cta-inner { max-width: 700px; margin: 0 auto; }
-
-        .btn:link, .btn:visited { 
-            display: inline-block; 
-            padding: 18px 40px; 
-            background: var(--accent) !important; 
-            color: #ffffff !important; 
-            text-decoration: none; 
-            font-weight: 800; 
-            border-radius: 2px; 
-            margin-top: 36px; 
-            letter-spacing: 1px; 
-            transition: background 0.3s; 
-            font-size: 1rem;
-        }
-        .btn:hover { background: var(--bg-dark) !important; color: #fff !important; }
-
-/* ── Footer Styles ── */
-.site-footer {
-    background: var(--bg-dark);
-    color: #ffffff;
-    padding: 80px 24px 30px;
-    border-top: 1px solid #222222;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glimmerfell | Architectural Visualisation &amp; Digital Twins for Developers</title>
+<meta name="description" content="Glimmerfell provides high-fidelity architectural visualisation, 1:1 VR experiences, and survey-accurate Digital Twins to accelerate council approvals and pre-sales for property developers.">
+<meta name="keywords" content="Architectural Visualisation, Digital Twins, Property Development VR, Council Approval Visuals, 3D Rendering New Zealand, Real Estate VR">
+<link rel="canonical" href="https://www.glimmerfell.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Glimmerfell Ltd">
+<meta name="theme-color" content="#111111">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Glimmerfell | Architectural Visualisation &amp; Digital Twins">
+<meta property="og:description" content="Elevate architectural intent into project certainty with photorealistic Digital Twins and immersive VR.">
+<meta property="og:image" content="https://www.glimmerfell.com/assets/well-planned.jpg">
+<meta property="og:url" content="https://www.glimmerfell.com/">
+<meta property="og:site_name" content="Glimmerfell">
+<meta property="og:locale" content="en_NZ">
+<meta property="og:image:alt" content="Survey-accurate architectural visualisation by Glimmerfell">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Glimmerfell | Architectural Visualisation &amp; Digital Twins">
+<meta name="twitter:description" content="Survey-accurate Digital Twins and 1:1 VR experiences that accelerate council approvals and off-plan pre-sales.">
+<meta name="twitter:image" content="https://www.glimmerfell.com/assets/well-planned.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Glimmerfell",
+  "description": "High-fidelity architectural visualisation and digital twin services for property developers.",
+  "image": "https://www.glimmerfell.com/assets/well-planned.jpg",
+  "url": "https://www.glimmerfell.com/",
+  "logo": "https://www.glimmerfell.com/assets/logo.png",
+  "areaServed": [
+    { "@type": "Country", "name": "New Zealand" },
+    { "@type": "Place", "name": "International" }
+  ],
+  "knowsAbout": [
+    "Architectural visualisation",
+    "Survey-accurate digital twins",
+    "Council consultation visuals",
+    "Off-plan property pre-sales",
+    "Energy sector visualisation",
+    "Medical visualisation"
+  ],
+  "serviceType": [
+    "Architectural Visualisation",
+    "Digital Twins",
+    "VR Property Experiences",
+    "Council Consultation Visuals"
+  ]
 }
-.footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.2fr;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto 60px;
-}
-.footer-col h4 {
-    color: #ffffff;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    position: relative;
-    padding-bottom: 10px;
-}
-.footer-col h4::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 30px;
-    height: 2px;
-    background: var(--accent);
-}
-.footer-brand h3 {
-    color: #ffffff;
-    font-size: 1.6rem;
-    letter-spacing: -0.5px;
-    margin-bottom: 12px;
-}
-.footer-brand p {
-    color: #a1a1aa;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-.footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.footer-links li {
-    margin-bottom: 12px;
-}
-.footer-links a {
-    color: #a1a1aa;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s ease;
-}
-.footer-links a:hover {
-    color: var(--accent);
-}
-.footer-bottom {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 30px;
-    border-top: 1px solid #222222;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
-    color: #71717a;
-    font-size: 0.85rem;
-}
-.footer-bottom-links a {
-    color: #71717a;
-    text-decoration: none;
-    margin-left: 20px;
-    transition: color 0.3s;
-}
-.footer-bottom-links a:hover {
-    color: var(--accent);
-}
-
-/* ── Floating Back to Top Button Styles ── */
-.back-to-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 48px;
-    height: 48px;
-    background: var(--bg-dark);
-    color: #ffffff;
-    border: 1px solid var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(15px);
-    transition: all 0.3s ease;
-    z-index: 900;
-}
-.back-to-top.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-.back-to-top:hover {
-    background: var(--accent);
-    color: #111111;
-    box-shadow: 0 12px 28px rgba(197, 160, 89, 0.4);
-    transform: translateY(-3px);
-}
-.back-to-top svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-    transition: transform 0.2s;
-}
-.back-to-top:hover svg {
-    transform: translateY(-2px);
-}
-
-        /* ── Modals (VR Iframe & Image Lightbox) ── */
-        .modal { display: none; position: fixed; z-index: 9999; inset: 0; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
-        .modal-content { width: 100%; height: 100%; position: relative; }
-        .close-btn { position: absolute; top: 16px; right: 24px; color: white; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1; }
-        .close-btn:hover { color: var(--accent); }
-        .modal iframe { width: 100%; height: 100%; border: none; background: #000; }
-        
-        .modal-image {
-            max-width: 90%;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 4px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            margin: auto;
-            display: block;
-        }
-
-        /* ════════════════════════════
-           RESPONSIVE BREAKPOINTS
-        ════════════════════════════ */
-
-        @media (max-width: 900px) {
-            .split-grid { grid-template-columns: 1fr; gap: 40px; }
-            .gallery-grid { order: 2; grid-template-columns: 1fr; gap: 20px; }
-            .gallery-item { aspect-ratio: 16 / 9; } 
-            .split-text  { order: 1; }
-            .interactive-grid { grid-template-columns: 1fr; }
-            .showcase-item { aspect-ratio: 16 / 7; }
-
-            .comparison-table thead { display: none; }
-            .comparison-table tbody tr {
-                display: block;
-                margin-bottom: 24px;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-            }
-            .comparison-table td {
-                display: block;
-                width: 100%;
-                border: none;
-                border-bottom: 1px solid #eaeaea;
-            }
-            .comparison-table tr td:first-child {
-                border-left: 4px solid var(--bg-dark);
-                background: var(--bg-secondary);
-            }
-            .comparison-table tr td:last-child {
-                border-left: 4px solid var(--accent);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container { padding: 56px 18px; }
-            header { padding: 80px 18px 60px; }
-            .slider-grid { grid-template-columns: 1fr; gap: 24px; }
-            .showcase-item { aspect-ratio: 4/3; }
-            .play-btn-refined { width: 56px; height: 56px; min-width: 56px; min-height: 56px; }
-            .play-icon { border-top-width: 9px; border-bottom-width: 9px; border-left-width: 15px; }
-            .overlay h3 { font-size: 1.1rem; }
-            .overlay p  { font-size: 0.82rem; }
-            .comparison-table td { padding: 18px 16px; font-size: 0.95rem; }
-            .btn:link, .btn:visited { padding: 16px 28px; font-size: 0.9rem; letter-spacing: 0.5px; width: 100%; text-align: center; }
-        }
-    </style>
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #ffffff; color: #111111; line-height: 1.7;
+         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+         -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  h1, h2, h3, h4 { margin-top: 0; color: #111111;
+         font-family: 'Spectral', 'Times New Roman', Georgia, serif; font-weight: 600; }
+  em, i { font-family: 'Spectral', Georgia, serif; font-style: italic; }
+  p { margin-top: 0; }
+  a { color: #c5a059; text-decoration: none; }
+  a:hover { color: #111111; }
+  img { display: block; }
+  @keyframes gf-drift { from { transform: scale(1.02) translate3d(0,0,0); } to { transform: scale(1.12) translate3d(0,-1.5%,0); } }
+  @keyframes gf-marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @keyframes gf-cue-arrow { 0%,100% { transform: translateY(-3.5px); opacity: .6; } 50% { transform: translateY(3.5px); opacity: 1; } }
+  @keyframes gf-cue { 0%,100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(7px); opacity: 1; } }
+  @keyframes gf-rule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (hover: hover) and (pointer: fine) { body[data-gf-cursor="on"], body[data-gf-cursor="on"] * { cursor: none !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  }
+.gfh1:hover{color: #111111;}
+.gfh2:hover{color: #111111;}
+.gfh3:hover{color: #111111;}
+.gfh4:hover{color: #111111;}
+.gfh5:hover{background: #c5a059; color: #ffffff;}
+.gfh6:hover{background: #111111; color: #ffffff; transform: translateY(-2px);}
+.gfh7:hover{color: #c5a059;}
+.gfh8:hover{animation-play-state: paused;}
+.gfh9:hover{transform: scale(1.06);}
+.gfh10:hover{transform: scale(1.06);}
+.gfh11:hover{transform: scale(1.06);}
+.gfh12:hover{box-shadow: 0 22px 50px rgba(0,0,0,0.28);}
+.gfh13:hover{opacity: 0.4; transform: scale(1.05);}
+.gfh14:hover{box-shadow: 0 22px 50px rgba(0,0,0,0.28);}
+.gfh15:hover{opacity: 0.4; transform: scale(1.05);}
+.gfh16:hover{background: #17171a;}
+.gfh17:hover{background: #17171a;}
+.gfh18:hover{background: #17171a;}
+.gfh19:hover{background: #111111; color: #ffffff; transform: translateY(-2px);}
+.gfa20::after{content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background: #c5a059;}
+.gfh21:hover{color: #c5a059;}
+.gfh22:hover{color: #c5a059;}
+.gfh23:hover{color: #c5a059;}
+.gfh24:hover{color: #c5a059;}
+.gfa25::after{content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background: #c5a059;}
+.gfh26:hover{color: #c5a059;}
+.gfh27:hover{color: #c5a059;}
+.gfh28:hover{background: #c5a059; color: #111111;}
+</style>
 </head>
 <body>
-
-<header>
-    <div class="hero-inner">
-        <span class="accent-text">Strategic Project Facilitation</span>
-        <h1>Don’t ask them to imagine.</h1>
-        <h2>Let them step inside it.</h2>
-        <p class="hero-desc">
-        Many people struggle to see the final outcome until they stand in front of it. We transform your engineering files into survey-accurate, 1:1 scale interactive digital twins. Eliminate planning friction, bypass buyer hesitation, and secure absolute certainty before you build.        </p>
-        <a href="#demo" class="btn" style="margin-top: 0;">REVIEW THE EVIDENCE</a>
-    </div>
-</header>
-
-<section class="impact-assessment container">
-    <div class="strategy-intro" style="margin-bottom: 64px;">
-        <span class="accent-text">The Investor</span>
-        <h2>Bypass the Brochure. Close Pre-Sales Faster.</h2>
-        <p style="max-width: 800px;">
-            People don't buy what they can't picture. Floor plans and basic renders leave too much to the imagination, leaving buyers hesitant. Glimmerfell lets investors and off-plan buyers step directly into a 1:1 scale immersive walkthrough. They don't have to guess what they are putting their money into, they’ve already walked through it.
-        </p>
-    </div>
-    <div class="strategy-intro" style="margin-bottom: 64px;">
-        <span class="accent-text">The Council</span>
-        <h2>Zero Guesswork for Planning Approvals.</h2>
-        <p style="max-width: 800px;">
-            Skeptical councils delay projects because they can't visualize how a project fits the landscape and affects its surroundings. We fix that. By anchoring your exact design data into the real-world, we provide indisputable visual evidence. Prove your building's precise massing, material details, and accurate shadow paths to get a confident "yes" on day one.
-        </p>
-    </div>
-    
-    <div class="slider-grid">
-        <div class="slider-wrapper">
-            <div class="slider-box">
-                <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=eaf58c86-2212-11ef-9396-d93975fe8866" scrolling="no"></iframe>
-            </div>
-            <div class="slider-caption">Architectural Bulk &amp; Massing Validation</div>
-        </div>
-
-        <div class="slider-wrapper">
-            <div class="slider-box">
-                <iframe src="https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=7269eda8-f49e-11ee-9e97-9dade61bb597" scrolling="no"></iframe>
-            </div>
-            <div class="slider-caption">Neighbourhood Context &amp; Amenity Alignment</div>
-        </div>
-    </div>
-
-    <div class="split-grid">
-        <div class="split-text">
-            <h3>Where Data Meets Context</h3>
-            <p>
-                Our stills provide forensic-grade validation. By anchoring your design into survey-accurate digital environments, we provide indisputable evidence of project quality and impact.
-            </p>
-            <ul>
-                <li><span>■</span><strong>Survey Alignment:</strong> We utilise strategic drone footage to map your engineering data to precise site captures.</li>
-                <li><span>■</span><strong>Material Integrity:</strong> High-fidelity texture and light rendering proving how materials react to their environment.</li>
-                <li><span>■</span><strong>Shadow Analysis:</strong> Factual proof of environmental integration through high-contrast light studies.</li>
-            </ul>
-        </div>
-        
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="assets/survey.jpg" alt="Ghosted Survey Alignment">
-                <div class="gallery-label">Survey Alignment</div>
-            </div>
-            <div class="gallery-item">
-                <img src="assets/material.jpg" alt="Material Integrity">
-                <div class="gallery-label">Material Detail</div>
-            </div>
-            <div class="gallery-item">
-                <img src="assets/shadow.jpg" alt="Shadow Impact Study">
-                <div class="gallery-label">Shadow Study</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="interactive-showcase" id="demo">
-    <div class="container" style="padding-top: 72px; padding-bottom: 88px;">
-        <div style="text-align: center; max-width: 800px; margin: 0 auto 48px;">
-            <span class="accent-text">Strategic Project Assets</span>
-            <h2>The Digital Twin Ecosystem</h2>
-            <p>
-                A project only moves as fast as its slowest approval. We deploy high-fidelity Digital Twins to eliminate the friction points in your development timeline, providing the immersive experience required to move stakeholders from hesitation to commitment.
-            </p>
-        </div>
-        
-        <div class="interactive-grid">
-            <div class="showcase-col">
-                <div class="showcase-item" id="openPivot">
-                    <img src="assets/pivotPreview.jpg?v=1766092077" alt="Interactive 3D Digital Twin for property site validation and council approval">
-                    <div class="overlay">
-                        <div class="play-btn-refined"><div class="play-icon"></div></div>
-                        <h3>Contextual Approval Experience</h3>
-                        <p>Streamline the consenting process through factual site transparency</p>
-                    </div>
-                </div>
-                <div class="showcase-caption">
-                    <h4>External: Logic &amp; Consent</h4>
-                    <p>The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.</p>
-                </div>
-            </div>
-
-            <div class="showcase-col">
-                <div class="showcase-item" id="openWalk">
-                    <img src="assets/walkPreview.jpg?v=1770921429" alt="1:1 scale VR walking tour for property pre-sales experience">
-                    <div class="overlay">
-                        <div class="play-btn-refined"><div class="play-icon"></div></div>
-                        <h3>Immersive Sales Experience</h3>
-                        <p>Trigger visceral buyer connection through 1:1 spatial occupancy</p>
-                    </div>
-                </div>
-                <div class="showcase-caption">
-                    <h4>Internal: Emotion &amp; Conversion</h4>
-                    <p>The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="table-section container">
-    <h2 style="text-align: center; margin-bottom: 15px;">A Catalyst for Project Success</h2>
-    <p style="text-align: center; max-width: 700px; margin: 0 auto;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
-    
-    <table class="comparison-table">
-        <thead>
-            <tr>
-                <th>The Traditional Friction</th>
-                <th>The Strategic Solution</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Ambiguity:</strong> Councils and buyers are left guessing scale, impact, and materials from flat 2D blueprints.</td>
-                <td><strong>Certainty:</strong> Precise drone composites and slider comparisons prove the exact visual footprint and integration.</td>
-            </tr>
-            <tr>
-                <td><strong>Delays:</strong> Constant back-and-forth with skeptical councils due to a lack of clear, understandable project data.</td>
-                <td><strong>Momentum:</strong> Highly-accurate, defensible visual evidence that answers questions before they are asked, fast-tracking approvals.</td>
-            </tr>
-            <tr>
-                <td><strong>Sales Hurdles:</strong> Pre-sales stall because buyers hesitate to purchase a home they can't physically see.</td>
-                <td><strong>Experience:</strong> Immersive VR environments that let buyers walk, feel, and "live in the space" today.</td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class="cta-final">
-    <div class="cta-inner">
-        <span class="accent-text">Strategic Partnership</span>
-        <h2 style="margin-bottom: 20px;">Protect Your Project's Momentum</h2>
-        <p style="margin-bottom: 0; color: var(--text-muted);">
-            Your design represents a significant investment in engineering and vision. We invite you to experience a 
-            personalised demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.
-        </p>
-        <a href="mailto:manny@glimmerfell.com" class="btn">REQUEST A STRATEGIC DEMONSTRATION</a>
-    </div>
-</section>
-
-<!-- ── Footer ── -->
-<footer class="site-footer">
-    <div class="footer-bottom">
-        <div>&copy; 2025 Glimmerfell Ltd. All rights reserved. Strategic Property Evidence &amp; Spatial Intelligence.</div>
-    </div>
-</footer>
-
-<!-- ── Floating Back To Top Button ── -->
-<button id="backToTopBtn" class="back-to-top" aria-label="Back to top">
-    <svg viewBox="0 0 24 24">
-        <path d="M12 4l-8 8h5v8h6v-8h5z"/>
-    </svg>
-</button>
-
-<div id="visualisationModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" id="closeModal">&times;</span>
-        <iframe id="visualIframe" src=""></iframe>
-    </div>
+<div style="position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 950; pointer-events: none;">
+  <div id="gfProgress" style="height: 100%; background: #c5a059; transform: scaleX(0); transform-origin: 0 50%; will-change: transform;"></div>
 </div>
 
-<div id="imageLightboxModal" class="modal" style="display: none;">
-    <span class="close-btn" id="closeLightboxModal">&times;</span>
-    <img id="lightboxImg" class="modal-image" src="" alt="Enlarged view">
+<div id="gfRing" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 42px; height: 42px; margin: -21px 0 0 -21px; border: 1px solid rgba(197,160,89,0.9); border-radius: 50%; display: none; align-items: center; justify-content: center; color: #111111; font-size: 0.55rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; pointer-events: none; z-index: 10001; transform: translate3d(-100px,-100px,0); transition: width .28s ease, height .28s ease, margin .28s ease, background-color .28s ease, border-color .28s ease; will-change: transform;"></div>
+<div id="gfDot" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; background: #c5a059; border-radius: 50%; display: none; pointer-events: none; z-index: 10002; transform: translate3d(-100px,-100px,0); will-change: transform;"></div>
+<div id="gfRipple" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 90px; height: 90px; margin: -45px 0 0 -45px; border: 1px solid rgba(197,160,89,0.95); border-radius: 50%; opacity: 0; pointer-events: none; z-index: 10001; transform: translate3d(-200px,-200px,0) scale(.2); will-change: transform, opacity;"></div>
+
+<nav id="gfNav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 900; display: flex; flex-wrap: nowrap; align-items: center; gap: 16px; padding: 14px clamp(18px, 4vw, 40px); background: rgba(255,255,255,0.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid #eaeaea;">
+  <a href="#top" style="display: flex; align-items: center; gap: clamp(9px, 2vw, 14px); color: #111111; margin-right: auto; padding-right: clamp(8px, 4vw, 44px); min-width: 0;">
+    <img src="assets/logo.png" alt="Glimmerfell logo" onerror="this.style.opacity=0" style="width: clamp(28px, 8vw, 36px); height: clamp(28px, 8vw, 36px); object-fit: contain; flex: none;">
+    <span style="font-family: 'Spectral', Georgia, serif; font-weight: 600; letter-spacing: clamp(1px, 0.5vw, 3px); font-size: 1.05rem; text-transform: uppercase; white-space: nowrap;">Glimmerfell</span>
+  </a>
+  <button id="gfBurger" data-act="toggleMenu" aria-label="Menu" aria-expanded="false" style="display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 0; background: transparent; border: 1px solid #eaeaea; border-radius: 2px; cursor: pointer;">
+    <span data-bar style="display: block; width: 20px; height: 1.5px; background: #111111; margin: 0 auto; transition: transform .3s ease, opacity .3s ease;"></span>
+    <span data-bar style="display: block; width: 20px; height: 1.5px; background: #111111; margin: 0 auto; transition: transform .3s ease, opacity .3s ease;"></span>
+    <span data-bar style="display: block; width: 20px; height: 1.5px; background: #111111; margin: 0 auto; transition: transform .3s ease, opacity .3s ease;"></span>
+  </button>
+  <div id="gfNavLinks" style="display: flex; flex-wrap: nowrap; align-items: center; gap: 18px;">
+    <a data-nav-link href="#evidence" style="color: #555555; font-size: 0.66rem; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; white-space: nowrap;" class="gfh1">Evidence</a>
+    <a data-nav-link href="#demo" style="color: #555555; font-size: 0.66rem; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; white-space: nowrap;" class="gfh2">Digital Twins</a>
+    <a data-nav-link href="#catalyst" style="color: #555555; font-size: 0.66rem; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; white-space: nowrap;" class="gfh3">Catalyst</a>
+    <a data-nav-link href="#credentials" style="color: #555555; font-size: 0.66rem; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; white-space: nowrap;" class="gfh4">Credentials</a>
+    <a data-nav-cta href="mailto:manny@glimmerfell.com" style="color: #ffffff; background: #111111; padding: 10px 16px; font-size: 0.64rem; font-weight: 800; letter-spacing: 1.2px; white-space: nowrap; text-transform: uppercase; border-radius: 2px; transition: background .3s ease, color .3s ease;" class="gfh5">Request a Demonstration</a>
+  </div>
+</nav>
+
+<div id="gfSpacer" style="height: 66px;"></div>
+
+<header id="top" data-anchor-offset style="position: relative; overflow: hidden; background: #f4f4f5; padding: clamp(40px, 6.5vw, 88px) clamp(18px, 4vw, 40px) clamp(56px, 9vw, 110px); border-bottom: 1px solid #eaeaea; scroll-margin-top: 76px;">
+  <div data-anim="drift" style="position: absolute; inset: -4%; background-image: url('assets/well-planned.jpg'); background-size: cover; background-position: center; animation: gf-drift 34s ease-in-out infinite alternate; will-change: transform;"></div>
+  <div style="position: absolute; inset: 0; background: linear-gradient(105deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.78) 48%, rgba(255,255,255,0.55) 100%);"></div>
+  <div style="position: relative; max-width: 1200px; margin: 0 auto;">
+    <div style="max-width: 900px;">
+      <span data-hero-label style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.8rem; font-weight: 800; margin-bottom: 18px;">Strategic Project Facilitation</span>
+      <h1 style="font-size: clamp(2.4rem, 6.4vw, 4.6rem); letter-spacing: -0.02em; line-height: 1.04; margin: 0 0 6px 0; font-weight: 600;">Don’t ask them to imagine.</h1>
+      <h2 style="font-size: clamp(1.9rem, 4.4vw, 3rem); letter-spacing: -0.01em; line-height: 1.15; margin: 0 0 28px 0; color: #c5a059; font-style: italic; font-weight: 400;">Let them step inside it.</h2>
+      <div style="width: 72px; height: 3px; background: #111111; margin-bottom: 28px; transform-origin: 0 50%; animation: gf-rule 1s .2s ease-out both;"></div>
+      <p style="font-size: clamp(1rem, 2.4vw, 1.28rem); color: #555555; max-width: 760px; margin: 0 0 40px 0; text-wrap: pretty;">Many people struggle to see the final outcome until they stand in front of it. We transform your engineering files into survey-accurate, 1:1 scale interactive digital twins. Eliminate planning friction, bypass buyer hesitation, and secure absolute certainty before you build.</p>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px;">
+        <a href="#demo" style="display: inline-block; padding: 18px 40px; background: #c5a059; color: #ffffff; font-weight: 800; letter-spacing: 1px; font-size: 0.95rem; border-radius: 2px; transition: background .3s ease, transform .3s ease;" class="gfh6">REVIEW THE EVIDENCE</a>
+        <a href="#credentials" style="color: #111111; font-size: 0.78rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; border-bottom: 2px solid #c5a059; padding-bottom: 4px;" class="gfh7">See our production credentials</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section style="background: #0e0e0f; padding: 26px 0; overflow: hidden; border-bottom: 1px solid #1c1c1e;">
+  <div style="max-width: 1200px; margin: 0 auto 16px; padding: 0 clamp(18px, 4vw, 40px); color: #71717a; font-size: 0.68rem; font-weight: 800; letter-spacing: 2.4px; text-transform: uppercase;">Team production credits include</div>
+  <div style="overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);">
+    <div data-anim="marquee" style="display: flex; width: max-content; animation: gf-marquee 38s linear infinite; will-change: transform;" class="gfh8">
+      <div style="display: flex; align-items: center; gap: 44px; padding-right: 44px; color: rgba(255,255,255,0.85); font-family: 'Spectral', Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;">
+        <span>Audi</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Porsche</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Toyota</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Avatar</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Wonder Woman</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Tomb Raider</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span style="font-style: italic;">Energy &amp; Medical</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+      </div>
+      <div aria-hidden="true" style="display: flex; align-items: center; gap: 44px; padding-right: 44px; color: rgba(255,255,255,0.85); font-family: 'Spectral', Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;">
+        <span>Audi</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Porsche</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Toyota</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Avatar</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Wonder Woman</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span>Tomb Raider</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+        <span style="font-style: italic;">Energy &amp; Medical</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="evidence" data-anchor-offset style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 96px) clamp(18px, 4vw, 40px); scroll-margin-top: 76px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 28px;">
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); background: #ffffff; border: 1px solid #eaeaea; border-top: 3px solid #c5a059; padding: clamp(28px, 4vw, 44px);">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px;">
+        <span style="font-family: 'Spectral', Georgia, serif; font-size: 1rem; font-style: italic; color: #c5a059;">01</span>
+        <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800;">The Investor</span>
+      </div>
+      <h2 style="font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 18px; text-wrap: balance;">Bypass the Brochure. Close Pre-Sales Faster.</h2>
+      <p style="color: #555555; font-size: 1.02rem; margin: 0; text-wrap: pretty;">People don't buy what they can't picture. Floor plans and basic renders leave too much to the imagination, leaving buyers hesitant. Glimmerfell lets investors and off-plan buyers step directly into a 1:1 scale immersive walkthrough. They don't have to guess what they are putting their money into, they’ve already walked through it.</p>
+    </div>
+    <div data-reveal data-reveal-delay="120" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); background: #ffffff; border: 1px solid #eaeaea; border-top: 3px solid #111111; padding: clamp(28px, 4vw, 44px);">
+      <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px;">
+        <span style="font-family: 'Spectral', Georgia, serif; font-size: 1rem; font-style: italic; color: #c5a059;">02</span>
+        <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800;">The Council</span>
+      </div>
+      <h2 style="font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.01em; line-height: 1.2; margin-bottom: 18px; text-wrap: balance;">Zero Guesswork for Planning Approvals.</h2>
+      <p style="color: #555555; font-size: 1.02rem; margin: 0; text-wrap: pretty;">Skeptical councils delay projects because they can't visualize how a project fits the landscape and affects its surroundings. We fix that. By anchoring your exact design data into the real-world, we provide indisputable visual evidence. Prove your building's precise massing, material details, and accurate shadow paths to get a confident "yes" on day one.</p>
+    </div>
+  </div>
+
+  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 32px; margin-top: clamp(40px, 6vw, 64px);">
+    <div style="display: flex; flex-direction: column;">
+      <div data-slider data-cursor="Drag" style="position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); background: repeating-linear-gradient(135deg, #e9e9ea 0 10px, #f4f4f5 10px 20px); touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: ew-resize;">
+        <img src="assets/massing-before.jpg" alt="Site before the proposed development" draggable="false" onerror="this.style.opacity=0" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img data-slider-top src="assets/massing-after.jpg" alt="Proposed development massing composited on site" draggable="false" onerror="this.style.opacity=0" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 50% 0 0);">
+        <div data-slider-handle style="position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(255,255,255,0.95); box-shadow: 0 0 12px rgba(0,0,0,0.35); pointer-events: none;">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(17,17,17,0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: center; gap: 5px; color: #ffffff; font-size: 0.7rem; letter-spacing: 1px;">❮❯</div>
+        </div>
+        <div style="position: absolute; bottom: 12px; left: 12px; padding: 5px 10px; background: rgba(0,0,0,0.55); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Before</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; padding: 5px 10px; background: rgba(197,160,89,0.9); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">After</div>
+      </div>
+      <div style="margin-top: 14px; font-family: 'Spectral', Georgia, serif; font-size: 1.1rem; color: #111111;">Architectural Bulk &amp; Massing Validation</div>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <div data-slider data-cursor="Drag" style="position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); background: repeating-linear-gradient(135deg, #e9e9ea 0 10px, #f4f4f5 10px 20px); touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: ew-resize;">
+        <img src="assets/context-before.jpg" alt="Neighbourhood context before the proposed development" draggable="false" onerror="this.style.opacity=0" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <img data-slider-top src="assets/context-after.jpg" alt="Proposed development within its neighbourhood context" draggable="false" onerror="this.style.opacity=0" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 50% 0 0);">
+        <div data-slider-handle style="position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(255,255,255,0.95); box-shadow: 0 0 12px rgba(0,0,0,0.35); pointer-events: none;">
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 44px; height: 44px; border-radius: 50%; background: rgba(17,17,17,0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.55); display: flex; align-items: center; justify-content: center; gap: 5px; color: #ffffff; font-size: 0.7rem; letter-spacing: 1px;">❮❯</div>
+        </div>
+        <div style="position: absolute; bottom: 12px; left: 12px; padding: 5px 10px; background: rgba(0,0,0,0.55); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Before</div>
+        <div style="position: absolute; bottom: 12px; right: 12px; padding: 5px 10px; background: rgba(197,160,89,0.9); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">After</div>
+      </div>
+      <div style="margin-top: 14px; font-family: 'Spectral', Georgia, serif; font-size: 1.1rem; color: #111111;">Neighbourhood Context &amp; Amenity Alignment</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(32px, 5vw, 60px); align-items: center; margin-top: clamp(56px, 8vw, 84px);">
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);">
+      <h3 style="font-size: clamp(1.5rem, 2.8vw, 1.9rem); margin-bottom: 16px; letter-spacing: -0.01em;">Where Data Meets Context</h3>
+      <p style="color: #555555; font-size: 1.02rem; text-wrap: pretty;">Our stills provide forensic-grade validation. By anchoring your design into survey-accurate digital environments, we provide indisputable evidence of project quality and impact.</p>
+      <ul style="list-style: none; padding: 0; margin: 24px 0 0 0; display: flex; flex-direction: column; gap: 16px; color: #555555;">
+        <li style="padding-left: 26px; position: relative;"><span style="position: absolute; left: 0; color: #c5a059;">■</span><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Survey Alignment:</strong> We utilise strategic drone footage to map your engineering data to precise site captures.</li>
+        <li style="padding-left: 26px; position: relative;"><span style="position: absolute; left: 0; color: #c5a059;">■</span><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Material Integrity:</strong> High-fidelity texture and light rendering proving how materials react to their environment.</li>
+        <li style="padding-left: 26px; position: relative;"><span style="position: absolute; left: 0; color: #c5a059;">■</span><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Shadow Analysis:</strong> Factual proof of environmental integration through high-contrast light studies.</li>
+      </ul>
+    </div>
+    <div data-reveal data-reveal-delay="140" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 16px;">
+      <div data-cursor="View" data-act="showSurvey" style="position: relative; aspect-ratio: 2 / 3; overflow: hidden; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; background: repeating-linear-gradient(135deg, #e9e9ea 0 10px, #f4f4f5 10px 20px);">
+        <img src="assets/survey.jpg" alt="Ghosted Survey Alignment" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease;" class="gfh9">
+        <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 15px 15px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: #ffffff; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; text-align: center; line-height: 1.3; pointer-events: none;">Survey Alignment</div>
+      </div>
+      <div data-cursor="View" data-act="showMaterial" style="position: relative; aspect-ratio: 2 / 3; overflow: hidden; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; background: repeating-linear-gradient(135deg, #e9e9ea 0 10px, #f4f4f5 10px 20px);">
+        <img src="assets/material.jpg" alt="Material Integrity" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease;" class="gfh10">
+        <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 15px 15px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: #ffffff; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; text-align: center; line-height: 1.3; pointer-events: none;">Material Detail</div>
+      </div>
+      <div data-cursor="View" data-act="showShadow" style="position: relative; aspect-ratio: 2 / 3; overflow: hidden; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); cursor: pointer; background: repeating-linear-gradient(135deg, #e9e9ea 0 10px, #f4f4f5 10px 20px);">
+        <img src="assets/shadow.jpg" alt="Shadow Impact Study" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease;" class="gfh11">
+        <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 15px 15px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); color: #ffffff; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px; text-align: center; line-height: 1.3; pointer-events: none;">Shadow Study</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo" data-anchor-offset style="background: #f4f4f5; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; scroll-margin-top: 76px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 8vw, 80px) clamp(18px, 4vw, 40px) clamp(64px, 9vw, 92px);">
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); text-align: center; max-width: 800px; margin: 0 auto 20px;">
+      <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Strategic Project Assets</span>
+      <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 22px;">The Digital Twin Ecosystem</h2>
+      <p style="color: #555555; font-size: 1.02rem; text-wrap: pretty;">A project only moves as fast as its slowest approval. We deploy high-fidelity Digital Twins to eliminate the friction points in your development timeline, providing the immersive experience required to move stakeholders from hesitation to commitment.</p>
+    </div>
+
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; max-width: 860px; margin: 0 auto clamp(36px, 5vw, 48px); padding: 16px 22px; background: #ffffff; border: 1px solid #eaeaea; border-left: 3px solid #c5a059;">
+      <span style="color: #111111; font-size: 0.7rem; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; white-space: nowrap;">Web build</span>
+      <span style="color: #555555; font-size: 0.95rem; text-wrap: pretty;">The two experiences below are <em>web-compatible versions</em>, streamlined to run instantly in any browser. The high-quality production build carries considerably more interactive detail, resolution and functionality.</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px;">
+      <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; gap: 24px;">
+        <div data-cursor="Enter" data-act="openPivot" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000000; aspect-ratio: 16 / 9;" class="gfh12">
+          <img src="assets/pivotPreview.jpg?v=1766092077" alt="Interactive 3D Digital Twin for property site validation and council approval" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity .3s ease, transform .6s ease;" class="gfh13">
+          <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Web-compatible version</div>
+          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; color: #ffffff; pointer-events: none;">
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 70px; height: 70px; min-width: 70px; min-height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <div style="width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 18px solid #ffffff; margin-left: 4px;"></div>
+            </div>
+            <h3 style="color: #ffffff; font-size: clamp(1.15rem, 2.6vw, 1.7rem); margin: 0 0 8px 0; letter-spacing: -0.01em;">Contextual Approval Experience</h3>
+            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; max-width: 320px; margin: 0;">Streamline the consenting process through factual site transparency</p>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin: 0 0 10px 0; border-bottom: 2px solid #c5a059; display: inline-block; font-size: 1.15rem;">External: Logic &amp; Consent</h4>
+          <p style="font-size: 0.95rem; color: #555555; margin: 0; text-wrap: pretty;">The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.</p>
+        </div>
+      </div>
+
+      <div data-reveal data-reveal-delay="140" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; gap: 24px;">
+        <div data-cursor="Enter" data-act="openWalk" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000000; aspect-ratio: 16 / 9;" class="gfh14">
+          <img src="assets/walkPreview.jpg?v=1770921429" alt="1:1 scale VR walking tour for property pre-sales experience" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity .3s ease, transform .6s ease;" class="gfh15">
+          <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Web-compatible version</div>
+          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; color: #ffffff; pointer-events: none;">
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 70px; height: 70px; min-width: 70px; min-height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <div style="width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 18px solid #ffffff; margin-left: 4px;"></div>
+            </div>
+            <h3 style="color: #ffffff; font-size: clamp(1.15rem, 2.6vw, 1.7rem); margin: 0 0 8px 0; letter-spacing: -0.01em;">Immersive Sales Experience</h3>
+            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; max-width: 320px; margin: 0;">Trigger visceral buyer connection through 1:1 spatial occupancy</p>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin: 0 0 10px 0; border-bottom: 2px solid #c5a059; display: inline-block; font-size: 1.15rem;">Internal: Emotion &amp; Conversion</h4>
+          <p style="font-size: 0.95rem; color: #555555; margin: 0; text-wrap: pretty;">The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="credentials" data-anchor-offset style="background: #0e0e0f; color: #ffffff; scroll-margin-top: 76px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 100px) clamp(18px, 4vw, 40px);">
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(28px, 5vw, 56px); align-items: start;">
+      <div>
+        <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Proven at Global Scale</span>
+        <h2 style="color: #ffffff; font-size: clamp(2rem, 4.4vw, 2.9rem); letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 22px; text-wrap: balance;">A studio built on <em style="color: #c5a059;">world-class</em> production standards.</h2>
+        <div style="width: 72px; height: 3px; background: #c5a059;"></div>
+      </div>
+      <div>
+        <p style="color: #a1a1aa; font-size: 1.02rem; margin: 0 0 18px 0; text-wrap: pretty;">Our artists and technical directors carry production credits across global automotive campaigns, feature-film visual effects, and technical visualisation for the energy and medical sectors. Glimmerfell was formed to bring that discipline, the pipelines, the review culture, the quality control, to the property development sector.</p>
+        <p style="color: #a1a1aa; font-size: 1.02rem; margin: 0; text-wrap: pretty;">Every deliverable moves through the same multi-stage technical and art direction review used on those productions. That is why our evidence holds up in a council hearing and why it converts in a sales suite.</p>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1px; margin-top: clamp(40px, 6vw, 64px); background: #1c1c1e; border: 1px solid #1c1c1e;">
+      <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), background .4s ease; background: #131315; padding: clamp(26px, 3.5vw, 40px);" class="gfh16">
+        <div style="color: #71717a; font-size: 0.66rem; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; margin-bottom: 22px;">Automotive</div>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px;">
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Audi</span>
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Porsche</span>
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Toyota</span>
+        </div>
+        <p style="color: #a1a1aa; font-size: 0.95rem; margin: 0; text-wrap: pretty;">Marketing-grade CGI delivered under manufacturer brand guidelines, where surface, paint and lighting accuracy are contractual, the same rigour we apply to your material specifications.</p>
+      </div>
+      <div data-reveal data-reveal-delay="110" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), background .4s ease; background: #131315; padding: clamp(26px, 3.5vw, 40px);" class="gfh17">
+        <div style="color: #71717a; font-size: 0.66rem; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; margin-bottom: 22px;">Feature Film</div>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px;">
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Avatar</span>
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Wonder Woman</span>
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Tomb Raider</span>
+        </div>
+        <p style="color: #a1a1aa; font-size: 0.95rem; margin: 0; text-wrap: pretty;">Visual effects work for major studio releases, built to survive cinema-scale scrutiny. Photoreal environments, survey-based set integration and light behaviour that reads as captured, not rendered.</p>
+      </div>
+      <div data-reveal data-reveal-delay="220" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), background .4s ease; background: #131315; padding: clamp(26px, 3.5vw, 40px);" class="gfh18">
+        <div style="color: #71717a; font-size: 0.66rem; font-weight: 800; letter-spacing: 2.2px; text-transform: uppercase; margin-bottom: 22px;">Energy &amp; Medical</div>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 22px;">
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Energy Infrastructure</span>
+          <span style="color: #ffffff; font-family: 'Spectral', Georgia, serif; font-size: 1.5rem; font-weight: 400;">Medical &amp; Life Sciences</span>
+        </div>
+        <p style="color: #a1a1aa; font-size: 0.95rem; margin: 0; text-wrap: pretty;">Visualisation for regulated industries, where every frame is reviewed by engineers and specialists before it reaches a public audience. Complex systems made legible without ever bending the underlying data, the discipline behind our consent-grade evidence.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); margin-top: clamp(28px, 4vw, 40px); color: #71717a; font-size: 0.85rem; text-wrap: pretty;">Credits reflect the combined production experience of the Glimmerfell team and are referenced for capability purposes. Brand and title names remain the property of their respective owners.</div>
+  </div>
+</section>
+
+<section id="catalyst" data-anchor-offset style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 96px) clamp(18px, 4vw, 40px); scroll-margin-top: 76px;">
+  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); text-align: center;">
+    <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 16px;">A Catalyst for Project Success</h2>
+    <p style="color: #555555; font-size: 1.02rem; max-width: 700px; margin: 0 auto; text-wrap: pretty;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
+  </div>
+
+  <div style="margin-top: clamp(36px, 5vw, 50px); display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1px; background: #111111;">
+      <div style="background: #111111; color: #ffffff; padding: 20px 28px; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem;">The Traditional Friction</div>
+      <div style="background: #111111; color: #c5a059; padding: 20px 28px; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem; font-style: italic;">The Strategic Solution</div>
+    </div>
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
+      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Ambiguity:</strong> Councils and buyers are left guessing scale, impact, and materials from flat 2D blueprints.</div>
+      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Certainty:</strong> Precise drone composites and slider comparisons prove the exact visual footprint and integration.</div>
+    </div>
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
+      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Delays:</strong> Constant back-and-forth with skeptical councils due to a lack of clear, understandable project data.</div>
+      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Momentum:</strong> Highly-accurate, defensible visual evidence that answers questions before they are asked, fast-tracking approvals.</div>
+    </div>
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
+      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Sales Hurdles:</strong> Pre-sales stall because buyers hesitate to purchase a home they can't physically see.</div>
+      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Experience:</strong> Immersive VR environments that let buyers walk, feel, and "live in the space" today.</div>
+    </div>
+  </div>
+</section>
+
+<section style="text-align: center; padding: clamp(60px, 10vw, 100px) clamp(18px, 4vw, 40px); background: #f4f4f5; border-top: 1px solid #eaeaea;">
+  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); max-width: 700px; margin: 0 auto;">
+    <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Strategic Partnership</span>
+    <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 20px;">Protect Your Project's Momentum</h2>
+    <p style="margin: 0; color: #555555; font-size: 1.02rem; text-wrap: pretty;">Your design represents a significant investment in engineering and vision. We invite you to experience a personalised demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.</p>
+    <a href="mailto:manny@glimmerfell.com" style="display: inline-block; padding: 18px 40px; background: #c5a059; color: #ffffff; font-weight: 800; letter-spacing: 1px; font-size: 0.95rem; border-radius: 2px; margin-top: 36px; transition: background .3s ease, transform .3s ease;" class="gfh19">REQUEST A STRATEGIC DEMONSTRATION</a>
+  </div>
+</section>
+
+<footer id="contact" data-anchor-offset style="background: #111111; color: #ffffff; padding: clamp(56px, 8vw, 80px) clamp(18px, 4vw, 40px) 30px; border-top: 1px solid #222222; scroll-margin-top: 76px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto 60px;">
+    <div>
+      <h3 style="color: #ffffff; font-size: 1.8rem; letter-spacing: 0.5px; margin-bottom: 14px;">Glimmerfell</h3>
+      <p style="color: #a1a1aa; font-size: 0.95rem; line-height: 1.6; margin: 0; max-width: 34ch; text-wrap: pretty;">Survey-accurate visualisation and Digital Twins for property developers, delivered to feature-film and regulated-industry production standards.</p>
+    </div>
+    <div>
+      <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;" class="gfa20">Explore</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+        <li><a href="#evidence" style="color: #a1a1aa; font-size: 0.95rem;" class="gfh21">Architectural Visualisation</a></li>
+        <li><a href="#demo" style="color: #a1a1aa; font-size: 0.95rem;" class="gfh22">Digital Twins</a></li>
+        <li><a href="#catalyst" style="color: #a1a1aa; font-size: 0.95rem;" class="gfh23">Catalyst</a></li>
+        <li><a href="#credentials" style="color: #a1a1aa; font-size: 0.95rem;" class="gfh24">Production Credentials</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color: #ffffff; font-size: 1.2rem; margin-bottom: 20px; position: relative; padding-bottom: 10px;" class="gfa25">Contact</h4>
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+        <li><a href="mailto:manny@glimmerfell.com" style="color: #a1a1aa; font-size: 0.95rem; border-bottom: 1px solid rgba(197,160,89,0.5); padding-bottom: 2px;" class="gfh26">Email</a></li>
+        <li><a href="https://www.glimmerfell.com/" style="color: #a1a1aa; font-size: 0.95rem;" class="gfh27">www.glimmerfell.com</a></li>
+        <li style="color: #71717a; font-size: 0.95rem;">New Zealand · Working internationally</li>
+      </ul>
+    </div>
+  </div>
+  <div style="max-width: 1200px; margin: 0 auto; padding-top: 30px; border-top: 1px solid #222222; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; color: #71717a; font-size: 0.85rem;">
+    <div>© 2025 Glimmerfell Ltd. All rights reserved. Strategic Property Evidence &amp; Spatial Intelligence.</div>
+  </div>
+</footer>
+
+<div id="gfCue" aria-hidden="true" style="position: fixed; top: 92px; left: 50%; z-index: 800; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(17,17,17,0.32); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(197,160,89,0.55); color: #ffffff; box-shadow: 0 6px 18px rgba(0,0,0,0.16); pointer-events: none; opacity: 1; transform: translate(-50%, 0); transition: opacity .4s ease, transform .4s ease;">
+  <span data-anim="cue" style="display: block; color: rgba(255,255,255,0.9); font-size: 1rem; line-height: 1; animation: gf-cue-arrow 2.4s ease-in-out infinite;">&#8595;</span>
+</div>
+
+<button id="gfTop" data-act="scrollTop" aria-label="Back to top" style="position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; background: #111111; color: #ffffff; border: 1px solid #c5a059; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transform: translateY(15px); transition: opacity .3s ease, transform .3s ease, background .3s ease, visibility .3s ease; z-index: 800; padding: 0;" class="gfh28">
+  <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: currentColor;"><path d="M12 4l-8 8h5v8h6v-8h5z"></path></svg>
+</button>
+
+<div id="gfVrModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); justify-content: center; align-items: center;">
+  <div style="width: 100%; height: 100%; position: relative;">
+    <span data-act="closeVr" style="position: absolute; top: 16px; right: 24px; color: #ffffff; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1;">&times;</span>
+    <iframe id="gfVrIframe" title="Digital twin experience" allowfullscreen style="width: 100%; height: 100%; border: none; background: #000000;"></iframe>
+  </div>
+</div>
+
+<div id="gfLightbox" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); justify-content: center; align-items: center; padding: 24px;">
+  <span data-act="closeLightbox" style="position: absolute; top: 16px; right: 24px; color: #ffffff; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1;">&times;</span>
+  <img id="gfLightboxImg" alt="Enlarged view" style="max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); margin: auto;">
 </div>
 
 <script>
-    // VR Iframes Logic
-    const vrModal  = document.getElementById('visualisationModal');
-    const vrIframe = document.getElementById('visualIframe');
-    const vrCloseBtn = document.getElementById('closeModal');
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    document.getElementById('openPivot').onclick = function() {
-        vrIframe.src = 'https://mannyvandelight.github.io/TeRaki/Pivot/';
-        vrModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    };
+  /* ── scroll reveal ── */
+  var io = null;
+  function show(el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+  if ('IntersectionObserver' in window && !reduced) {
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var d = parseInt(e.target.getAttribute('data-reveal-delay') || '0', 10);
+        if (d) e.target.style.transitionDelay = d + 'ms';
+        show(e.target); io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  }
+  var seen = [];
+  function scan() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-reveal]'), function (el) {
+      if (seen.indexOf(el) < 0) { seen.push(el); if (io) io.observe(el); else show(el); }
+      if (el.style.opacity !== '1') {
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.94 && r.bottom > 0) show(el);
+      }
+    });
+  }
 
-    document.getElementById('openWalk').onclick = function() {
-        vrIframe.src = 'https://mannyvandelight.github.io/TeRaki/Walk/';
-        vrModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    };
-
-    function closeVrModal() {
-        vrModal.style.display = 'none';
-        vrIframe.src = '';
-        document.body.style.overflow = 'auto';
+  /* ── before/after sliders ── */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-slider]'), function (box) {
+    var top = box.querySelector('[data-slider-top]'), handle = box.querySelector('[data-slider-handle]');
+    var dragging = false, pending = 50, frame = null;
+    function apply() { frame = null; if (top) top.style.clipPath = 'inset(0 ' + (100 - pending) + '% 0 0)'; if (handle) handle.style.left = pending + '%'; }
+    function set(x) {
+      var r = box.getBoundingClientRect();
+      pending = Math.max(0, Math.min(100, ((x - r.left) / r.width) * 100));
+      if (!frame) frame = requestAnimationFrame(apply);
     }
-    vrCloseBtn.onclick = closeVrModal;
+    box.addEventListener('pointerdown', function (e) { dragging = true; try { box.setPointerCapture(e.pointerId); } catch (err) {} set(e.clientX); });
+    box.addEventListener('pointermove', function (e) { if (dragging) set(e.clientX); }, { passive: true });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) { box.addEventListener(t, function () { dragging = false; }); });
+  });
 
-    // Image Lightbox Logic
-    const lightboxModal = document.getElementById('imageLightboxModal');
-    const lightboxImage = document.getElementById('lightboxImg');
-    const lightboxCloseBtn = document.getElementById('closeLightboxModal');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-
-    galleryItems.forEach(item => {
-        item.onclick = function() {
-            const img = this.querySelector('img');
-            lightboxImage.src = img.src; // Copies the source from the small image
-            lightboxModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        };
+  /* ── custom cursor + touch ripple ── */
+  var ring = $('gfRing'), dot = $('gfDot'), ripple = $('gfRipple');
+  var pos = { x: -100, y: -100 }, cur = { x: -100, y: -100 }, cRaf = null;
+  var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function follow() {
+    cRaf = null;
+    var dx = pos.x - cur.x, dy = pos.y - cur.y;
+    cur.x += dx * 0.18; cur.y += dy * 0.18;
+    if (ring) ring.style.transform = 'translate3d(' + cur.x + 'px,' + cur.y + 'px,0)';
+    if (Math.abs(dx) > 0.4 || Math.abs(dy) > 0.4) cRaf = requestAnimationFrame(follow);
+  }
+  if (fine && !reduced) {
+    document.body.setAttribute('data-gf-cursor', 'on');
+    if (ring) ring.style.display = 'flex';
+    if (dot) dot.style.display = 'block';
+    document.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      pos.x = e.clientX; pos.y = e.clientY;
+      if (dot) dot.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
+      if (!cRaf) cRaf = requestAnimationFrame(follow);
+    }, { passive: true });
+    document.addEventListener('pointerover', function (e) {
+      if (!ring) return;
+      var hit = e.target.closest ? e.target.closest('[data-cursor],a,button,[data-slider]') : null;
+      var label = hit ? (hit.getAttribute('data-cursor') || '') : '';
+      if (hit) {
+        var s = label ? 84 : 56;
+        ring.style.width = s + 'px'; ring.style.height = s + 'px'; ring.style.margin = (-s / 2) + 'px 0 0 ' + (-s / 2) + 'px';
+        ring.style.backgroundColor = label ? 'rgba(197,160,89,0.92)' : 'rgba(197,160,89,0.16)';
+        ring.textContent = label;
+      } else {
+        ring.style.width = '42px'; ring.style.height = '42px'; ring.style.margin = '-21px 0 0 -21px';
+        ring.style.backgroundColor = 'transparent'; ring.textContent = '';
+      }
+    }, { passive: true });
+  }
+  document.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' || !ripple || reduced) return;
+    ripple.style.transition = 'none';
+    ripple.style.opacity = '0.95';
+    ripple.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0) scale(.25)';
+    requestAnimationFrame(function () {
+      ripple.style.transition = 'transform .55s cubic-bezier(.16,1,.3,1), opacity .55s ease-out';
+      ripple.style.opacity = '0';
+      ripple.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0) scale(1.35)';
     });
+  }, { passive: true });
 
-    function closeLightbox() {
-        lightboxModal.style.display = 'none';
-        lightboxImage.src = '';
-        document.body.style.overflow = 'auto';
+  /* ── nav: collapses below 1100px, drives its own anchor offsets ── */
+  var nav = $('gfNav'), spacer = $('gfSpacer'), burger = $('gfBurger'), links = $('gfNavLinks'), cue = $('gfCue');
+  var mq = window.matchMedia('(max-width: 1100px)'), menuOpen = false, navH = 0;
+  function applyNav() {
+    if (!nav || !links || !burger) return;
+    var narrow = mq.matches, open = narrow && menuOpen;
+    if (narrow) {
+      burger.style.display = 'flex';
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      links.style.cssText = 'display:' + (open ? 'flex' : 'none') + ';position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(255,255,255,0.98);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #eaeaea;padding:6px clamp(18px,4vw,40px) 20px;box-shadow:0 18px 40px rgba(0,0,0,0.12)';
+      Array.prototype.forEach.call(links.querySelectorAll('[data-nav-link]'), function (a) { a.style.padding = '15px 0'; a.style.fontSize = '0.85rem'; a.style.borderBottom = '1px solid #f0f0f0'; });
+      Array.prototype.forEach.call(links.querySelectorAll('[data-nav-cta]'), function (a) { a.style.marginTop = '16px'; a.style.textAlign = 'center'; a.style.padding = '16px 20px'; a.style.fontSize = '0.78rem'; });
+    } else {
+      burger.style.display = 'none';
+      links.style.cssText = 'display:flex;flex-wrap:nowrap;align-items:center;gap:18px';
+      Array.prototype.forEach.call(links.querySelectorAll('[data-nav-link]'), function (a) { a.style.padding = '0'; a.style.fontSize = '0.66rem'; a.style.borderBottom = 'none'; });
+      Array.prototype.forEach.call(links.querySelectorAll('[data-nav-cta]'), function (a) { a.style.marginTop = '0'; a.style.textAlign = 'left'; a.style.padding = '10px 16px'; a.style.fontSize = '0.64rem'; });
     }
-    lightboxCloseBtn.onclick = closeLightbox;
-
-    // Universal Close Events (Clicking background or pressing Escape)
-    window.onclick = function(e) { 
-        if (e.target === vrModal) closeVrModal(); 
-        if (e.target === lightboxModal) closeLightbox();
-    };
-
-    document.addEventListener('keydown', function(e) { 
-        if (e.key === 'Escape') {
-            closeVrModal();
-            closeLightbox();
-        }
+    Array.prototype.forEach.call(burger.querySelectorAll('[data-bar]'), function (bar, i) {
+      bar.style.opacity = open && i === 1 ? '0' : '1';
+      bar.style.transform = open ? (i === 0 ? 'translateY(6.5px) rotate(45deg)' : i === 2 ? 'translateY(-6.5px) rotate(-45deg)' : 'none') : 'none';
     });
+    measureNav();
+  }
+  function measureNav() {
+    if (!nav) return;
+    var h = Math.round(nav.getBoundingClientRect().height);
+    if (!h || h === navH) return;
+    navH = h;
+    if (spacer) spacer.style.height = h + 'px';
+    if (cue) {
+      var lbl = document.querySelector('[data-hero-label]');
+      var lblTop = lbl ? lbl.getBoundingClientRect().top + (window.scrollY || 0) : h + 58;
+      cue.style.top = Math.round(Math.max(h + 8, (h + lblTop) / 2 - 20)) + 'px';
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-anchor-offset]'), function (el) { el.style.scrollMarginTop = (h + 10) + 'px'; });
+  }
+  if (mq.addEventListener) mq.addEventListener('change', function () { menuOpen = false; applyNav(); });
+  else mq.addListener(function () { menuOpen = false; applyNav(); });
+  if (links) links.addEventListener('click', function (e) { if (e.target.closest('a') && menuOpen) { menuOpen = false; applyNav(); } });
+  applyNav();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureNav);
+  if (window.ResizeObserver && nav) new ResizeObserver(measureNav).observe(nav);
 
-    // Floating Back-to-Top Button Scroll & Click Logic
-    const backToTopBtn = document.getElementById('backToTopBtn');
+  /* ── modals ── */
+  function lock(on) { document.body.style.overflow = on ? 'hidden' : ''; }
+  var vrModal = $('gfVrModal'), vrIframe = $('gfVrIframe'), lb = $('gfLightbox'), lbImg = $('gfLightboxImg');
+  function openVr(src) { vrIframe.src = src; vrModal.style.display = 'flex'; lock(true); }
+  function closeVr() { vrModal.style.display = 'none'; vrIframe.removeAttribute('src'); lock(false); }
+  function openLightbox(src) { lbImg.src = src; lb.style.display = 'flex'; lock(true); }
+  function closeLightbox() { lb.style.display = 'none'; lbImg.removeAttribute('src'); lock(false); }
+  var acts = {
+    openPivot: function () { openVr('https://mannyvandelight.github.io/TeRaki/Pivot/'); },
+    openWalk: function () { openVr('https://mannyvandelight.github.io/TeRaki/Walk/'); },
+    showSurvey: function () { openLightbox('assets/survey.jpg'); },
+    showMaterial: function () { openLightbox('assets/material.jpg'); },
+    showShadow: function () { openLightbox('assets/shadow.jpg'); },
+    closeVr: closeVr,
+    closeLightbox: closeLightbox,
+    toggleMenu: function () { menuOpen = !menuOpen; applyNav(); },
+    scrollTop: function () { window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }); }
+  };
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-act]');
+    if (t && acts[t.getAttribute('data-act')]) { acts[t.getAttribute('data-act')](); return; }
+    if (e.target === vrModal) closeVr();
+    if (e.target === lb) closeLightbox();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeVr(); closeLightbox(); } });
 
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 300) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
+  /* ── scroll chrome ── */
+  var progress = $('gfProgress'), toTop = $('gfTop'), raf = null;
+  function onScroll() {
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = null; scan(); measureNav();
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - window.innerHeight;
+      var y = window.scrollY || doc.scrollTop || 0;
+      if (progress) progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+      if (cue) { var hide = y > 80; cue.style.opacity = hide ? '0' : '1'; cue.style.transform = 'translate(-50%,' + (hide ? '-10px' : '0') + ')'; }
+      if (toTop) { var on = y > 300; toTop.style.opacity = on ? '1' : '0'; toTop.style.visibility = on ? 'visible' : 'hidden'; toTop.style.transform = on ? 'translateY(0)' : 'translateY(15px)'; }
     });
-
-    backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  scan(); onScroll();
+})();
 </script>
-
 </body>
 </html>
