@@ -10,6 +10,7 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Glimmerfell Ltd">
 <meta name="theme-color" content="#111111">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
@@ -114,8 +115,7 @@
   <div id="gfProgress" style="height: 100%; background: #c5a059; transform: scaleX(0); transform-origin: 0 50%; will-change: transform;"></div>
 </div>
 
-<div id="gfRing" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 42px; height: 42px; margin: -21px 0 0 -21px; border: 1px solid rgba(197,160,89,0.9); border-radius: 50%; display: none; align-items: center; justify-content: center; color: #111111; font-size: 0.55rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; pointer-events: none; z-index: 10001; transform: translate3d(-100px,-100px,0); transition: width .28s ease, height .28s ease, margin .28s ease, background-color .28s ease, border-color .28s ease; will-change: transform;"></div>
-<div id="gfDot" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; background: #c5a059; border-radius: 50%; display: none; pointer-events: none; z-index: 10002; transform: translate3d(-100px,-100px,0); will-change: transform;"></div>
+<div id="gfRing" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px; background: #c5a059; border: 1px solid rgba(197,160,89,0); border-radius: 50%; display: none; align-items: center; justify-content: center; color: #c5a059; font-size: 0.55rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; pointer-events: none; z-index: 10001; transform: translate3d(-100px,-100px,0); transition: width .3s cubic-bezier(.16,1,.3,1), height .3s cubic-bezier(.16,1,.3,1), margin .3s cubic-bezier(.16,1,.3,1), background-color .3s ease, border-color .3s ease; will-change: transform;"></div>
 <div id="gfRipple" aria-hidden="true" style="position: fixed; top: 0; left: 0; width: 90px; height: 90px; margin: -45px 0 0 -45px; border: 1px solid rgba(197,160,89,0.95); border-radius: 50%; opacity: 0; pointer-events: none; z-index: 10001; transform: translate3d(-200px,-200px,0) scale(.2); will-change: transform, opacity;"></div>
 
 <nav id="gfNav" style="position: fixed; top: 0; left: 0; right: 0; z-index: 900; display: flex; flex-wrap: nowrap; align-items: center; gap: 16px; padding: 14px clamp(18px, 4vw, 40px); background: rgba(255,255,255,0.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid #eaeaea;">
@@ -267,7 +267,7 @@
 
     <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; max-width: 860px; margin: 0 auto clamp(36px, 5vw, 48px); padding: 16px 22px; background: #ffffff; border: 1px solid #eaeaea; border-left: 3px solid #c5a059;">
       <span style="color: #111111; font-size: 0.7rem; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; white-space: nowrap;">Web build</span>
-      <span style="color: #555555; font-size: 0.95rem; text-wrap: pretty;">The two experiences below are <em>web-compatible versions</em>, streamlined to run instantly in any browser. The high-quality production build carries considerably more interactive detail, resolution and functionality.</span>
+      <span style="color: #555555; font-size: 0.95rem; text-wrap: pretty;">The two experiences below are <em>web-compatible versions</em>, streamlined to run instantly in any browser. The high-quality production build carries considerably more interactive detail, resolution and functionality. To leave an experience, press <strong style="color: #111111;">Esc</strong> or click the <strong style="color: #111111;">&times;</strong> in the top right corner.</span>
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px;">
@@ -432,6 +432,7 @@
 <div id="gfVrModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); justify-content: center; align-items: center;">
   <div style="width: 100%; height: 100%; position: relative;">
     <span data-act="closeVr" style="position: absolute; top: 16px; right: 24px; color: #ffffff; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1;">&times;</span>
+    <div style="position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 10000; padding: 8px 16px; border-radius: 999px; background: rgba(17,17,17,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(197,160,89,0.5); color: rgba(255,255,255,0.9); font-size: 0.62rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Press Esc or click &times; to exit</div>
     <iframe id="gfVrIframe" title="Digital twin experience" allowfullscreen style="width: 100%; height: 100%; border: none; background: #000000;"></iframe>
   </div>
 </div>
@@ -485,40 +486,41 @@
     ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) { box.addEventListener(t, function () { dragging = false; }); });
   });
 
-  /* ── custom cursor + touch ripple ── */
-  var ring = $('gfRing'), dot = $('gfDot'), ripple = $('gfRipple');
-  var pos = { x: -100, y: -100 }, cur = { x: -100, y: -100 }, cRaf = null;
+  /* ── custom cursor (exact tracking) + touch ripple ── */
+  var ring = $('gfRing'), ripple = $('gfRipple');
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  function follow() {
-    cRaf = null;
-    var dx = pos.x - cur.x, dy = pos.y - cur.y;
-    cur.x += dx * 0.18; cur.y += dy * 0.18;
-    if (ring) ring.style.transform = 'translate3d(' + cur.x + 'px,' + cur.y + 'px,0)';
-    if (Math.abs(dx) > 0.4 || Math.abs(dy) > 0.4) cRaf = requestAnimationFrame(follow);
+  var cursorOn = false;
+  function cursorEnable(on) {
+    cursorOn = !!on && fine && !reduced;
+    if (!ring) return;
+    ring.style.display = cursorOn ? 'flex' : 'none';
+    if (cursorOn) document.body.setAttribute('data-gf-cursor', 'on');
+    else document.body.removeAttribute('data-gf-cursor');
   }
+  function ringIdle() {
+    if (!ring) return;
+    ring.style.width = '14px'; ring.style.height = '14px'; ring.style.margin = '-7px 0 0 -7px';
+    ring.style.backgroundColor = '#c5a059'; ring.style.borderColor = 'rgba(197,160,89,0)';
+    ring.textContent = '';
+  }
+  function ringExpand(label) {
+    var s = label ? 84 : 56;
+    ring.style.width = s + 'px'; ring.style.height = s + 'px';
+    ring.style.margin = (-s / 2) + 'px 0 0 ' + (-s / 2) + 'px';
+    ring.style.backgroundColor = 'rgba(197,160,89,0.16)';
+    ring.style.borderColor = 'rgba(197,160,89,0.95)';
+    ring.textContent = label || '';
+  }
+  cursorEnable(true);
   if (fine && !reduced) {
-    document.body.setAttribute('data-gf-cursor', 'on');
-    if (ring) ring.style.display = 'flex';
-    if (dot) dot.style.display = 'block';
     document.addEventListener('pointermove', function (e) {
-      if (e.pointerType && e.pointerType !== 'mouse') return;
-      pos.x = e.clientX; pos.y = e.clientY;
-      if (dot) dot.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
-      if (!cRaf) cRaf = requestAnimationFrame(follow);
+      if (!cursorOn || (e.pointerType && e.pointerType !== 'mouse')) return;
+      ring.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
     }, { passive: true });
     document.addEventListener('pointerover', function (e) {
       if (!ring) return;
       var hit = e.target.closest ? e.target.closest('[data-cursor],a,button,[data-slider]') : null;
-      var label = hit ? (hit.getAttribute('data-cursor') || '') : '';
-      if (hit) {
-        var s = label ? 84 : 56;
-        ring.style.width = s + 'px'; ring.style.height = s + 'px'; ring.style.margin = (-s / 2) + 'px 0 0 ' + (-s / 2) + 'px';
-        ring.style.backgroundColor = label ? 'rgba(197,160,89,0.92)' : 'rgba(197,160,89,0.16)';
-        ring.textContent = label;
-      } else {
-        ring.style.width = '42px'; ring.style.height = '42px'; ring.style.margin = '-21px 0 0 -21px';
-        ring.style.backgroundColor = 'transparent'; ring.textContent = '';
-      }
+      if (hit) ringExpand(hit.getAttribute('data-cursor') || ''); else ringIdle();
     }, { passive: true });
   }
   document.addEventListener('pointerdown', function (e) {
@@ -580,8 +582,8 @@
   /* ── modals ── */
   function lock(on) { document.body.style.overflow = on ? 'hidden' : ''; }
   var vrModal = $('gfVrModal'), vrIframe = $('gfVrIframe'), lb = $('gfLightbox'), lbImg = $('gfLightboxImg');
-  function openVr(src) { vrIframe.src = src; vrModal.style.display = 'flex'; lock(true); }
-  function closeVr() { vrModal.style.display = 'none'; vrIframe.removeAttribute('src'); lock(false); }
+  function openVr(src) { vrIframe.src = src; vrModal.style.display = 'flex'; lock(true); cursorEnable(false); }
+  function closeVr() { vrModal.style.display = 'none'; vrIframe.removeAttribute('src'); lock(false); cursorEnable(true); ringIdle(); }
   function openLightbox(src) { lbImg.src = src; lb.style.display = 'flex'; lock(true); }
   function closeLightbox() { lb.style.display = 'none'; lbImg.removeAttribute('src'); lock(false); }
   var acts = {
