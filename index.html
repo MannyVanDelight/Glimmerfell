@@ -148,14 +148,90 @@
       <h1 style="font-size: clamp(2.4rem, 6.4vw, 4.6rem); letter-spacing: -0.02em; line-height: 1.04; margin: 0 0 6px 0; font-weight: 600;">Don’t ask them to imagine.</h1>
       <h2 style="font-size: clamp(1.9rem, 4.4vw, 3rem); letter-spacing: -0.01em; line-height: 1.15; margin: 0 0 28px 0; color: #c5a059; font-style: italic; font-weight: 400;">Let them step inside it.</h2>
       <div style="width: 72px; height: 3px; background: #111111; margin-bottom: 28px; transform-origin: 0 50%; animation: gf-rule 1s .2s ease-out both;"></div>
-      <p style="font-size: clamp(1rem, 2.4vw, 1.28rem); color: #555555; max-width: 760px; margin: 0 0 40px 0; text-wrap: pretty;">Many people struggle to see the final outcome until they stand in front of it. We transform your engineering files into survey-accurate, 1:1 scale interactive digital twins. Eliminate planning friction, bypass buyer hesitation, and secure absolute certainty before you build.</p>
-      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px;">
+ <!--     <p style="font-size: clamp(1rem, 2.4vw, 1.28rem); color: #555555; max-width: 760px; margin: 0 0 40px 0; text-wrap: pretty;">Many people struggle to see the final outcome until they stand in front of it. We transform your engineering files into survey-accurate, 1:1 scale interactive digital twins. Eliminate planning friction, bypass buyer hesitation, and secure absolute certainty before you build.</p>
+ -->
+ <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px;">
         <a href="#demo" style="display: inline-block; padding: 18px 40px; background: #c5a059; color: #ffffff; font-weight: 800; letter-spacing: 1px; font-size: 0.95rem; border-radius: 2px; transition: background .3s ease, transform .3s ease;" class="gfh6">REVIEW THE EVIDENCE</a>
         <a href="#credentials" style="color: #111111; font-size: 0.78rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; border-bottom: 2px solid #c5a059; padding-bottom: 4px;" class="gfh7">See our production credentials</a>
       </div>
     </div>
   </div>
 </header>
+
+<!-- ══════════ ABOUT / PLATFORM OVERVIEW ══════════ -->
+<style>
+  .gfab-lead { display: grid; gap: clamp(24px, 4vw, 56px); grid-template-columns: 1fr; align-items: start; }
+  @media (min-width: 880px) { .gfab-lead { grid-template-columns: 1.08fr 1fr; } }
+  .gfab-mark { background-image: linear-gradient(transparent 62%, rgba(197,160,89,0.30) 62%); }
+  .gfab-grid { display: grid; grid-template-columns: 1fr; gap: 22px; margin-top: clamp(38px, 5.5vw, 64px); }
+  @media (min-width: 980px) { .gfab-grid { grid-template-columns: repeat(3, 1fr); } }
+  .gfab-card { position: relative; overflow: hidden; background: #ffffff; border: 1px solid #eaeaea; padding: clamp(26px, 3.4vw, 40px); transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s cubic-bezier(.16,1,.3,1), border-color .4s ease; }
+  .gfab-card::before { content: ''; position: absolute; left: 0; top: 0; height: 3px; width: 0; background: #c5a059; transition: width .6s cubic-bezier(.16,1,.3,1); }
+  .gfab-card:hover { transform: translateY(-6px); box-shadow: 0 22px 45px rgba(0,0,0,0.10); border-color: #e4dac6; }
+  .gfab-card:hover::before { width: 100%; }
+  .gfab-card:hover .gfab-num { opacity: .13; transform: translateY(-4px); }
+  .gfab-card:hover .gfab-ico { transform: translateY(-2px) rotate(-4deg); }
+  .gfab-num { position: absolute; top: 6px; right: 16px; font-family: 'Spectral', Georgia, serif; font-size: clamp(3.2rem, 7vw, 4.4rem); line-height: 1; color: #111111; opacity: .055; transition: opacity .5s ease, transform .5s cubic-bezier(.16,1,.3,1); pointer-events: none; }
+  .gfab-ico { transition: transform .5s cubic-bezier(.16,1,.3,1); }
+  .gfab-council { display: grid; gap: clamp(22px, 3.5vw, 48px); grid-template-columns: 1fr; }
+  @media (min-width: 880px) { .gfab-council { grid-template-columns: 0.85fr 1.15fr; } }
+</style>
+
+<section id="about" data-anchor-offset style="background: #f4f4f5;">
+<div style="max-width: 1200px; margin: 0 auto; padding: clamp(36px, 5vw, 64px) clamp(18px, 4vw, 40px) clamp(50px, 7.5vw, 88px); scroll-margin-top: 76px;">
+
+  <!-- lead statement -->
+  <div data-reveal class="gfab-lead" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);">
+    <div style="position: relative; padding-left: clamp(18px, 2.5vw, 30px); border-left: 2px solid #c5a059;">
+      <p style="font-family: 'Spectral', Georgia, serif; font-size: clamp(1.45rem, 3.2vw, 2.25rem); line-height: 1.28; letter-spacing: -0.01em; color: #111111; margin: 0; text-wrap: pretty;">Many people struggle to see the final outcome until they <span class="gfab-mark">stand in front of it.</span></p>
+    </div>
+    <div>
+      <div style="width: 46px; height: 2px; background: #111111; margin-bottom: 20px;"></div>
+      <p style="color: #555555; font-size: clamp(1rem, 1.6vw, 1.1rem); margin: 0; text-wrap: pretty;">Glimmerfell is a <strong style="color: #111111; font-weight: 700;">high-performance closing platform for digital twins</strong>, designed to permanently eliminate the off-plan <span style="color: #c5a059; font-style: italic; font-family: 'Spectral', Georgia, serif;">“imagination gap”</span> and establish absolute spatial certainty.</p>
+    </div>
+  </div>
+
+  <!-- three pillars -->
+  <div class="gfab-grid">
+
+    <div data-reveal class="gfab-card" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), box-shadow .55s ease, border-color .4s ease;">
+      <span class="gfab-num">01</span>
+      <svg class="gfab-ico" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#c5a059" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" style="margin-bottom: 20px;"><path d="M12 2 21.5 7.2v9.6L12 22 2.5 16.8V7.2z"/><path d="M2.5 7.2 12 12.4l9.5-5.2"/><path d="M12 12.4V22"/></svg>
+      <h3 style="font-size: clamp(1.15rem, 2vw, 1.38rem); line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 14px 0; text-wrap: balance;">Active Spatial Exploration</h3>
+      <p style="color: #555555; font-size: 1rem; margin: 0; text-wrap: pretty;">We bypass flat brochures and floorplans to let buyers physically explore, navigate, and psychologically occupy their future build via <strong style="color: #111111; font-weight: 700;">1:1 scale walkthroughs</strong>. Create an emotional connection by letting them experience exact views, layouts, flow and materials before ground is broken.</p>
+    </div>
+
+    <div data-reveal data-reveal-delay="120" class="gfab-card" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), box-shadow .55s ease, border-color .4s ease;">
+      <span class="gfab-num">02</span>
+      <svg class="gfab-ico" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#c5a059" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" style="margin-bottom: 20px;"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+      <h3 style="font-size: clamp(1.15rem, 2vw, 1.38rem); line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 14px 0; text-wrap: balance;">Drive Immediate Commitments</h3>
+      <p style="color: #555555; font-size: 1rem; margin: 0; text-wrap: pretty;">Turn spatial ambiguity and buyer hesitation into <strong style="color: #111111; font-weight: 700;">absolute certainty</strong> to accelerate pre-sales velocity and protect your project's timeline.</p>
+    </div>
+
+    <div data-reveal data-reveal-delay="240" class="gfab-card" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1), box-shadow .55s ease, border-color .4s ease;">
+      <span class="gfab-num">03</span>
+      <svg class="gfab-ico" viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#c5a059" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" style="margin-bottom: 20px;"><path d="M12 2 22 7l-10 5L2 7z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></svg>
+      <h3 style="font-size: clamp(1.15rem, 2vw, 1.38rem); line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 14px 0; text-wrap: balance;">Build a Permanent Legacy Showcase</h3>
+      <p style="color: #555555; font-size: 1rem; margin: 0; text-wrap: pretty;">Establish a <strong style="color: #111111; font-weight: 700;">digital master portfolio</strong> of your most impressive developments and maintain pristine, interactive access to these digital twins to pitch future prospects long after the original buyers have taken possession.</p>
+    </div>
+
+  </div>
+
+  <!-- council panel -->
+  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; margin-top: 22px; background-color: #0e0e0f; background-image: linear-gradient(rgba(197,160,89,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(197,160,89,0.09) 1px, transparent 1px); background-size: 46px 46px; border-left: 3px solid #c5a059; padding: clamp(32px, 5vw, 58px);">
+    <div style="position: absolute; inset: 0; background: radial-gradient(120% 100% at 100% 0%, rgba(14,14,15,0) 0%, rgba(14,14,15,0.92) 68%); pointer-events: none;"></div>
+    <div style="position: relative;" class="gfab-council">
+      <div>
+        <span style="display: block; font-family: 'Spectral', Georgia, serif; font-size: 0.95rem; font-style: italic; color: #c5a059; margin-bottom: 10px;">04</span>
+        <h3 style="color: #ffffff; font-size: clamp(1.5rem, 2.8vw, 2rem); line-height: 1.18; letter-spacing: -0.01em; margin: 0 0 20px 0; text-wrap: balance;">For Council Approvals</h3>
+        <div style="height: 12px; background-image: repeating-linear-gradient(90deg, rgba(197,160,89,0.55) 0 1px, transparent 1px 13px); border-bottom: 1px solid rgba(197,160,89,0.35);"></div>
+      </div>
+      <p style="color: rgba(255,255,255,0.72); font-size: clamp(1rem, 1.6vw, 1.08rem); margin: 0; text-wrap: pretty;">We transform your complex engineering files into <strong style="color: #ffffff; font-weight: 700;">survey-accurate, 1:1 scale interactive digital twins</strong>. Eliminate planning friction and secure absolute certainty before you break ground with <strong style="color: #ffffff; font-weight: 700;">precise measurements, solar shadow studies, and verified visual impact</strong> on the surrounding area.</p>
+    </div>
+  </div>
+
+</div>
+</section>
 
 <section style="background: #0e0e0f; padding: 26px 0; overflow: hidden; border-bottom: 1px solid #1c1c1e;">
   <div style="max-width: 1200px; margin: 0 auto 16px; padding: 0 clamp(18px, 4vw, 40px); color: #71717a; font-size: 0.68rem; font-weight: 800; letter-spacing: 2.4px; text-transform: uppercase;">Team production credits include</div>
