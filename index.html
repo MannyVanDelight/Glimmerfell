@@ -120,6 +120,8 @@
   @keyframes gf-cue { 0%,100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(7px); opacity: 1; } }
   @keyframes gf-rule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @media (hover: hover) and (pointer: fine) { body[data-gf-cursor="on"], body[data-gf-cursor="on"] * { cursor: none !important; } }
+  .gf-exit-hint { display: none; }
+  @media (hover: hover) and (pointer: fine) and (min-width: 700px) { .gf-exit-hint { display: block; } }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
@@ -292,27 +294,55 @@
 </div>
 </section>
 
-<section style="background: #0e0e0f; padding: 26px 0; overflow: hidden; border-bottom: 1px solid #1c1c1e;">
-  <div style="max-width: 1200px; margin: 0 auto 16px; padding: 0 clamp(18px, 4vw, 40px); color: #71717a; font-size: 0.68rem; font-weight: 800; letter-spacing: 2.4px; text-transform: uppercase;">Team production credits include</div>
-  <div style="overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);">
-    <div data-anim="marquee" style="display: flex; width: max-content; animation: gf-marquee 38s linear infinite; will-change: transform;" class="gfh8">
-      <div style="display: flex; align-items: center; gap: 44px; padding-right: 44px; color: rgba(255,255,255,0.85); font-family: 'Spectral', Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;">
-        <span>Audi</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Porsche</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Toyota</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Avatar</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Wonder Woman</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Tomb Raider</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span style="font-style: italic;">Energy &amp; Medical</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+
+<section id="demo" data-anchor-offset style="background: #f4f4f5; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; scroll-margin-top: 76px;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 8vw, 80px) clamp(18px, 4vw, 40px) clamp(64px, 9vw, 92px);">
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); text-align: center; max-width: 800px; margin: 0 auto 20px;">
+      <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Strategic Project Assets</span>
+      <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 22px;">The Digital Twin Ecosystem</h2>
+      <p style="color: #555555; font-size: 1.02rem; text-wrap: pretty;">A project only moves as fast as its slowest approval. We deploy high-fidelity Digital Twins to eliminate the friction points in your development timeline, providing the immersive experience required to move stakeholders from hesitation to commitment.</p>
+    </div>
+
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; max-width: 860px; margin: 0 auto clamp(36px, 5vw, 48px); padding: 16px 22px; background: #ffffff; border: 1px solid #eaeaea; border-left: 3px solid #c5a059;">
+      <span style="color: #111111; font-size: 0.7rem; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; white-space: nowrap;">Web build</span>
+      <span style="color: #555555; font-size: 0.95rem; text-wrap: pretty;">The two experiences below are <em>web-compatible versions</em>, streamlined to run instantly in any browser. The high-quality production build carries considerably more interactive detail, resolution and functionality. To leave an experience, press <strong style="color: #111111;">Esc</strong> or click the <strong style="color: #111111;">&times;</strong> in the top right corner.</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px;">
+      <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; gap: 24px;">
+        <div data-cursor="Enter" data-act="openPivot" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000000; aspect-ratio: 16 / 9;" class="gfh12">
+          <img src="assets/pivotPreview.jpg?v=1766092077" alt="Interactive 3D Digital Twin for property site validation and council approval" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity .3s ease, transform .6s ease;" class="gfh13">
+          <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Web-compatible version</div>
+          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; color: #ffffff; pointer-events: none;">
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 70px; height: 70px; min-width: 70px; min-height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <div style="width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 18px solid #ffffff; margin-left: 4px;"></div>
+            </div>
+            <h3 style="color: #ffffff; font-size: clamp(1.15rem, 2.6vw, 1.7rem); margin: 0 0 8px 0; letter-spacing: -0.01em;">Contextual Approval Experience</h3>
+            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; max-width: 320px; margin: 0;">Streamline the consenting process through factual site transparency</p>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin: 0 0 10px 0; border-bottom: 2px solid #c5a059; display: inline-block; font-size: 1.15rem;">External: Logic &amp; Consent</h4>
+          <p style="font-size: 0.95rem; color: #555555; margin: 0; text-wrap: pretty;">The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.</p>
+        </div>
       </div>
-      <div aria-hidden="true" style="display: flex; align-items: center; gap: 44px; padding-right: 44px; color: rgba(255,255,255,0.85); font-family: 'Spectral', Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;">
-        <span>Audi</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Porsche</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Toyota</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Avatar</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Wonder Woman</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span>Tomb Raider</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
-        <span style="font-style: italic;">Energy &amp; Medical</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+
+      <div data-reveal data-reveal-delay="140" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; gap: 24px;">
+        <div data-cursor="Enter" data-act="openWalk" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000000; aspect-ratio: 16 / 9;" class="gfh14">
+          <img src="assets/walkPreview.jpg?v=1770921429" alt="1:1 scale VR walking tour for property pre-sales experience" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity .3s ease, transform .6s ease;" class="gfh15">
+          <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Web-compatible version</div>
+          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; color: #ffffff; pointer-events: none;">
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 70px; height: 70px; min-width: 70px; min-height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+              <div style="width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 18px solid #ffffff; margin-left: 4px;"></div>
+            </div>
+            <h3 style="color: #ffffff; font-size: clamp(1.15rem, 2.6vw, 1.7rem); margin: 0 0 8px 0; letter-spacing: -0.01em;">Immersive Sales Experience</h3>
+            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; max-width: 320px; margin: 0;">Trigger visceral buyer connection through 1:1 spatial occupancy</p>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin: 0 0 10px 0; border-bottom: 2px solid #c5a059; display: inline-block; font-size: 1.15rem;">Internal: Emotion &amp; Conversion</h4>
+          <p style="font-size: 0.95rem; color: #555555; margin: 0; text-wrap: pretty;">The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -392,61 +422,69 @@
   </div>
 </section>
 
-<section id="demo" data-anchor-offset style="background: #f4f4f5; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; scroll-margin-top: 76px;">
-  <div style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 8vw, 80px) clamp(18px, 4vw, 40px) clamp(64px, 9vw, 92px);">
-    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); text-align: center; max-width: 800px; margin: 0 auto 20px;">
-      <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Strategic Project Assets</span>
-      <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 22px;">The Digital Twin Ecosystem</h2>
-      <p style="color: #555555; font-size: 1.02rem; text-wrap: pretty;">A project only moves as fast as its slowest approval. We deploy high-fidelity Digital Twins to eliminate the friction points in your development timeline, providing the immersive experience required to move stakeholders from hesitation to commitment.</p>
-    </div>
 
-    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 18px; max-width: 860px; margin: 0 auto clamp(36px, 5vw, 48px); padding: 16px 22px; background: #ffffff; border: 1px solid #eaeaea; border-left: 3px solid #c5a059;">
-      <span style="color: #111111; font-size: 0.7rem; font-weight: 800; letter-spacing: 1.8px; text-transform: uppercase; white-space: nowrap;">Web build</span>
-      <span style="color: #555555; font-size: 0.95rem; text-wrap: pretty;">The two experiences below are <em>web-compatible versions</em>, streamlined to run instantly in any browser. The high-quality production build carries considerably more interactive detail, resolution and functionality. To leave an experience, press <strong style="color: #111111;">Esc</strong> or click the <strong style="color: #111111;">&times;</strong> in the top right corner.</span>
-    </div>
+<section id="catalyst" data-anchor-offset style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 96px) clamp(18px, 4vw, 40px); scroll-margin-top: 76px;">
+  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); text-align: center;">
+    <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 16px;">A Catalyst for Project Success</h2>
+    <p style="color: #555555; font-size: 1.02rem; max-width: 700px; margin: 0 auto; text-wrap: pretty;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
+  </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 32px;">
-      <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; gap: 24px;">
-        <div data-cursor="Enter" data-act="openPivot" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000000; aspect-ratio: 16 / 9;" class="gfh12">
-          <img src="assets/pivotPreview.jpg?v=1766092077" alt="Interactive 3D Digital Twin for property site validation and council approval" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity .3s ease, transform .6s ease;" class="gfh13">
-          <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Web-compatible version</div>
-          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; color: #ffffff; pointer-events: none;">
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 70px; height: 70px; min-width: 70px; min-height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-              <div style="width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 18px solid #ffffff; margin-left: 4px;"></div>
-            </div>
-            <h3 style="color: #ffffff; font-size: clamp(1.15rem, 2.6vw, 1.7rem); margin: 0 0 8px 0; letter-spacing: -0.01em;">Contextual Approval Experience</h3>
-            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; max-width: 320px; margin: 0;">Streamline the consenting process through factual site transparency</p>
-          </div>
-        </div>
-        <div>
-          <h4 style="margin: 0 0 10px 0; border-bottom: 2px solid #c5a059; display: inline-block; font-size: 1.15rem;">External: Logic &amp; Consent</h4>
-          <p style="font-size: 0.95rem; color: #555555; margin: 0; text-wrap: pretty;">The Approval Experience is built for clarity. We provide planners and stakeholders with uncompressed visual evidence that resolves concerns regarding bulk and amenity. By presenting the facts in a high-fidelity environment, we secure your start date.</p>
-        </div>
-      </div>
-
-      <div data-reveal data-reveal-delay="140" style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: flex; flex-direction: column; gap: 24px;">
-        <div data-cursor="Enter" data-act="openWalk" style="cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); background: #000000; aspect-ratio: 16 / 9;" class="gfh14">
-          <img src="assets/walkPreview.jpg?v=1770921429" alt="1:1 scale VR walking tour for property pre-sales experience" loading="lazy" onerror="this.style.opacity=0" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: opacity .3s ease, transform .6s ease;" class="gfh15">
-          <div style="position: absolute; top: 14px; left: 14px; padding: 6px 12px; background: rgba(0,0,0,0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.6rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Web-compatible version</div>
-          <div style="position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 24px; color: #ffffff; pointer-events: none;">
-            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; width: 70px; height: 70px; min-width: 70px; min-height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-              <div style="width: 0; height: 0; border-top: 11px solid transparent; border-bottom: 11px solid transparent; border-left: 18px solid #ffffff; margin-left: 4px;"></div>
-            </div>
-            <h3 style="color: #ffffff; font-size: clamp(1.15rem, 2.6vw, 1.7rem); margin: 0 0 8px 0; letter-spacing: -0.01em;">Immersive Sales Experience</h3>
-            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; max-width: 320px; margin: 0;">Trigger visceral buyer connection through 1:1 spatial occupancy</p>
-          </div>
-        </div>
-        <div>
-          <h4 style="margin: 0 0 10px 0; border-bottom: 2px solid #c5a059; display: inline-block; font-size: 1.15rem;">Internal: Emotion &amp; Conversion</h4>
-          <p style="font-size: 0.95rem; color: #555555; margin: 0; text-wrap: pretty;">The Sales Experience is built for momentum. We move buyers past the limitations of 2D plans and into the finished product. By enabling 1:1 spatial perception, we create the emotional certainty required to close pre-sales and drive project ROI.</p>
-        </div>
-      </div>
+  <div style="margin-top: clamp(36px, 5vw, 50px); display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1px; background: #111111;">
+      <div style="background: #111111; color: #ffffff; padding: 20px 28px; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem;">The Traditional Friction</div>
+      <div style="background: #111111; color: #c5a059; padding: 20px 28px; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem; font-style: italic;">The Strategic Solution</div>
     </div>
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
+      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Ambiguity:</strong> Councils and buyers are left guessing scale, impact, and materials from flat 2D blueprints.</div>
+      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Certainty:</strong> Precise drone composites and slider comparisons prove the exact visual footprint and integration.</div>
+    </div>
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
+      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Delays:</strong> Constant back-and-forth with skeptical councils due to a lack of clear, understandable project data.</div>
+      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Momentum:</strong> Highly-accurate, defensible visual evidence that answers questions before they are asked, fast-tracking approvals.</div>
+    </div>
+    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
+      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Sales Hurdles:</strong> Pre-sales stall because buyers hesitate to purchase a home they can't physically see.</div>
+      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Experience:</strong> Immersive VR environments that let buyers walk, feel, and "live in the space" today.</div>
+    </div>
+  </div>
+</section>
+
+<section style="text-align: center; padding: clamp(60px, 10vw, 100px) clamp(18px, 4vw, 40px); background: #f4f4f5; border-top: 1px solid #eaeaea;">
+  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); max-width: 700px; margin: 0 auto;">
+    <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Strategic Partnership</span>
+    <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 20px;">Protect Your Project's Momentum</h2>
+    <p style="margin: 0; color: #555555; font-size: 1.02rem; text-wrap: pretty;">Your design represents a significant investment in engineering and vision. We invite you to experience a personalised demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.</p>
+    <a href="mailto:manny@glimmerfell.com" style="display: inline-block; padding: 18px 40px; background: #c5a059; color: #ffffff; font-weight: 800; letter-spacing: 1px; font-size: 0.95rem; border-radius: 2px; margin-top: 36px; transition: background .3s ease, transform .3s ease;" class="gfh19">REQUEST A STRATEGIC DEMONSTRATION</a>
   </div>
 </section>
 
 <section id="credentials" data-anchor-offset style="background: #0e0e0f; color: #ffffff; scroll-margin-top: 76px;">
   <div style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 100px) clamp(18px, 4vw, 40px);">
+    <div style="padding: 0 0 28px; margin-bottom: clamp(40px, 6vw, 64px); overflow: hidden; border-bottom: 1px solid #1c1c1e;">
+      <div style="margin: 0 0 16px; color: #71717a; font-size: 0.68rem; font-weight: 800; letter-spacing: 2.4px; text-transform: uppercase;">Team production credits include</div>
+      <div style="overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);">
+        <div data-anim="marquee" style="display: flex; width: max-content; animation: gf-marquee 38s linear infinite; will-change: transform;" class="gfh8">
+          <div style="display: flex; align-items: center; gap: 44px; padding-right: 44px; color: rgba(255,255,255,0.85); font-family: 'Spectral', Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;">
+            <span>Audi</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Porsche</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Toyota</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Avatar</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Wonder Woman</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Tomb Raider</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span style="font-style: italic;">Energy &amp; Medical</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+          </div>
+          <div aria-hidden="true" style="display: flex; align-items: center; gap: 44px; padding-right: 44px; color: rgba(255,255,255,0.85); font-family: 'Spectral', Georgia, serif; font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;">
+            <span>Audi</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Porsche</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Toyota</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Avatar</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Wonder Woman</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span>Tomb Raider</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+            <span style="font-style: italic;">Energy &amp; Medical</span><span style="color: #c5a059; font-size: 0.5em;">◆</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: clamp(28px, 5vw, 56px); align-items: start;">
       <div>
         <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Proven at Global Scale</span>
@@ -490,41 +528,6 @@
   </div>
 </section>
 
-<section id="catalyst" data-anchor-offset style="max-width: 1200px; margin: 0 auto; padding: clamp(56px, 9vw, 96px) clamp(18px, 4vw, 40px); scroll-margin-top: 76px;">
-  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); text-align: center;">
-    <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 16px;">A Catalyst for Project Success</h2>
-    <p style="color: #555555; font-size: 1.02rem; max-width: 700px; margin: 0 auto; text-wrap: pretty;">Traditional methods often fall short in conveying complex technical details to diverse audiences. See how our fact-based approach changes the narrative.</p>
-  </div>
-
-  <div style="margin-top: clamp(36px, 5vw, 50px); display: flex; flex-direction: column; gap: 24px;">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1px; background: #111111;">
-      <div style="background: #111111; color: #ffffff; padding: 20px 28px; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem;">The Traditional Friction</div>
-      <div style="background: #111111; color: #c5a059; padding: 20px 28px; font-family: 'Spectral', Georgia, serif; font-size: 1.2rem; font-style: italic;">The Strategic Solution</div>
-    </div>
-    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
-      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Ambiguity:</strong> Councils and buyers are left guessing scale, impact, and materials from flat 2D blueprints.</div>
-      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Certainty:</strong> Precise drone composites and slider comparisons prove the exact visual footprint and integration.</div>
-    </div>
-    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
-      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Delays:</strong> Constant back-and-forth with skeptical councils due to a lack of clear, understandable project data.</div>
-      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Momentum:</strong> Highly-accurate, defensible visual evidence that answers questions before they are asked, fast-tracking approvals.</div>
-    </div>
-    <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
-      <div style="background: #f4f4f5; border-left: 4px solid #111111; padding: 24px 28px; color: #555555; font-size: 1rem;"><strong style="color: #111111; font-family: 'Spectral', Georgia, serif; font-weight: 600;">Sales Hurdles:</strong> Pre-sales stall because buyers hesitate to purchase a home they can't physically see.</div>
-      <div style="background: #ffffff; border-left: 4px solid #c5a059; padding: 24px 28px; color: #111111; font-size: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><strong style="font-family: 'Spectral', Georgia, serif; font-weight: 600;">Experience:</strong> Immersive VR environments that let buyers walk, feel, and "live in the space" today.</div>
-    </div>
-  </div>
-</section>
-
-<section style="text-align: center; padding: clamp(60px, 10vw, 100px) clamp(18px, 4vw, 40px); background: #f4f4f5; border-top: 1px solid #eaeaea;">
-  <div data-reveal style="opacity: 0; transform: translateY(22px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); max-width: 700px; margin: 0 auto;">
-    <span style="display: block; color: #c5a059; text-transform: uppercase; letter-spacing: 2.4px; font-size: 0.78rem; font-weight: 800; margin-bottom: 16px;">Strategic Partnership</span>
-    <h2 style="font-size: clamp(2rem, 4.4vw, 2.8rem); letter-spacing: -0.01em; margin-bottom: 20px;">Protect Your Project's Momentum</h2>
-    <p style="margin: 0; color: #555555; font-size: 1.02rem; text-wrap: pretty;">Your design represents a significant investment in engineering and vision. We invite you to experience a personalised demonstration of our Digital Twin ecosystem, and see how our high-fidelity validation can support your project's path to approval and sales success.</p>
-    <a href="mailto:manny@glimmerfell.com" style="display: inline-block; padding: 18px 40px; background: #c5a059; color: #ffffff; font-weight: 800; letter-spacing: 1px; font-size: 0.95rem; border-radius: 2px; margin-top: 36px; transition: background .3s ease, transform .3s ease;" class="gfh19">REQUEST A STRATEGIC DEMONSTRATION</a>
-  </div>
-</section>
-
 <footer id="contact" data-anchor-offset style="background: #111111; color: #ffffff; padding: clamp(56px, 8vw, 80px) clamp(18px, 4vw, 40px) 30px; border-top: 1px solid #222222; scroll-margin-top: 76px;">
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto 60px;">
     <div>
@@ -564,7 +567,7 @@
 <div id="gfVrModal" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); justify-content: center; align-items: center;">
   <div style="width: 100%; height: 100%; position: relative;">
     <span data-act="closeVr" style="position: absolute; top: 16px; right: 24px; color: #ffffff; font-size: 44px; cursor: pointer; z-index: 10000; line-height: 1;">&times;</span>
-    <div style="position: absolute; top: 22px; right: 76px; z-index: 10000; padding: 8px 16px; border-radius: 999px; background: rgba(17,17,17,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(197,160,89,0.5); color: rgba(255,255,255,0.9); font-size: 0.62rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Press Esc or click &times; to exit</div>
+    <div class="gf-exit-hint" style="position: absolute; top: 22px; right: 76px; z-index: 10000; padding: 8px 16px; border-radius: 999px; background: rgba(17,17,17,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(197,160,89,0.5); color: rgba(255,255,255,0.9); font-size: 0.62rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; pointer-events: none;">Press Esc or click &times; to exit</div>
     <iframe id="gfVrIframe" title="Digital twin experience" allowfullscreen style="width: 100%; height: 100%; border: none; background: #000000;"></iframe>
   </div>
 </div>
