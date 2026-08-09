@@ -648,19 +648,31 @@
   }
 
   /* ── before/after sliders ── */
-  Array.prototype.forEach.call(document.querySelectorAll('[data-slider]'), function (box) {
-    var top = box.querySelector('[data-slider-top]'), handle = box.querySelector('[data-slider-handle]');
-    var dragging = false, pending = 50, frame = null;
-    function apply() { frame = null; if (top) top.style.clipPath = 'inset(0 ' + (100 - pending) + '% 0 0)'; if (handle) handle.style.left = pending + '%'; }
-    function set(x) {
-      var r = box.getBoundingClientRect();
-      pending = Math.max(0, Math.min(100, ((x - r.left) / r.width) * 100));
-      if (!frame) frame = requestAnimationFrame(apply);
-    }
-    box.addEventListener('pointerdown', function (e) { dragging = true; try { box.setPointerCapture(e.pointerId); } catch (err) {} set(e.clientX); });
-    box.addEventListener('pointermove', function (e) { if (dragging) set(e.clientX); }, { passive: true });
-    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (t) { box.addEventListener(t, function () { dragging = false; }); });
-  });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-slider]'), function (box) {
+      var top = box.querySelector('[data-slider-top]'), handle = box.querySelector('[data-slider-handle]');
+      var dragging = false, pending = 50, frame = null;
+      function apply() { frame = null; if (top) top.style.clipPath = 'inset(0 ' + (100 - pending) + '% 0 0)'; if (handle) handle.style.left = pending + '%'; }
+      function set(x) {
+        var r = box.getBoundingClientRect();
+        pending = Math.max(0, Math.min(100, ((x - r.left) / r.width) * 100));
+        if (!frame) frame = requestAnimationFrame(apply);
+      }
+      box.addEventListener('dragstart', function (e) { e.preventDefault(); });
+      box.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0 && e.pointerType === 'mouse') return;
+        e.preventDefault();
+        dragging = true;
+        try { box.setPointerCapture(e.pointerId); } catch (err) {}
+        set(e.clientX);
+      });
+      box.addEventListener('pointermove', function (e) { if (dragging) set(e.clientX); });
+      ['pointerup', 'pointercancel'].forEach(function (t) {
+        box.addEventListener(t, function (e) {
+          dragging = false;
+          try { box.releasePointerCapture(e.pointerId); } catch (err) {}
+        });
+      });
+    });
 
   /* ── custom cursor (exact tracking) + touch ripple ── */
   var ring = $('gfRing'), ripple = $('gfRipple');
