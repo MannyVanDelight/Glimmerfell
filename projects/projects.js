@@ -46,7 +46,22 @@
     if (e.target.closest('.gf-links a')) { nav.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }
   });
   function measureNav() { if (nav && spacer) spacer.style.height = Math.round(nav.getBoundingClientRect().height) + 'px'; }
-  measureNav();
+  /* collapse to the burger whenever the links would touch the brand, at any screen width or zoom */
+  function fitNav() {
+    if (!nav) return;
+    var was = nav.classList.contains('is-compact');
+    nav.classList.remove('is-compact');
+    var b = $('.gf-brand span', nav).getBoundingClientRect(), l = $('.gf-links', nav).getBoundingClientRect();
+    var compact = b.right + 24 > l.left || l.right > nav.clientWidth + 1;
+    nav.classList.toggle('is-compact', compact);
+    if (was && !compact) { nav.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }
+    measureNav();
+  }
+  var fitRaf = null;
+  addEventListener('resize', function () { if (!fitRaf) fitRaf = requestAnimationFrame(function () { fitRaf = null; fitNav(); }); }, { passive: true });
+  addEventListener('load', fitNav);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
+  fitNav();
   if (window.ResizeObserver && nav) new ResizeObserver(measureNav).observe(nav);
 
   /* ── footer ── */

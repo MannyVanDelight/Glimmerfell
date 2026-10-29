@@ -66,19 +66,18 @@ img { display: block; max-width: 100%; }
 .gf-progress { position: absolute; left: 0; right: 0; bottom: -3px; height: 3px; overflow: hidden; pointer-events: none; }
 .gf-progress div { height: 100%; background: var(--gold); transform: scaleX(0); transform-origin: 0 50%; will-change: transform; }
 .gf-spacer { height: 66px; }
-@media (max-width: 1100px) {
-  .gf-burger { display: flex; }
-  .gf-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0;
-    background: rgba(255,255,255,.98); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
-    padding: 6px var(--pad) 20px; box-shadow: 0 18px 40px rgba(0,0,0,.12); }
-  .gf-nav.is-open .gf-links { display: flex; }
-  .gf-links a { padding: 15px 0; font-size: .85rem; border-bottom: 1px solid #f0f0f0; }
-  .gf-links a[aria-current] { box-shadow: none; padding-bottom: 15px; color: var(--gold); }
-  .gf-links .gf-cta { margin-top: 16px; text-align: center; padding: 16px 20px; font-size: .78rem; border-bottom: 0; }
-  .gf-nav.is-open .gf-burger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-  .gf-nav.is-open .gf-burger span:nth-child(2) { opacity: 0; }
-  .gf-nav.is-open .gf-burger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-}
+/* compact menu: projects.js adds .is-compact whenever the links would touch the brand, at any screen width */
+.gf-nav.is-compact .gf-burger { display: flex; }
+.gf-nav.is-compact .gf-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0;
+  background: rgba(255,255,255,.98); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
+  padding: 6px var(--pad) 20px; box-shadow: 0 18px 40px rgba(0,0,0,.12); }
+.gf-nav.is-compact.is-open .gf-links { display: flex; }
+.gf-nav.is-compact .gf-links a { padding: 15px 0; font-size: .85rem; border-bottom: 1px solid #f0f0f0; }
+.gf-nav.is-compact .gf-links a[aria-current] { box-shadow: none; padding-bottom: 15px; color: var(--gold); }
+.gf-nav.is-compact .gf-links .gf-cta { margin-top: 16px; text-align: center; padding: 16px 20px; font-size: .78rem; border-bottom: 0; }
+.gf-nav.is-compact.is-open .gf-burger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.gf-nav.is-compact.is-open .gf-burger span:nth-child(2) { opacity: 0; }
+.gf-nav.is-compact.is-open .gf-burger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* ---------- shared bits ---------- */
 .eyebrow { display: block; color: var(--gold); text-transform: uppercase; letter-spacing: 2.4px; font-size: .8rem; font-weight: 800; margin-bottom: 18px; }
