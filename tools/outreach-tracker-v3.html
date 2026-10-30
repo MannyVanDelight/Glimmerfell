@@ -123,6 +123,17 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .seg button:first-child { border-left: 0 }
 .seg button[aria-pressed="true"] { background: var(--gold); color: var(--white) }
 .box { background: var(--paper); border-top: 1px solid var(--hair); padding: 14px; display: grid; gap: 12px }
+.help { display: grid; gap: 18px; font-size: 13.5px; line-height: 1.55; color: var(--body) }
+.help-sec { display: grid; gap: 8px }
+.help h4 { margin: 0; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); font-weight: 400; border-bottom: 1px solid var(--hair); padding-bottom: 5px }
+.help p { margin: 0; max-width: 60ch }
+.help b { color: var(--ink); font-weight: 600 }
+.help .star { color: var(--gold) }
+.help .pill { font-size: 9px; vertical-align: 1px }
+.help-steps { display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; margin: 0; background: var(--paper); padding: 12px 14px }
+.help-steps dt { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding-top: 3px }
+.help-steps dd { margin: 0 }
+@media (max-width: 420px) { .help-steps { grid-template-columns: 1fr; gap: 2px } .help-steps dd { margin-bottom: 8px } }
 .hint { font-size: 11.5px; color: var(--body); margin: 0; border-left: 2px solid var(--gold); padding: 2px 0 2px 10px; line-height: 1.5 }
 .inline { display: flex; gap: 8px; align-items: end }
 .inline .field { flex: 1 }
@@ -147,6 +158,7 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
       <p class="sub">Who you emailed, who answered, and what happens next. Follow-ups come due after <span id="fdays">7</span> days.</p>
     </div>
     <div class="tools">
+      <button class="btn" id="helpBtn" type="button" aria-haspopup="dialog">How it works</button>
       <button class="btn" id="importBtn" type="button">Sync</button>
       <button class="btn primary" id="addCompanyTop" type="button">+ Company</button>
       <input type="file" id="importFile" accept=".html,.htm,.json,text/html,application/json" hidden>
@@ -254,7 +266,7 @@ function render() {
   $("#foldAll").textContent = allFolded ? "Expand all" : "Collapse all";
   $("#foldAll").hidden = !companies.length;
   if (!companies.length) {
-    $("#list").innerHTML = `<div class="empty"><h3>No companies yet</h3><p>Start with <b>+ Company</b>, then add the people you emailed there.</p></div>`;
+    $("#list").innerHTML = `<div class="empty"><h3>No companies yet</h3><p>Start with <b>+ Company</b>, then add the people you emailed there.${LOCAL ? " Already have a list in Google Drive? Tap <b>Sync</b> and pick " + DATA_NAME + "." : ""}</p><p><button class="btn small" id="helpBtn2" type="button">How it works</button></p></div>`;
   } else if (!blocks.length) {
     $("#list").innerHTML = `<div class="empty"><h3>Nothing matches</h3><p>Try another search or tap <b>All people</b>.</p></div>`;
   } else $("#list").innerHTML = blocks.join("");
@@ -319,6 +331,47 @@ function companyHTML(co, ppl, all, isFolded) {
 
 /* ---------- editing sheets ---------- */
 function closeModal() { $("#modal").innerHTML = ""; }
+
+function helpSheet() {
+  const sync = LOCAL ? `
+    <section class="help-sec">
+      <h4>Where your list is kept</h4>
+      <p>Everything you enter is saved in this browser on this device. Nothing is sent to the website. Clearing your browser's site data erases it, so sync now and then.</p>
+    </section>
+    <section class="help-sec">
+      <h4>Syncing through Google Drive</h4>
+      <p>One file in your Drive, <b>${DATA_NAME}</b>, holds the shared copy that all your devices sync with.</p>
+      <dl class="help-steps">
+        <dt>New device</dt><dd>Open this page, tap <b>Sync</b> and pick ${DATA_NAME} from Drive. Your list loads in.</dd>
+        <dt>Phone</dt><dd>Tap <b>Sync</b>, pick ${DATA_NAME}, then tap <b>Save to Drive</b> and replace the old file. On most phones Save opens the share sheet: choose Drive.</dd>
+        <dt>Computer</dt><dd>In Chrome or Edge, click <b>Link Drive file</b> once and pick ${DATA_NAME} in your Drive folder. From then on this computer syncs by itself and picks up changes made on other computers.</dd>
+      </dl>
+      <p>Syncing always merges, so no device can wipe out another's work. For each person the newest edit wins, and a deletion carries over to every device. You can only save to Drive straight after a merge.</p>
+    </section>
+    <section class="help-sec">
+      <h4>Keeping the file tidy</h4>
+      <p>Always replace ${DATA_NAME} rather than adding a second copy. If Drive ends up with <b>outreach-data (1).json</b>, sync with each file in turn, save, then delete the extra one.</p>
+    </section>` : `
+    <section class="help-sec">
+      <h4>Where your list is kept</h4>
+      <p>This page saves to your claude.ai account, so it is the same on every device you sign in on, and only you can open it. <b>Sync</b> merges a ${DATA_NAME} file from Drive into it; <b>Save to Drive</b> then downloads the combined file.</p>
+    </section>`;
+  openSheet(`<h3>How this tracker works</h3>
+    <div class="help">
+      <section class="help-sec">
+        <h4>Your list</h4>
+        <p>Add a company with <b>+ Company</b>, then the people you wrote to there. Tap a name to edit it. Each person moves through <b>Not sent</b>, <b>Emailed</b>, then <b>Heard back</b> or <b>Left it</b>.</p>
+        <p>If someone hasn't replied ${FOLLOW_DAYS} days after you emailed, they show <span class="pill due">Follow-up due</span>. Log the follow-up, and if that also gets nothing after ${FOLLOW_DAYS} days, choose <b>Leave it</b>.</p>
+      </section>
+      <section class="help-sec">
+        <h4>What comes first</h4>
+        <p>Inside each company: anyone pinned with <b class="star">★</b>, then anyone who needs action now, then people you're talking to, then not emailed yet, then waiting, and closed last. Give a reply a <b>Next step date</b> and that person moves up the day before.</p>
+        <p>The counters at the top filter the list. Tap a company name to fold it to one line.</p>
+      </section>
+      ${sync}
+    </div>
+    <div class="actions"><div class="right"><button class="btn primary" id="helpClose" type="button">Got it</button></div></div>`);
+}
 function openSheet(html, onMount) {
   $("#modal").innerHTML = `<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
   $("#scrim").addEventListener("click", e => { if (e.target.id === "scrim") closeModal(); });
@@ -491,6 +544,8 @@ document.addEventListener("click", e => {
   else if (t.dataset.editco) companySheet(companies.find(c => c.id === t.dataset.editco));
   else if (t.dataset.addp) personSheet(null, t.dataset.addp);
   else if (t.id === "addCompanyTop") companySheet(null);
+  else if (t.id === "helpBtn" || t.id === "helpBtn2") helpSheet();
+  else if (t.id === "helpClose") closeModal();
   else if (t.id === "exportBtn") exportFile();
   else if (t.id === "importBtn") fileHandle ? syncFile(false).then(() => toast("Synced with " + fileHandle.name)) : $("#importFile").click();
   else if (t.id === "fsOpen") openDataFile();
