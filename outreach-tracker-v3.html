@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"></head><body>
+<title>Outreach Tracker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600&display=swap">
+<style>
+/* Layout: matches the Glimmerfell scope calculator. White sheet, hairline rules, square corners,
+   Spectral light for headings and figures, Helvetica for working text, gold as the single accent.
+   Deliberately single-theme (light), like the calculator. */
+:root {
+  --gold: #c5a059; --gold-ink: #8a6a2c; --ink: #0e0e0f; --paper: #fafafa; --hair: #eaeaea;
+  --muted: #8a8a8f; --body: #4a4a4e; --white: #ffffff;
+  --due: #9a4a22; --due-bg: #f8eee8; --ok: #3d6a4c; --ok-bg: #eef4ef; --wait-bg: #f7f1e5;
+  --scrim: rgba(14, 14, 15, .4);
+  --serif: "Spectral", Georgia, serif;
+  --sans: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box }
+body { background: var(--white); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--white) }
+.wrap { max-width: 880px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 44px 110px }
+button, input, select, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px }
+.eyebrow { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted) }
+
+header.top { border-bottom: 1px solid var(--hair); padding-bottom: 22px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap }
+h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 38px); line-height: 1.15; margin: 10px 0 0; text-wrap: balance }
+.sub { color: var(--muted); font-size: 12.5px; margin: 8px 0 0; max-width: 58ch }
+.btn { border: 1px solid var(--hair); background: var(--white); color: var(--body); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 9px 14px; min-height: 38px; display: inline-flex; align-items: center; gap: 6px; transition: border-color .15s; border-radius: 0 }
+.btn:hover { border-color: var(--gold) }
+.btn.primary { border-color: var(--gold); color: var(--ink) }
+.btn.ghost { border-color: transparent; color: var(--muted); padding-inline: 6px }
+.btn.ghost:hover { color: var(--ink) }
+.btn.small { min-height: 30px; padding: 5px 10px; font-size: 10px }
+.btn.danger { color: var(--due); border-color: var(--due-bg) }
+.btn.danger:hover { border-color: var(--due) }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--white); padding-block: 18px 12px; display: grid; gap: 12px; border-bottom: 1px solid var(--hair) }
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--hair) }
+.stat { border: 0; border-left: 1px solid var(--hair); background: var(--white); padding: 12px 14px 10px; text-align: left; min-width: 0; transition: background .15s }
+.stat:first-child { border-left: 0 }
+.stat b { display: block; font-family: var(--serif); font-weight: 300; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums }
+.stat span { display: block; margin-top: 6px; font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .16em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.stat[aria-pressed="true"] { background: var(--paper); box-shadow: inset 0 -2px 0 var(--gold) }
+.stat.due b { color: var(--due) }
+.stat.replied b { color: var(--gold-ink) }
+.search { width: 100%; border: 1px solid var(--hair); background: var(--white); padding: 9px 10px; min-height: 40px; font-size: 13.5px; border-radius: 0 }
+.search:focus { outline: none; border-color: var(--gold) }
+@media (max-width: 560px) { .stats { grid-template-columns: repeat(3, 1fr) } .stat.hide-sm { display: none } .stat b { font-size: 26px } }
+
+.list { display: grid; margin-top: 8px }
+.company { border-bottom: 1px solid var(--hair); padding-block: 26px 18px }
+.chead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 6px }
+.chead h2 { font-family: var(--serif); font-weight: 400; font-size: 21px; line-height: 1.25; margin: 0; min-width: 0; overflow-wrap: anywhere; flex: 1 1 180px }
+.chead .note { width: 100%; color: var(--muted); font-size: 12.5px; margin: 0; max-width: 58ch }
+.chead .count { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-variant-numeric: tabular-nums }
+.person { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; padding: 14px 0; border-top: 1px solid var(--hair); align-items: start }
+.who { min-width: 0 }
+.whobody { cursor: pointer; padding-left: 26px }
+.nameline { display: flex; align-items: baseline; gap: 6px }
+.who .name { font-size: 15px; font-weight: 600; transition: color .15s; cursor: pointer; min-width: 0; overflow-wrap: anywhere }
+.who .name:hover { color: var(--gold-ink) }
+.pin { border: 0; background: none; width: 20px; padding: 0; font-size: 16px; line-height: 1; color: #c9c9cd; flex: none; transition: color .15s }
+.pin:hover { color: var(--gold) }
+.pin[aria-pressed="true"] { color: var(--gold) }
+.person.pinned { box-shadow: inset 2px 0 0 var(--gold); padding-left: 10px }
+.nd { font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-ink); margin-left: 6px; white-space: nowrap }
+.pill.soon { color: var(--white); background: var(--due) }
+.findrow { display: flex; gap: 8px }
+.findrow .search { flex: 1; min-width: 0 }
+.fold { all: unset; cursor: pointer; display: inline-flex; align-items: baseline; gap: 10px }
+.fold:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px }
+.fold:hover { color: var(--gold-ink) }
+.chev { width: 8px; height: 8px; border-right: 1.5px solid var(--gold); border-bottom: 1.5px solid var(--gold); transform: rotate(45deg) translate(-2px, -2px); transition: transform .15s; flex: none }
+.fold[aria-expanded="false"] .chev { transform: rotate(-45deg) }
+.company.folded { padding-block: 16px }
+.summary { width: 100%; margin: 0; font-size: 12.5px; color: var(--body); padding-left: 18px; display: grid; gap: 2px }
+.summary .s-due { color: var(--due); font-weight: 600 }
+.summary .s-names { color: var(--muted); font-size: 12px }
+.who .pos { color: var(--body); font-size: 13px }
+.mail { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; display: inline-flex; gap: 8px; align-items: baseline; margin-top: 2px; font-variant-numeric: tabular-nums }
+.copy { border: 0; background: none; color: var(--gold-ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 0 }
+.copy:hover { text-decoration: underline }
+.side { display: grid; justify-items: end; gap: 8px }
+.pill { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; padding: 4px 8px; white-space: nowrap; border: 1px solid transparent }
+.pill.due { color: var(--due); background: var(--due-bg) }
+.pill.stale { color: var(--due); border-color: var(--due-bg) }
+.pill.waiting { color: var(--gold-ink); background: var(--wait-bg) }
+.pill.replied { color: var(--ok); background: var(--ok-bg) }
+.pill.closed { color: var(--muted); border-color: var(--hair) }
+.pill.draft { color: var(--body); background: var(--paper); border-color: var(--hair) }
+.next { grid-column: 1 / -1; font-family: var(--serif); font-size: 15px; line-height: 1.5; color: var(--ink); background: var(--paper); border-left: 2px solid var(--gold); padding: 8px 12px }
+.next b { color: var(--gold-ink); font-weight: 600 }
+.dates { grid-column: 1 / -1; font-size: 11.5px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; font-variant-numeric: tabular-nums }
+.addp { padding-top: 10px }
+.addp .btn { border: 0; background: none; color: var(--gold-ink); padding: 4px 0; min-height: 0; font-size: 11px; letter-spacing: .1em }
+.addp .btn:hover { text-decoration: underline }
+
+.empty { padding: 56px 16px; text-align: center; color: var(--muted); font-size: 13px }
+.empty h3 { font-family: var(--serif); font-weight: 300; color: var(--ink); margin: 0 0 6px; font-size: 24px }
+
+.fab { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 6; background: var(--gold); color: var(--white); border-color: var(--gold); box-shadow: 0 6px 20px rgba(0,0,0,.08) }
+.fab:hover { background: var(--gold-ink); border-color: var(--gold-ink) }
+
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 20; display: flex; align-items: flex-end; justify-content: center }
+.sheet { background: var(--white); width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; border-top: 2px solid var(--gold); padding: 22px max(18px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)) }
+@media (min-width: 640px) { .scrim { align-items: center } }
+.sheet h3 { font-family: var(--serif); font-weight: 300; font-size: 26px; margin: 0 0 16px; line-height: 1.15 }
+.form { display: grid; gap: 14px }
+.field { display: grid; gap: 5px; min-width: 0 }
+.field label, .lbl { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted) }
+.field input, .field select, .field textarea { border: 1px solid var(--hair); background: var(--white); border-radius: 0; padding: 7px 8px; width: 100%; min-height: 40px; font-size: 14px }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--gold) }
+.field textarea { min-height: 76px; resize: vertical; line-height: 1.5 }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+@media (max-width: 420px) { .row2 { grid-template-columns: 1fr } }
+.seg { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--hair) }
+.seg button { border: 0; border-left: 1px solid var(--hair); background: var(--white); padding: 10px 4px; font-size: 12px; color: var(--body); transition: background .15s }
+.seg button:first-child { border-left: 0 }
+.seg button[aria-pressed="true"] { background: var(--gold); color: var(--white) }
+.box { background: var(--paper); border-top: 1px solid var(--hair); padding: 14px; display: grid; gap: 12px }
+.hint { font-size: 11.5px; color: var(--body); margin: 0; border-left: 2px solid var(--gold); padding: 2px 0 2px 10px; line-height: 1.5 }
+.inline { display: flex; gap: 8px; align-items: end }
+.inline .field { flex: 1 }
+.inline .btn { min-height: 40px }
+.actions { display: flex; gap: 8px; justify-content: space-between; flex-wrap: wrap; margin-top: 6px; padding-top: 14px; border-top: 1px solid var(--hair) }
+.actions .right { display: flex; gap: 8px; margin-left: auto }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--white); padding: 9px 16px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; z-index: 30 }
+.tools { display: flex; gap: 8px; flex-wrap: wrap }
+.mode { background: var(--paper); border-left: 2px solid var(--gold); color: var(--body); padding: 10px 12px; font-size: 12.5px; margin: 16px 0 0; display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap }
+.mode span { flex: 1 1 240px }
+.mode.warn { border-left-color: var(--due) }
+.banner { background: var(--paper); border-left: 2px solid var(--due); color: var(--body); padding: 10px 12px; font-size: 12.5px; margin-top: 16px }
+@media (prefers-reduced-motion: no-preference) { .sheet { animation: up .18s ease-out } @keyframes up { from { transform: translateY(24px); opacity: .6 } } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <span class="eyebrow">Outreach</span>
+      <h1>Who we wrote to. Where it stands.</h1>
+      <p class="sub">Who you emailed, who answered, and what happens next. Follow-ups come due after <span id="fdays">7</span> days.</p>
+    </div>
+    <div class="tools">
+      <button class="btn" id="importBtn" type="button">Sync</button>
+      <button class="btn primary" id="addCompanyTop" type="button">+ Company</button>
+      <input type="file" id="importFile" accept=".html,.htm,.json,text/html,application/json" hidden>
+    </div>
+  </header>
+  <div class="mode" id="mode" hidden></div>
+  <div id="banner" class="banner" hidden></div>
+
+  <div class="bar">
+    <div class="stats" id="stats"></div>
+    <div class="findrow">
+      <input class="search" id="search" type="search" placeholder="Search companies, people, emails" autocomplete="off">
+      <button class="btn" id="foldAll" type="button" hidden>Collapse all</button>
+    </div>
+  </div>
+
+  <div class="list" id="list">
+    <div class="empty"><h3>Loading your list</h3><p>Companies and contacts appear here once they load.</p></div>
+  </div>
+</div>
+
+<button class="btn primary fab" id="fab" type="button">+ Person</button>
+<div id="modal"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script id="tracker-data" type="application/json" data-own>{"mode": "file", "companies": [], "contacts": [], "deleted": []}</script>
+<script data-own>
+const SEED = (() => { try { return JSON.parse(document.getElementById("tracker-data").textContent); } catch { return { companies: [], contacts: [] }; } })();
+const FOLLOW_DAYS = 7;
+const STAGES = ["Replied", "Call scheduled", "In discussion", "Sent materials", "Proposal sent", "Negotiating", "Agreed", "Declined"];
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const daysSince = s => s ? Math.max(0, Math.round((parse(today()) - parse(s)) / 864e5)) : 0;
+const fmt = s => s ? parse(s).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "";
+
+let db = null, companies = [], contacts = [], loaded = { c: false, p: false };
+let filter = "all", query = "";
+$("#fdays").textContent = FOLLOW_DAYS;
+
+const daysUntil = s => s ? Math.round((parse(s) - parse(today())) / 864e5) : null;
+const when = d => d < -1 ? -d + "d overdue" : d === -1 ? "yesterday" : d === 0 ? "today" : d === 1 ? "tomorrow" : fmt(addDays(d));
+const addDays = d => { const x = parse(today()); x.setDate(x.getDate() + d); return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0"); };
+const ENDED = ["Declined"];
+
+function stateOf(c) {
+  if (c.status === "draft") return { key: "draft", label: "Not emailed yet" };
+  if (c.status === "replied") {
+    if (ENDED.includes(c.stage)) return { key: "closed", label: c.stage };
+    const d = daysUntil(c.nextDate);
+    if (d !== null && d <= 1) return { key: "soon", label: (c.stage || "Replied") + ", " + when(d) };
+    return { key: "replied", label: c.stage || "Replied" };
+  }
+  if (c.status === "closed") return { key: "closed", label: "No response, left" };
+  if (c.followUpDate) {
+    const d = daysSince(c.followUpDate);
+    return d >= FOLLOW_DAYS ? { key: "stale", label: "No reply to follow-up" } : { key: "waiting", label: "Followed up " + ago(d) };
+  }
+  const d = daysSince(c.sentDate);
+  return d >= FOLLOW_DAYS ? { key: "due", label: "Follow-up due (" + d + "d)" } : { key: "waiting", label: "Emailed " + ago(d) };
+}
+const ago = d => d === 0 ? "today" : d === 1 ? "yesterday" : d + "d ago";
+const bucket = c => { const k = stateOf(c).key; return k === "stale" || k === "soon" ? "due" : k; };
+
+/* Priority: pinned first, then whatever needs doing, then live conversations, then the rest. */
+const RANK = { soon: 0, due: 1, stale: 2, replied: 3, draft: 4, waiting: 5, closed: 6 };
+const keyDate = p => (p.status === "replied" ? p.nextDate : p.followUpDate || p.sentDate) || "9999";
+const byPriority = (a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)
+  || RANK[stateOf(a).key] - RANK[stateOf(b).key]
+  || keyDate(a).localeCompare(keyDate(b))
+  || (a.createdAt || 0) - (b.createdAt || 0);
+
+/* Which companies are folded is a per-device convenience, kept in this browser only. */
+const FOLD_KEY = "outreach-folded";
+let folded = new Set();
+try { folded = new Set(JSON.parse(localStorage.getItem(FOLD_KEY)) || []); } catch {}
+const saveFolded = () => { try { localStorage.setItem(FOLD_KEY, JSON.stringify([...folded])); } catch {} };
+
+function render() {
+  if (!loaded.c || !loaded.p) return;
+  updateBar();
+  const counts = { all: contacts.length, due: 0, waiting: 0, replied: 0, closed: 0, draft: 0 };
+  contacts.forEach(c => counts[bucket(c)]++);
+  const stats = [["all", "All people", ""], ["due", "Act now", "due"], ["waiting", "Waiting", "waiting"], ["replied", "Talking", "replied"], ["closed", "Closed", "closed hide-sm"]];
+  $("#stats").innerHTML = stats.map(([k, label, cls]) =>
+    `<button type="button" class="stat ${cls}" data-filter="${k}" aria-pressed="${filter === k}"><b>${counts[k]}</b><span>${label}</span></button>`).join("");
+
+  const q = query.trim().toLowerCase();
+  const narrowed = filter !== "all" || !!q;
+  const matchP = p => (filter === "all" || bucket(p) === filter) &&
+    (!q || [p.name, p.email, p.position, p.stage, p.nextStep, p.notes].some(v => (v || "").toLowerCase().includes(q)));
+  const groups = companies.map(co => {
+    const all = contacts.filter(p => p.companyId === co.id).sort(byPriority);
+    return { co, all, act: all.filter(p => bucket(p) === "due").length, pins: all.filter(p => p.pinned).length };
+  }).sort((a, b) => (b.act > 0) - (a.act > 0) || (b.pins > 0) - (a.pins > 0) || (a.co.name || "").localeCompare(b.co.name || ""));
+  const blocks = [];
+  for (const { co, all } of groups) {
+    const coHit = q && (co.name || "").toLowerCase().includes(q);
+    const ppl = all.filter(p => matchP(p) || (coHit && (filter === "all" || bucket(p) === filter)));
+    if (narrowed && !ppl.length && !(coHit && filter === "all")) continue;
+    blocks.push(companyHTML(co, ppl, all, !narrowed && folded.has(co.id)));
+  }
+  const allFolded = companies.length > 0 && companies.every(c => folded.has(c.id));
+  $("#foldAll").textContent = allFolded ? "Expand all" : "Collapse all";
+  $("#foldAll").hidden = !companies.length;
+  if (!companies.length) {
+    $("#list").innerHTML = `<div class="empty"><h3>No companies yet</h3><p>Start with <b>+ Company</b>, then add the people you emailed there.</p></div>`;
+  } else if (!blocks.length) {
+    $("#list").innerHTML = `<div class="empty"><h3>Nothing matches</h3><p>Try another search or tap <b>All people</b>.</p></div>`;
+  } else $("#list").innerHTML = blocks.join("");
+}
+
+function summaryOf(all) {
+  const n = { due: 0, replied: 0, waiting: 0, draft: 0, closed: 0 };
+  all.forEach(p => n[bucket(p)]++);
+  const parts = [];
+  if (n.due) parts.push(`<b class="s-due">${n.due} act now</b>`);
+  if (n.replied) parts.push(`${n.replied} talking`);
+  if (n.waiting) parts.push(`${n.waiting} waiting`);
+  if (n.draft) parts.push(`${n.draft} not emailed`);
+  if (n.closed) parts.push(`${n.closed} closed`);
+  const top = all.filter(p => p.pinned || bucket(p) === "due").slice(0, 3).map(p => esc(p.name));
+  return (parts.join(" · ") || "No people yet") + (top.length ? `<span class="s-names">${top.join(", ")}</span>` : "");
+}
+
+function companyHTML(co, ppl, all, isFolded) {
+  const total = all.length;
+  const rows = isFolded ? "" : ppl.map(p => {
+    const st = stateOf(p);
+    let quick = "";
+    if (st.key === "due") quick = `<button class="btn small" data-act="followed" data-id="${p.id}" type="button">Followed up today</button>`;
+    else if (st.key === "stale") quick = `<button class="btn small" data-act="close" data-id="${p.id}" type="button">Leave it</button>`;
+    else if (st.key === "waiting") quick = `<button class="btn small" data-act="heard" data-id="${p.id}" type="button">Heard back</button>`;
+    else if (st.key === "draft") quick = `<button class="btn small" data-act="sent" data-id="${p.id}" type="button">Emailed today</button>`;
+    else if (st.key === "soon") quick = `<button class="btn small" data-act="update" data-id="${p.id}" type="button">Update next step</button>`;
+    const dates = [];
+    if (p.sentDate && p.status !== "draft") dates.push("Emailed " + fmt(p.sentDate));
+    if (p.followUpDate) dates.push("Follow-up " + fmt(p.followUpDate));
+    if (p.status === "replied" && p.replyDate) dates.push("Reply " + fmt(p.replyDate));
+    const nd = p.status === "replied" && p.nextDate ? ` <span class="nd">${esc(fmt(p.nextDate))}</span>` : "";
+    const next = p.status === "replied" && (p.nextStep || p.nextDate) ? `<div class="next"><b>Next:</b> ${esc(p.nextStep || "Next step")}${nd}</div>` : "";
+    return `<div class="person${p.pinned ? " pinned" : ""}">
+      <div class="who">
+        <div class="nameline">
+          <button class="pin" data-pin="${p.id}" type="button" aria-pressed="${!!p.pinned}" title="${p.pinned ? "Unpin" : "Pin to top"}" aria-label="${p.pinned ? "Unpin" : "Pin"} ${esc(p.name)}">${p.pinned ? "★" : "☆"}</button>
+          <span class="name" data-edit="${p.id}" role="button" tabindex="0">${esc(p.name) || "Unnamed"}</span>
+        </div>
+        <div class="whobody" data-edit="${p.id}">
+          ${p.position ? `<div class="pos">${esc(p.position)}</div>` : ""}
+          ${p.email ? `<div class="mail"><span>${esc(p.email)}</span><button class="copy" data-copy="${esc(p.email)}" type="button">Copy</button></div>` : ""}
+        </div>
+      </div>
+      <div class="side"><span class="pill ${st.key}">${esc(st.label)}</span>${quick}</div>
+      ${next}
+      ${dates.length ? `<div class="dates">${dates.map(esc).join("<span>·</span>")}</div>` : ""}
+    </div>`;
+  }).join("");
+  return `<section class="company${isFolded ? " folded" : ""}">
+    <div class="chead">
+      <h2><button class="fold" data-fold="${co.id}" type="button" aria-expanded="${!isFolded}"><span class="chev" aria-hidden="true"></span>${esc(co.name) || "Untitled company"}</button></h2>
+      <span class="count">${total} ${total === 1 ? "person" : "people"}</span>
+      <button class="btn small ghost" data-editco="${co.id}" type="button">Edit</button>
+      ${isFolded ? `<p class="summary">${summaryOf(all)}</p>` : co.note ? `<p class="note">${esc(co.note)}</p>` : ""}
+    </div>
+    ${rows}
+    ${isFolded ? "" : `<div class="addp"><button class="btn small" data-addp="${co.id}" type="button">+ Add person</button></div>`}
+  </section>`;
+}
+
+/* ---------- editing sheets ---------- */
+function closeModal() { $("#modal").innerHTML = ""; }
+function openSheet(html, onMount) {
+  $("#modal").innerHTML = `<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+  $("#scrim").addEventListener("click", e => { if (e.target.id === "scrim") closeModal(); });
+  onMount && onMount();
+  const first = $("#modal input, #modal select");
+  first && first.focus({ preventScroll: true });
+}
+
+function companySheet(co) {
+  const isNew = !co;
+  co = co || { name: "", note: "" };
+  openSheet(`<h3>${isNew ? "New company" : "Edit company"}</h3>
+    <form class="form" id="coForm">
+      <div class="field"><label for="coName">Company name</label><input id="coName" required value="${esc(co.name)}"></div>
+      <div class="field"><label for="coNote">Note (optional)</label><input id="coNote" value="${esc(co.note)}" placeholder="Website, how you found them, anything useful"></div>
+      <div class="actions">
+        ${isNew ? "" : `<button class="btn danger" id="coDel" type="button">Delete company</button>`}
+        <div class="right"><button class="btn" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+      </div>
+    </form>`, () => {
+    $("#cancel").onclick = closeModal;
+    $("#coForm").onsubmit = async e => {
+      e.preventDefault();
+      const data = { name: $("#coName").value.trim(), note: $("#coNote").value.trim(), createdAt: co.createdAt || Date.now(), updatedAt: Date.now() };
+      if (!data.name) return;
+      const ref = isNew ? db.collection("companies").doc() : db.doc("companies/" + co.id);
+      if (await write(() => ref.set(data))) { closeModal(); toast(isNew ? "Company added" : "Saved"); if (isNew) personSheet(null, ref.id); }
+    };
+    if (!isNew) {
+      let armed = false;
+      $("#coDel").onclick = async () => {
+        const n = contacts.filter(p => p.companyId === co.id).length;
+        if (!armed) { armed = true; $("#coDel").textContent = n ? `Delete with ${n} ${n === 1 ? "person" : "people"}?` : "Tap again to delete"; return; }
+        for (const p of contacts.filter(p => p.companyId === co.id)) await remove("contacts", p.id);
+        if (await remove("companies", co.id)) { closeModal(); toast("Company deleted"); }
+      };
+    }
+  });
+}
+
+function personSheet(p, companyId) {
+  const isNew = !p;
+  p = p ? { ...p } : { name: "", email: "", position: "", companyId: companyId || (companies[0] && companies[0].id), status: "sent", sentDate: today(), followUpDate: "", replyDate: "", stage: "Replied", nextStep: "", notes: "" };
+  const coOpts = [...companies].sort((a, b) => (a.name || "").localeCompare(b.name || ""))
+    .map(c => `<option value="${c.id}" ${c.id === p.companyId ? "selected" : ""}>${esc(c.name)}</option>`).join("");
+  openSheet(`<h3>${isNew ? "New person" : esc(p.name) || "Edit person"}</h3>
+    <form class="form" id="pForm">
+      <div class="row2">
+        <div class="field"><label for="pName">Name</label><input id="pName" value="${esc(p.name)}" required></div>
+        <div class="field"><label for="pPos">Position</label><input id="pPos" value="${esc(p.position)}" placeholder="e.g. Head of Partnerships"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="pEmail">Email</label><input id="pEmail" type="email" inputmode="email" autocapitalize="off" value="${esc(p.email)}"></div>
+        <div class="field"><label for="pCo">Company</label><select id="pCo">${coOpts}</select></div>
+      </div>
+      <div class="field"><span class="lbl">Where it stands</span>
+        <div class="seg" id="pStatus">
+          ${[["draft", "Not sent"], ["sent", "Emailed"], ["replied", "Heard back"], ["closed", "Left it"]].map(([k, l]) =>
+            `<button type="button" data-s="${k}" aria-pressed="${p.status === k}">${l}</button>`).join("")}
+        </div>
+      </div>
+      <div class="box" id="boxSent">
+        <div class="row2">
+          <div class="field"><label for="pSent">First email sent</label><input id="pSent" type="date" value="${esc(p.sentDate)}"></div>
+          <div class="inline"><div class="field"><label for="pFollow">Follow-up sent</label><input id="pFollow" type="date" value="${esc(p.followUpDate)}"></div>
+            <button class="btn small" type="button" id="followToday">Today</button></div>
+        </div>
+        <p class="hint" id="sentHint"></p>
+      </div>
+      <div class="box" id="boxReplied">
+        <div class="row2">
+          <div class="field"><label for="pReply">Heard back on</label><input id="pReply" type="date" value="${esc(p.replyDate)}"></div>
+          <div class="field"><label for="pStage">Current step</label><select id="pStage">${STAGES.map(s => `<option ${s === p.stage ? "selected" : ""}>${s}</option>`).join("")}</select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pNext">Next step</label><input id="pNext" value="${esc(p.nextStep)}" placeholder="e.g. Video call, send deck"></div>
+          <div class="field"><label for="pNextDate">Next step date</label><input id="pNextDate" type="date" value="${esc(p.nextDate)}"></div>
+        </div>
+        <p class="hint">A meeting or next step dated today or tomorrow moves this person into Act now.</p>
+      </div>
+      <div class="field"><label for="pNotes">Notes</label><textarea id="pNotes" placeholder="What they said, context, anything to remember">${esc(p.notes)}</textarea></div>
+      <div class="actions">
+        ${isNew ? "" : `<button class="btn danger" id="pDel" type="button">Delete</button>`}
+        <div class="right"><button class="btn" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+      </div>
+    </form>`, () => {
+    const sync = () => {
+      $("#boxSent").hidden = p.status === "draft";
+      $("#boxReplied").hidden = p.status !== "replied";
+      document.querySelectorAll("#pStatus button").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === p.status));
+      const hint = { sent: "No reply after " + FOLLOW_DAYS + " days puts this person in Act now. If the follow-up also gets nothing, choose Left it.",
+        replied: "", closed: "Kept for the record. Nothing more to do here." }[p.status] || "";
+      $("#sentHint").textContent = hint; $("#sentHint").hidden = !hint;
+    };
+    document.querySelectorAll("#pStatus button").forEach(b => b.onclick = () => {
+      p.status = b.dataset.s;
+      if (p.status === "replied" && !$("#pReply").value) $("#pReply").value = today();
+      if (p.status !== "draft" && !$("#pSent").value) $("#pSent").value = today();
+      sync();
+    });
+    $("#followToday").onclick = () => { $("#pFollow").value = today(); };
+    $("#cancel").onclick = closeModal;
+    sync();
+    $("#pForm").onsubmit = async e => {
+      e.preventDefault();
+      const data = {
+        name: $("#pName").value.trim(), position: $("#pPos").value.trim(), email: $("#pEmail").value.trim(),
+        companyId: $("#pCo").value, status: p.status, sentDate: $("#pSent").value, followUpDate: $("#pFollow").value,
+        replyDate: $("#pReply").value, stage: $("#pStage").value, nextStep: $("#pNext").value.trim(), nextDate: $("#pNextDate").value, pinned: !!p.pinned, notes: $("#pNotes").value.trim(),
+        createdAt: p.createdAt || Date.now(), updatedAt: Date.now()
+      };
+      if (!data.name || !data.companyId) return;
+      const ref = isNew ? db.collection("contacts").doc() : db.doc("contacts/" + p.id);
+      if (await write(() => ref.set(data))) { closeModal(); toast(isNew ? "Person added" : "Saved"); }
+    };
+    if (!isNew) {
+      let armed = false;
+      $("#pDel").onclick = async () => {
+        if (!armed) { armed = true; $("#pDel").textContent = "Tap again to delete"; return; }
+        if (await remove("contacts", p.id)) { closeModal(); toast("Deleted"); }
+      };
+    }
+  });
+}
+
+async function togglePin(id) {
+  const p = contacts.find(c => c.id === id); if (!p) return;
+  if (await write(() => db.doc("contacts/" + id).update({ pinned: !p.pinned, updatedAt: Date.now() }))) toast(p.pinned ? "Unpinned" : "Pinned to the top");
+}
+
+async function quick(id, act) {
+  const p = contacts.find(c => c.id === id); if (!p) return;
+  if (act === "heard") return personSheet({ ...p, status: "replied", replyDate: today() });
+  if (act === "update") return personSheet(p);
+  const patch = { updatedAt: Date.now() };
+  if (act === "followed") patch.followUpDate = today();
+  if (act === "close") patch.status = "closed";
+  if (act === "sent") { patch.status = "sent"; patch.sentDate = today(); }
+  if (await write(() => db.doc("contacts/" + id).update(patch)))
+    toast({ followed: "Follow-up logged", close: "Marked as no response", sent: "Marked as emailed" }[act]);
+}
+
+async function write(fn) {
+  try { await fn(); return true; }
+  catch (e) {
+    if (e && e.code === "unavailable") { await new Promise(r => setTimeout(r, 600 + Math.random() * 600)); try { await fn(); return true; } catch (e2) { e = e2; } }
+    toast(e && e.code === "invalid_argument" ? "Only the owner can change this list" : "Could not save. Check your connection and try again.");
+    return false;
+  }
+}
+
+let tt; function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => t.hidden = true, 2200); }
+
+/* ---------- events ---------- */
+document.addEventListener("click", e => {
+  const t = e.target.closest("button, [data-edit]"); if (!t) return;
+  if (t.dataset.copy !== undefined) {
+    e.stopPropagation();
+    const v = t.dataset.copy;
+    try { navigator.clipboard.writeText(v).then(() => toast("Email copied"), () => toast(v)); } catch { toast(v); }
+    return;
+  }
+  if (!db) return;
+  if (t.dataset.filter) { filter = filter === t.dataset.filter ? "all" : t.dataset.filter; render(); }
+  else if (t.dataset.act) quick(t.dataset.id, t.dataset.act);
+  else if (t.dataset.pin) togglePin(t.dataset.pin);
+  else if (t.dataset.fold) { folded.has(t.dataset.fold) ? folded.delete(t.dataset.fold) : folded.add(t.dataset.fold); saveFolded(); render(); }
+  else if (t.id === "foldAll") { if (companies.every(c => folded.has(c.id))) folded.clear(); else companies.forEach(c => folded.add(c.id)); saveFolded(); render(); }
+  else if (t.dataset.edit) personSheet(contacts.find(c => c.id === t.dataset.edit));
+  else if (t.dataset.editco) companySheet(companies.find(c => c.id === t.dataset.editco));
+  else if (t.dataset.addp) personSheet(null, t.dataset.addp);
+  else if (t.id === "addCompanyTop") companySheet(null);
+  else if (t.id === "exportBtn") exportFile();
+  else if (t.id === "importBtn") fileHandle ? syncFile(false).then(() => toast("Synced with " + fileHandle.name)) : $("#importFile").click();
+  else if (t.id === "fsOpen") openDataFile();
+  else if (t.id === "fsReconnect") reconnect();
+  else if (t.id === "fab") companies.length ? personSheet(null) : companySheet(null);
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+  if ((e.key === "Enter" || e.key === " ") && e.target.dataset && e.target.dataset.edit) { e.preventDefault(); e.target.click(); }
+});
+$("#search").addEventListener("input", e => { query = e.target.value; render(); });
+
+/* ---------- data ---------- */
+function fail(msg) { const b = $("#banner"); b.textContent = msg; b.hidden = false; }
+/* ---------- this device's copy: same calls as the claude.ai store, kept in this browser ---------- */
+const COLS = ["companies", "contacts", "deleted"];
+function localStore(seed) {
+  const KEY = "outreach-tracker-v1";
+  const toMap = arr => Object.fromEntries((arr || []).map(({ id, ...d }) => [id, d]));
+  let st = null;
+  try { st = JSON.parse(localStorage.getItem(KEY)); } catch {}
+  /* The page's built-in data is only a starting point: progress already on this device always wins. */
+  if (!st) st = { companies: toMap(seed.companies), contacts: toMap(seed.contacts), deleted: toMap(seed.deleted) };
+  COLS.forEach(c => { st[c] = st[c] || {}; });
+  const subs = Object.fromEntries(COLS.map(c => [c, []])), changed = [];
+  const keep = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch {} };
+  const persist = () => { keep(); changed.forEach(f => f()); };
+  const list = c => Object.entries(st[c]).map(([id, d]) => ({ id, ...d }));
+  const emit = c => { const docs = Object.entries(st[c]).map(([id, d]) => ({ id, data: () => d })); subs[c].forEach(f => f({ docs })); };
+  const ref = (c, id) => ({
+    id,
+    set: async d => { st[c][id] = d; persist(); emit(c); },
+    update: async p => { if (!st[c][id]) throw { code: "invalid_argument" }; st[c][id] = { ...st[c][id], ...p }; persist(); emit(c); },
+    delete: async () => { delete st[c][id]; persist(); emit(c); }
+  });
+  const newId = () => "l" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  return {
+    collection: c => ({ onSnapshot: f => { subs[c].push(f); setTimeout(() => emit(c)); return () => {}; }, doc: id => ref(c, id || newId()) }),
+    doc: path => { const [c, id] = path.split("/"); return ref(c, id); },
+    dump: () => ({ companies: list("companies"), contacts: list("contacts"), deleted: list("deleted") }),
+    onChange: f => changed.push(f)
+  };
+}
+
+/* ---------- deleting leaves a marker, so a merge on another device removes it there too ---------- */
+let deleted = [];
+async function remove(col, id) {
+  if (!(await write(() => db.doc(col + "/" + id).delete()))) return false;
+  await write(() => db.doc("deleted/" + id).set({ col, deletedAt: Date.now() }));
+  return true;
+}
+
+/* ---------- saving and merging data files ---------- */
+const DATA_NAME = "outreach-data.json";
+const LAST_KEY = "outreach-last-file";
+let lastFile = 0;
+try { lastFile = +localStorage.getItem(LAST_KEY) || 0; } catch {}
+const markFiled = () => { lastFile = Date.now(); try { localStorage.setItem(LAST_KEY, String(lastFile)); } catch {} };
+/* Deletion markers only need to outlive the slowest device's next sync; after 90 days they are dropped from files. */
+const MARKER_DAYS = 90;
+const snapshot = () => ({ format: "outreach-tracker", savedAt: Date.now(), companies, contacts,
+  deleted: deleted.filter(d => Date.now() - (d.deletedAt || 0) < MARKER_DAYS * 864e5) });
+const pendingCount = () => [...companies, ...contacts].filter(x => (x.updatedAt || 0) > lastFile).length + deleted.filter(d => (d.deletedAt || 0) > lastFile).length;
+const isPhone = () => matchMedia("(pointer: coarse)").matches;
+
+/* Saving is only offered right after a merge (or before any file exists), so a save never drops another device's work. */
+let readyToSave = false, mergedFrom = "";
+async function exportFile() {
+  if (!db) return;
+  const json = JSON.stringify(snapshot(), null, 2);
+  const done = how => { readyToSave = false; markFiled(); toast(how); render(); };
+  const dl = !LOCAL && window.claude && window.claude.use ? await window.claude.use("downloads").catch(() => null) : null;
+  if (dl) {
+    try { await dl.save({ filename: DATA_NAME, data: json }); done("Saved " + DATA_NAME); }
+    catch (e) { if (e && e.code !== "declined") toast("Saving did not go through. Try again in a moment."); }
+    return;
+  }
+  const file = new File([json], DATA_NAME, { type: "application/json" });
+  if (isPhone() && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: DATA_NAME }); done("Shared " + DATA_NAME); return; }
+    catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(file); a.download = DATA_NAME;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  done("Saved " + DATA_NAME + " to Downloads");
+}
+function readImport(text) {
+  const t = text.trim();
+  if (t.startsWith("{")) return JSON.parse(t);
+  const el = new DOMParser().parseFromString(t, "text/html").getElementById("tracker-data");
+  if (!el) throw new Error("no data");
+  return JSON.parse(el.textContent);
+}
+/* Newest edit wins per person or company; a deletion wins over anything edited before it. */
+async function mergeData(data) {
+  let added = 0, updated = 0, removed = 0;
+  const gone = new Map(deleted.map(d => [d.id, d.deletedAt || 0]));
+  for (const { id, ...d } of data.deleted || []) {
+    if (!id) continue;
+    if ((gone.get(id) || 0) < (d.deletedAt || 0)) { await write(() => db.doc("deleted/" + id).set(d)); gone.set(id, d.deletedAt || 0); }
+    const mine = (d.col === "companies" ? companies : contacts).find(x => x.id === id);
+    if (mine && (mine.updatedAt || 0) <= (d.deletedAt || 0) && (await write(() => db.doc(d.col + "/" + id).delete()))) removed++;
+  }
+  for (const [col, list, mine] of [["companies", data.companies, companies], ["contacts", data.contacts, contacts]]) {
+    for (const { id, ...d } of list || []) {
+      if (!id || (gone.get(id) || 0) >= (d.updatedAt || 0)) continue;
+      const have = mine.find(x => x.id === id);
+      if (have && (have.updatedAt || 0) >= (d.updatedAt || 0)) continue;
+      if (await write(() => db.doc(col + "/" + id).set(d))) have ? updated++ : added++;
+    }
+  }
+  await new Promise(res => setTimeout(res, 30));
+  return { added, updated, removed };
+}
+/* True when this device holds something the file does not: a newer edit, a new entry or a deletion. */
+function aheadOf(data) {
+  const inFile = new Map([...(data.companies || []), ...(data.contacts || [])].map(x => [x.id, x.updatedAt || 0]));
+  const goneInFile = new Set((data.deleted || []).map(d => d.id));
+  return [...companies, ...contacts].some(x => !inFile.has(x.id) || (x.updatedAt || 0) > inFile.get(x.id))
+    || deleted.some(d => !goneInFile.has(d.id));
+}
+const mergedNote = r => r.added + r.updated + r.removed ? `${r.added} new, ${r.updated} updated, ${r.removed} removed` : "nothing new";
+async function importFile(file) {
+  let data;
+  try { data = readImport(await file.text()); } catch { toast("That file has no tracker data in it"); return; }
+  const r = await mergeData(data);
+  mergedFrom = file.name;
+  if (aheadOf(data)) { readyToSave = true; toast("Merged: " + mergedNote(r) + ". Now save it back to Drive."); }
+  else { readyToSave = false; markFiled(); toast("Merged: " + mergedNote(r) + ". Drive file is already up to date."); }
+  render();
+}
+$("#importFile").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; if (f && db) importFile(f); });
+
+/* ---------- data file linked straight to the tracker (Chrome and Edge on a computer) ---------- */
+const CAN_FILE = "showOpenFilePicker" in window && !isPhone();
+let fileHandle = null, saveTimer = null, savedAt = null, needsReconnect = null, seenModified = 0, queue = Promise.resolve();
+function kv(val) {
+  return new Promise(res => {
+    try {
+      const r = indexedDB.open("outreach-tracker", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("kv");
+      r.onsuccess = () => {
+        try {
+          const s = r.result.transaction("kv", val === undefined ? "readonly" : "readwrite").objectStore("kv");
+          const q = val === undefined ? s.get("dataFile") : s.put(val, "dataFile");
+          q.onsuccess = () => res(q.result); q.onerror = () => res(null);
+        } catch { res(null); }
+      };
+      r.onerror = () => res(null);
+    } catch { res(null); }
+  });
+}
+function fileBar(msg, buttons, tone) {
+  const m = $("#mode");
+  m.innerHTML = `<span>${esc(msg)}</span>` + buttons.map(([id, l, primary]) => `<button class="btn small${primary ? " primary" : ""}" id="${id}" type="button">${l}</button>`).join("");
+  m.classList.toggle("warn", tone === "warn"); m.hidden = false;
+}
+const shortDate = t => new Date(t).toLocaleDateString([], { day: "numeric", month: "short" });
+function updateBar() {
+  if (!db) return;
+  if (fileHandle) return fileBar("Synced with " + fileHandle.name + (savedAt ? ", last checked " + savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "") + ". Changes from other computers come in automatically.", [["fsOpen", "Switch file"]]);
+  if (needsReconnect) return fileBar("Click Reconnect to keep syncing with " + needsReconnect + ".", [["fsReconnect", "Reconnect", true]], "warn");
+  if (readyToSave) return fileBar(`Merged with ${mergedFrom}. Save the combined list back to Drive, replacing the old ${DATA_NAME}.`, [["exportBtn", "Save to Drive", true]], "warn");
+  const n = pendingCount();
+  const link = CAN_FILE && LOCAL ? [["fsOpen", "Link Drive file"]] : [];
+  if (!lastFile) return fileBar("Not synced with a Drive file yet. Tap Sync and pick " + DATA_NAME + ", or save a first file if you have none.", [["exportBtn", "Save first file"], ...link], n ? "warn" : "");
+  const when = " Last synced " + shortDate(lastFile) + ".";
+  fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Sync and pick ${DATA_NAME} from Drive.${when}` : "Saved on this device and in step with Drive." + when, link, n ? "warn" : "");
+}
+/* Read the file, merge it in, then write the combined list. Runs one at a time. */
+function syncFile(forceWrite) {
+  queue = queue.then(async () => {
+    if (!fileHandle) return;
+    const f = await fileHandle.getFile();
+    const text = await f.text();
+    const data = text.trim() ? readImport(text) : null;
+    if (data) await mergeData(data);
+    if (forceWrite || !data || aheadOf(data)) {
+      const w = await fileHandle.createWritable();
+      await w.write(JSON.stringify(snapshot(), null, 2));
+      await w.close();
+    }
+    seenModified = (await fileHandle.getFile()).lastModified;
+    savedAt = new Date(); markFiled(); updateBar();
+  }).catch(() => { if (fileHandle) { needsReconnect = fileHandle.name; fileHandle = null; updateBar(); } });
+  return queue;
+}
+/* Pick up edits other computers made, as Drive syncs the file across. */
+async function checkFile() {
+  if (!fileHandle || document.hidden) return;
+  try { if ((await fileHandle.getFile()).lastModified !== seenModified) syncFile(false); } catch {}
+}
+async function attach(handle) {
+  fileHandle = handle; needsReconnect = null;
+  await syncFile(false);
+  await kv(handle);
+}
+const JSON_TYPE = [{ description: "Tracker data", accept: { "application/json": [".json"] } }];
+async function openDataFile() {
+  try { const [h] = await showOpenFilePicker({ types: JSON_TYPE }); await attach(h); toast("Linked to " + h.name); }
+  catch (e) { if (e && e.name !== "AbortError") toast("Could not open that file"); }
+}
+async function reconnect() {
+  const h = await kv();
+  try { if (h && (await h.requestPermission({ mode: "readwrite" })) === "granted") return attach(h); } catch {}
+  openDataFile();
+}
+async function startFileMode() {
+  db.onChange(() => {
+    if (!fileHandle) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => syncFile(false), 400);
+  });
+  setInterval(checkFile, 20000);
+  addEventListener("focus", checkFile);
+  document.addEventListener("visibilitychange", checkFile);
+  if (!CAN_FILE) return;
+  const h = await kv();
+  if (!h) return;
+  try { if ((await h.queryPermission({ mode: "readwrite" })) === "granted") return attach(h); } catch {}
+  needsReconnect = h.name; updateBar();
+}
+
+let LOCAL = false;
+async function boot() {
+  if (SEED.mode === "file" || !window.claude || !window.claude.use) {
+    LOCAL = true;
+    db = localStore(SEED);
+    startFileMode();
+  } else db = await window.claude.use("db");
+  if (!db) { fail("Your list could not load here. Sign in to claude.ai with the account that owns this page, then reload."); $("#list").innerHTML = ""; return; }
+  const onErr = e => fail("Lost the connection to your list (" + (e && e.code) + "). Reload the page.");
+  db.collection("companies").onSnapshot(s => { companies = s.docs.map(d => ({ id: d.id, ...d.data() })); loaded.c = true; render(); }, onErr);
+  db.collection("contacts").onSnapshot(s => { contacts = s.docs.map(d => ({ id: d.id, ...d.data() })); loaded.p = true; render(); }, onErr);
+  db.collection("deleted").onSnapshot(s => { deleted = s.docs.map(d => ({ id: d.id, ...d.data() })); updateBar(); }, onErr);
+}
+boot();
+setInterval(() => { if (!$("#modal").innerHTML) render(); }, 60 * 60 * 1000);
+</script>
+
+</body></html>
