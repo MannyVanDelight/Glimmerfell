@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scope &amp; Investment — Glimmerfell (internal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   GLIMMERFELL — SCOPE & INVESTMENT CALCULATOR  (v5, internal)
+   Every figure is editable in the interface.
+   Defaults live in the defaults() block in the script.
+   ============================================================ */
+:root{
+  --gold:#c5a059; --ink:#0e0e0f; --paper:#fafafa; --hair:#eaeaea;
+  --muted:#8a8a8f; --body:#4a4a4e; --white:#fff;
+  --serif:'Spectral',Georgia,serif;
+  --sans:Helvetica,'Helvetica Neue',Arial,sans-serif;
+  --gst:0.15;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--white);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.gf-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.gf-wrap{max-width:1240px;margin:0 auto;padding:44px 26px 96px}
+
+.gf-head{border-bottom:1px solid var(--hair);padding-bottom:22px;margin-bottom:30px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.gf-head h1{font-family:var(--serif);font-weight:300;font-size:clamp(25px,3.6vw,38px);
+  line-height:1.15;margin:10px 0 0}
+.gf-tools{display:flex;gap:8px;flex-wrap:wrap}
+.gf-btn{border:1px solid var(--hair);background:var(--white);color:var(--body);
+  font-family:var(--sans);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  padding:9px 14px;cursor:pointer;transition:border-color .15s}
+.gf-btn:hover{border-color:var(--gold)}
+.gf-btn.gf-primary{border-color:var(--gold);color:var(--ink)}
+.gf-btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.gf-grid{display:grid;grid-template-columns:1fr 380px;gap:44px;align-items:start}
+
+.gf-block{border-top:1px solid var(--hair);padding:24px 0}
+.gf-block:first-child{border-top:none;padding-top:0}
+.gf-block h2{font-family:var(--serif);font-weight:400;font-size:19px;margin-bottom:4px}
+.gf-note{color:var(--muted);font-size:12.5px;margin-bottom:14px;max-width:58ch;line-height:1.55}
+
+.gf-line{display:grid;grid-template-columns:20px 1fr 62px 96px 92px 26px;
+  gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair)}
+.gf-line:last-of-type{border-bottom:none}
+.gf-line.gf-head-row{padding-bottom:6px}
+.gf-line.gf-head-row span{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted)}
+.gf-line.gf-head-row .gf-r{text-align:right}
+.gf-line.is-off input[type=text],.gf-line.is-off input[type=number],
+.gf-line.is-off .gf-tot{opacity:.38}
+
+.gf-dline{display:grid;grid-template-columns:1fr 60px 96px 96px 96px 26px;
+  gap:9px;align-items:center;padding:8px 0;border-bottom:1px solid var(--hair)}
+.gf-dline:last-of-type{border-bottom:none}
+
+input[type=text],input[type=number]{
+  width:100%;padding:7px 8px;border:1px solid var(--hair);background:var(--white);
+  font-family:var(--sans);font-size:13.5px;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+input[type=number]{text-align:right}
+input:focus{outline:none;border-color:var(--gold)}
+input[type=text].gf-name{border-color:transparent;padding-left:0;font-size:14px}
+input[type=text].gf-name:focus{border-color:var(--gold);padding-left:8px}
+input:disabled{opacity:.4}
+
+.gf-tot{text-align:right;font-variant-numeric:tabular-nums;font-size:13.5px;color:var(--body)}
+.gf-x{border:none;background:none;color:var(--muted);cursor:pointer;font-size:15px;
+  line-height:1;padding:4px}
+.gf-x:hover{color:var(--ink)}
+.gf-add{margin-top:12px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  background:none;border:none;color:var(--gold);cursor:pointer;padding:4px 0}
+.gf-add:hover{text-decoration:underline}
+
+.gf-cb{position:relative;display:flex;align-items:center;cursor:pointer;justify-self:start}
+.gf-cb input{position:absolute;opacity:0;width:0;height:0}
+.gf-box{width:16px;height:16px;border:1px solid #c9c9cd;background:var(--white);
+  position:relative;transition:background .15s,border-color .15s}
+.gf-cb input:checked ~ .gf-box{background:var(--gold);border-color:var(--gold)}
+.gf-box::after{content:'';position:absolute;left:4px;top:4px;width:6px;height:3px;
+  border-left:1.5px solid var(--white);border-bottom:1.5px solid var(--white);
+  transform:rotate(-45deg) scale(0);transition:transform .15s}
+.gf-cb input:checked ~ .gf-box::after{transform:rotate(-45deg) scale(1)}
+.gf-cb input:focus-visible ~ .gf-box{outline:2px solid var(--ink);outline-offset:2px}
+
+.gf-seg{display:flex;margin-bottom:16px;border:1px solid var(--hair);width:fit-content}
+.gf-seg button{border:none;background:var(--white);padding:10px 18px;cursor:pointer;
+  font-family:var(--sans);font-size:12px;color:var(--body);transition:background .15s}
+.gf-seg button.is-on{background:var(--gold);color:var(--white)}
+
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:1px;
+  background:var(--hair);margin:16px 0 6px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+  border-radius:50%;background:var(--gold);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;
+  background:var(--gold);cursor:pointer}
+.gf-slabel{display:flex;justify-content:space-between;font-size:13px;color:var(--body)}
+.gf-sub{color:var(--muted);font-size:11.5px;margin-top:8px}
+
+/* summary */
+.gf-grid > aside{position:sticky;top:24px;align-self:start;
+  max-height:calc(100vh - 48px);overflow-y:auto;overscroll-behavior:contain}
+.gf-panel{background:var(--white);border:1px solid var(--hair)}
+.gf-tot-block{padding:22px 22px 18px;border-bottom:1px solid var(--hair)}
+.gf-tot-block.gf-sub-block{background:var(--paper)}
+.gf-fig{font-family:var(--serif);font-weight:300;font-size:38px;line-height:1;margin-top:8px;
+  font-variant-numeric:tabular-nums}
+.gf-fig.gf-small{font-size:26px}
+.gf-gst{color:var(--muted);font-size:11.5px;margin-top:6px}
+.gf-recur b{font-family:var(--serif);font-weight:400;font-size:16px;color:var(--gold)}
+
+.gf-sect{padding:14px 22px;border-bottom:1px solid var(--hair)}
+.gf-srow{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;
+  color:var(--body);padding:3px 0}
+.gf-srow span:last-child{font-variant-numeric:tabular-nums}
+
+.gf-breaks{padding:4px 22px 18px}
+.gf-break{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding:13px 0;border-bottom:1px solid var(--hair)}
+.gf-break:last-child{border-bottom:none}
+.gf-bl{font-size:13px;color:var(--body);max-width:22ch}
+.gf-bv{font-family:var(--serif);font-size:21px;font-weight:400;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.gf-lead .gf-bv{color:var(--gold)}
+.gf-inputs{background:var(--paper);padding:14px 22px 18px;border-top:1px solid var(--hair)}
+.gf-inputs .gf-eyebrow{display:block;margin-bottom:10px}
+.gf-irow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:5px 0}
+.gf-irow label{font-size:13px;color:var(--body)}
+.gf-irow input{width:104px}
+.gf-irow input[type=text]{width:140px;border-color:var(--hair);padding:6px 8px}
+
+.gf-pres{margin-top:14px;border:1px solid var(--hair);background:var(--white)}
+.gf-pres-btn{width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;background:none;border:none;cursor:pointer;font-family:var(--sans);
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.gf-pres-body{display:none;padding:0 18px 18px}
+.gf-pres.is-open .gf-pres-body{display:block}
+.gf-warn{background:var(--paper);border-left:2px solid var(--gold);color:var(--body);
+  font-size:11.5px;padding:10px 12px;margin-bottom:14px;line-height:1.5}
+.gf-pres .gf-bv{font-size:18px}
+.gf-say{font-family:var(--serif);font-size:15px;line-height:1.5;padding:13px 0 4px;
+  border-top:1px solid var(--hair);margin-top:10px}
+.gf-say b{color:var(--gold);font-weight:600}
+
+.gf-bar{display:none}
+@media (max-width:1000px){
+  .gf-grid{grid-template-columns:1fr;gap:30px}
+  .gf-grid > aside{position:static;max-height:none;overflow:visible}
+  .gf-panel{position:static}
+  .gf-wrap{padding:30px 16px 100px}
+  .gf-fig{font-size:32px}
+  body{padding-bottom:76px}
+  .gf-line{grid-template-columns:20px 1fr 54px 78px 78px 24px;gap:6px}
+  .gf-dline{grid-template-columns:1fr 50px 78px 78px 78px 24px;gap:6px}
+  input[type=text],input[type=number]{padding:6px 6px;font-size:12.5px}
+  .gf-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:var(--white);border-top:1px solid var(--hair);
+    box-shadow:0 -6px 20px rgba(0,0,0,.06);
+    padding:11px 16px;align-items:center;justify-content:space-between;gap:12px}
+  .gf-bar div{display:flex;flex-direction:column;gap:2px}
+  .gf-bar strong{font-family:var(--serif);font-weight:400;font-size:20px;
+    font-variant-numeric:tabular-nums}
+  .gf-bar .gf-barsub{text-align:right}
+  .gf-bar .gf-barsub strong{color:var(--gold);font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ============ PRINTABLE QUOTE ============ */
+#quote{display:none}
+@media print{
+  @page{size:A4;margin:16mm 14mm}
+  body{background:#fff}
+  .gf-wrap,.gf-bar{display:none!important}
+  #quote{display:block}
+}
+#quote{font-family:var(--sans);color:var(--ink);font-size:10.5px;line-height:1.5}
+.q-head{display:flex;justify-content:space-between;align-items:flex-start;
+  border-bottom:1.5px solid var(--ink);padding-bottom:14px;margin-bottom:20px}
+.q-mark{font-family:var(--serif);font-weight:300;font-size:23px;letter-spacing:.16em;
+  text-transform:uppercase;line-height:1}
+.q-mark em{font-style:normal;color:var(--gold)}
+.q-tag{font-size:8.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+  margin-top:7px}
+.q-meta{text-align:right;font-size:9.5px;line-height:1.8;color:var(--body)}
+.q-meta b{color:var(--ink);font-weight:400}
+
+.q-title{font-family:var(--serif);font-weight:300;font-size:19px;margin-bottom:18px}
+.q-sec{margin-bottom:14px;break-inside:avoid}
+.q-sec h3{font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+  border-bottom:.5px solid var(--hair);padding-bottom:4px;margin-bottom:6px;font-weight:400}
+.q-row{display:grid;grid-template-columns:1fr 44px 68px 76px;gap:8px;padding:2.5px 0}
+.q-row span:nth-child(n+2){text-align:right;font-variant-numeric:tabular-nums}
+.q-row.q-subtotal{border-top:.5px solid var(--hair);margin-top:5px;padding-top:6px;font-weight:bold}
+
+.q-totals{border-top:1.5px solid var(--ink);margin-top:20px;padding-top:12px;break-inside:avoid}
+.q-trow{display:grid;grid-template-columns:1fr 110px;gap:10px;padding:4px 0;font-size:11px}
+.q-trow span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.q-trow.q-grand{border-top:.5px solid var(--hair);margin-top:6px;padding-top:9px;
+  font-family:var(--serif);font-size:17px}
+.q-trow.q-grand span:last-child{color:var(--gold)}
+.q-note{margin-top:8px;font-size:9px;color:var(--muted);line-height:1.6}
+
+.q-scale{display:flex;gap:26px;margin-top:20px;padding-top:14px;
+  border-top:.5px solid var(--hair);break-inside:avoid}
+.q-scale div{flex:1}
+.q-scale .q-sv{font-family:var(--serif);font-size:19px;color:var(--gold);
+  font-variant-numeric:tabular-nums}
+.q-scale .q-sl{font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin-top:3px}
+
+.q-foot{margin-top:26px;padding-top:12px;border-top:.5px solid var(--hair);
+  font-size:8.5px;color:var(--muted);line-height:1.7;break-inside:avoid}
+</style>
+</head>
+<body>
+<div class="gf-wrap">
+
+  <header class="gf-head">
+    <div>
+      <span class="gf-eyebrow">Scope &amp; investment</span>
+      <h1>Build the scope. Watch the number.</h1>
+    </div>
+    <div class="gf-tools">
+      <button class="gf-btn gf-primary" id="btn-print">Print / PDF</button>
+      <button class="gf-btn" id="btn-save">Save as defaults</button>
+      <button class="gf-btn" id="btn-reset">Reset</button>
+    </div>
+  </header>
+
+  <div class="gf-grid">
+    <main id="sections"></main>
+
+    <aside>
+      <div class="gf-panel">
+        <div class="gf-tot-block gf-sub-block">
+          <span class="gf-eyebrow">Twin build — one-off</span>
+          <div class="gf-fig gf-small" id="fig-build">—</div>
+        </div>
+        <div class="gf-tot-block gf-sub-block">
+          <span class="gf-eyebrow">Delivery &amp; hosting — term</span>
+          <div class="gf-fig gf-small" id="fig-deliv">—</div>
+          <div class="gf-gst gf-recur" id="recur"></div>
+        </div>
+        <div class="gf-tot-block">
+          <span class="gf-eyebrow">Total investment</span>
+          <div class="gf-fig" id="fig-total">—</div>
+          <div class="gf-gst" id="fig-gst">—</div>
+        </div>
+        <div class="gf-sect" id="sect-breakdown"></div>
+        <div class="gf-breaks">
+          <div class="gf-break gf-lead">
+            <span class="gf-bl">Per dwelling on the development</span>
+            <span class="gf-bv" id="fig-perUnit">—</span>
+          </div>
+          <div class="gf-break">
+            <span class="gf-bl">Share of one dwelling's asking price</span>
+            <span class="gf-bv" id="fig-pctUnit">—</span>
+          </div>
+          <div class="gf-break">
+            <span class="gf-bl">Share of total development value</span>
+            <span class="gf-bv" id="fig-pctGdv">—</span>
+          </div>
+        </div>
+        <div class="gf-inputs">
+          <span class="gf-eyebrow">Quote details</span>
+          <div class="gf-irow"><label for="qClient">Prepared for</label>
+            <input type="text" id="qClient" placeholder="Client"></div>
+          <div class="gf-irow"><label for="qProject">Project</label>
+            <input type="text" id="qProject" placeholder="Development"></div>
+          <div class="gf-irow"><label for="qRef">Reference</label>
+            <input type="text" id="qRef" placeholder="GF-0000"></div>
+          <div class="gf-irow"><label for="cur">Currency</label>
+            <input type="text" id="cur" placeholder="NZD"></div>
+          <div class="gf-irow"><label for="sym">Symbol</label>
+            <input type="text" id="sym" placeholder="$"></div>
+          <div class="gf-irow"><label for="taxLabel">Tax label</label>
+            <input type="text" id="taxLabel" placeholder="GST at 15%"></div>
+          <div class="gf-irow"><label for="taxRate">Tax %</label>
+            <input type="number" id="taxRate" min="0" max="30" step="0.5"></div>
+          <div class="gf-irow"><label for="fxCur">Show also in</label>
+            <input type="text" id="fxCur" placeholder="AUD"></div>
+          <div class="gf-irow"><label for="fxRate">FX rate</label>
+            <input type="number" id="fxRate" min="0" step="0.0001"></div>
+          <div class="gf-irow"><label for="price">Avg asking price</label>
+            <input type="number" id="price" min="10000" step="10000"></div>
+          <div class="gf-irow"><label for="dwellCount">Dwellings (from types)</label>
+            <input type="number" id="dwellCount" disabled></div>
+        </div>
+      </div>
+
+      <div class="gf-pres" id="pres">
+        <button type="button" class="gf-pres-btn" id="pres-btn" aria-expanded="false">
+          <span>Internal — value case</span><span aria-hidden="true">+</span>
+        </button>
+        <div class="gf-pres-body">
+          <div class="gf-warn">Your assumptions, not their figures. Never show this — use it to choose which question to ask next.</div>
+          <div class="gf-break"><span class="gf-bl">Gross development value</span>
+            <span class="gf-bv" id="fig-gdv">—</span></div>
+          <div class="gf-break"><span class="gf-bl">Their finance cost per day</span>
+            <span class="gf-bv" id="fig-hold">—</span></div>
+          <div class="gf-break"><span class="gf-bl">Margin on one sale</span>
+            <span class="gf-bv" id="fig-margin">—</span></div>
+          <div class="gf-say" id="say-days"></div>
+          <div class="gf-say" id="say-sales"></div>
+          <div class="gf-irow" style="margin-top:12px"><label for="debt">Debt ratio %</label>
+            <input type="number" id="debt" min="0" max="100"></div>
+          <div class="gf-irow"><label for="rate">Interest rate %</label>
+            <input type="number" id="rate" min="0" max="30" step="0.1"></div>
+          <div class="gf-irow"><label for="devmargin">Developer margin %</label>
+            <input type="number" id="devmargin" min="1" max="60" step="0.5"></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="gf-bar" aria-hidden="true">
+  <div><span class="gf-eyebrow">Build</span><strong id="bar-build">—</strong></div>
+  <div class="gf-barsub"><span class="gf-eyebrow">Total incl. tax</span><strong id="bar-total">—</strong></div>
+</div>
+
+<div id="quote"></div>
+
+<script>
+/* ============================================================
+   DEFAULTS — replace with your real rates.
+   If you already edited this block in v4, paste that version here.
+   ============================================================ */
+function defaults(){ return {
+  price:950000, debt:65, rate:7.5, devmargin:18, months:12,
+  delivery:'hosted', hostMonthly:650, supportMonthly:320, supportOn:false,
+  qClient:'', qProject:'', qRef:'',
+  cur:'NZD', sym:'$', taxLabel:'GST at 15%', taxRate:15,
+  fxCur:'', fxRate:0,
+
+  foundation:[
+    {n:'Drawing & data ingest',           q:1, r:3800, on:1},
+    {n:'Site levels & survey resolution', q:1, r:1800, on:1},
+    {n:'Project setup & coordination',    q:1, r:2200, on:1}
+  ],
+  dwellings:[
+    {n:'2-bed villa',      count:24, build:3500, site:280},
+    {n:'3-bed villa',      count:12, build:3800, site:280},
+    {n:'Apartment type A', count:18, build:3200, site:120}
+  ],
+  shared:[
+    {n:'Internal roads & kerbing',     q:1, r:5200, on:1},
+    {n:'Footpaths & pedestrian links', q:1, r:3400, on:1},
+    {n:'Communal landscaping',         q:1, r:4800, on:1},
+    {n:'Carparking & service areas',   q:1, r:2600, on:1},
+    {n:'Boundaries, fencing, entry',   q:1, r:2200, on:1}
+  ],
+  amenities:[
+    {n:'Community centre — full interior', q:1, r:9500, on:1},
+    {n:'Café — full interior',             q:1, r:7200, on:1},
+    {n:'Pool building — exterior only',    q:1, r:3200, on:1},
+    {n:'Care wing — exterior only',        q:1, r:3800, on:0}
+  ],
+  interaction:[
+    {n:'Scheme switching system (first two schemes)', q:1, r:4500, on:1},
+    {n:'Additional schemes',                          q:2, r:1800, on:1},
+    {n:'Bespoke interior packages',                   q:1, r:2600, on:1},
+    {n:'Headset build target',                        q:1, r:7500, on:1}
+  ],
+  capture:[
+    {n:'Capture sessions (full day)',       q:2,   r:1650, on:1},
+    {n:'Travel — distance (km)',            q:120, r:1.35, on:1},
+    {n:'Travel — time (hours)',             q:4,   r:110,  on:1},
+    {n:'Accommodation (nights)',            q:1,   r:220,  on:0},
+    {n:'Aerial & drone capture (flights)',  q:1,   r:1450, on:1},
+    {n:'Certified operator engagement',     q:1,   r:900,  on:0},
+    {n:'Photographic processing & grading', q:1,   r:1200, on:1}
+  ],
+  analysis:[
+    {n:'Verified view montages (per viewpoint)', q:6, r:780,  on:1},
+    {n:'Sun & shade studies',                    q:1, r:4800, on:1},
+    {n:'Visibility & obstruction analysis',      q:1, r:5200, on:1},
+    {n:'Community consultation build',           q:1, r:4500, on:1},
+    {n:'Submission document preparation',        q:1, r:2400, on:0}
+  ],
+  marketing:[
+    {n:'Stills pack',      q:1, r:2800, on:0},
+    {n:'Promotional film', q:1, r:7500, on:0},
+    {n:'Social cutdowns',  q:1, r:3200, on:0}
+  ],
+  hardware:[
+    {n:'VR-capable small-form PC',           q:1, r:5200, on:1},
+    {n:'Headset (business tier licence)',    q:2, r:1600, on:1},
+    {n:'65" commercial panel + floor stand', q:1, r:3800, on:1},
+    {n:'Controllers, batteries, cabling',    q:1, r:900,  on:1},
+    {n:'Road case & transport',              q:1, r:600,  on:1},
+    {n:'Configuration, imaging, lockdown',   q:1, r:1800, on:1},
+    {n:'On-site installation & handover',    q:1, r:1400, on:1}
+  ],
+  addons:[
+    {n:'Staff training & onboarding',                q:1, r:2400, on:1},
+    {n:'Content updates as build changes (one-off)', q:1, r:1800, on:0}
+  ]
+};}
+
+const taxRate = () => (+M.taxRate||0)/100;
+
+const SECTIONS = [
+  {k:'foundation',  t:'Project foundation', g:'build',
+   d:'Required on every project. Adjust when drawings arrive messy or a site needs more resolution than usual.'},
+  {k:'dwellings',   t:'Dwelling types', g:'build', special:'dwellings',
+   d:'One row per distinct layout. <b>Count</b> is how many of that type exist. <b>Build</b> is the one-off cost of making the layout. <b>Per unit</b> is what it costs to place each one — siting, orientation, level fitting, immediate external works.'},
+  {k:'shared',      t:'Shared site &amp; infrastructure', g:'build',
+   d:'Everything outside the private sections that can\'t be attributed to one dwelling.'},
+  {k:'amenities',   t:'Amenity &amp; community buildings', g:'build',
+   d:'Bespoke, nothing repeats. Rename rows to match the actual buildings.'},
+  {k:'interaction', t:'What people can do inside it', g:'build',
+   d:'Walkthrough at true scale is in the foundation. These are independent — any combination.'},
+  {k:'capture',     t:'On-site capture &amp; photography', g:'build',
+   d:'Travel is the variable that moves most. A Canterbury site and a West Coast site are the same shoot with very different day counts.'},
+  {k:'analysis',    t:'Planning analysis &amp; consultation', g:'build',
+   d:'Prepared from your data and our capture. We present the evidence; the authority draws the conclusion.'},
+  {k:'marketing',   t:'Assets cut from the same build', g:'build',
+   d:'The twin already exists. This material comes out of it without a second production.'},
+  {k:'addons',      t:'Add-on packages', g:'build',
+   d:'Separate from delivery. Priced individually.'}
+];
+
+let M = load();
+function load(){
+  try{ const s=localStorage.getItem('gf-scope-v4');
+       if(s) return Object.assign(defaults(), JSON.parse(s)); }catch(e){}
+  return defaults();
+}
+function save(){
+  try{ localStorage.setItem('gf-scope-v4', JSON.stringify(M)); flash('Saved'); }
+  catch(e){ flash('Storage blocked — edit defaults()'); }
+}
+function flash(msg){
+  const b=document.getElementById('btn-save'), o=b.textContent;
+  b.textContent=msg; setTimeout(()=>b.textContent=o,2000);
+}
+
+const nz  = n => (M.sym||'$') + Math.round(n).toLocaleString('en-NZ');
+const nzp = n => n<100 ? (M.sym||'$')+n.toFixed(2) : nz(n);
+const fx  = n => (+M.fxRate>0 && M.fxCur)
+  ? `≈ ${Math.round(n*M.fxRate).toLocaleString('en-NZ')} ${M.fxCur}` : '';
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+
+const lineTotal = l => l.on ? (l.q||0)*(l.r||0) : 0;
+const sumLines  = a => a.reduce((s,l)=>s+lineTotal(l),0);
+const dwellCount = () => M.dwellings.reduce((s,d)=>s+(+d.count||0),0);
+const dwellTotal = () => M.dwellings.reduce((s,d)=>s+(+d.build||0)+(+d.count||0)*(+d.site||0),0);
+
+function buildTotal(){
+  return sumLines(M.foundation) + dwellTotal() + sumLines(M.shared) + sumLines(M.amenities) +
+         sumLines(M.interaction) + sumLines(M.capture) + sumLines(M.analysis) +
+         sumLines(M.marketing) + sumLines(M.addons);
+}
+function monthlyRecurring(){
+  return (M.delivery==='hosted' ? (+M.hostMonthly||0) : 0) + (M.supportOn ? (+M.supportMonthly||0) : 0);
+}
+function deliveryTotal(){
+  const term = monthlyRecurring() * M.months;
+  return M.delivery==='local' ? sumLines(M.hardware) + term : term;
+}
+const grandTotal = () => buildTotal() + deliveryTotal();
+
+/* ---------- DOM construction ---------- */
+function buildSections(){
+  document.getElementById('sections').innerHTML =
+    SECTIONS.map(s => s.special==='dwellings'
+      ? `<section class="gf-block" data-sec="dwellings"><h2>${s.t}</h2><p class="gf-note">${s.d}</p>
+         <div class="gf-dline gf-head-row"><span>Type</span><span class="gf-r">Count</span>
+         <span class="gf-r">Build</span><span class="gf-r">Per unit</span>
+         <span class="gf-r">Total</span><span></span></div>
+         <div class="gf-lines"></div>
+         <button class="gf-add" data-add="dwellings">+ Add dwelling type</button></section>`
+      : `<section class="gf-block" data-sec="${s.k}"><h2>${s.t}</h2><p class="gf-note">${s.d}</p>
+         <div class="gf-line gf-head-row"><span></span><span>Item</span><span class="gf-r">Qty</span>
+         <span class="gf-r">Rate</span><span class="gf-r">Total</span><span></span></div>
+         <div class="gf-lines"></div>
+         <button class="gf-add" data-add="${s.k}">+ Add line</button></section>`
+    ).join('') + deliveryHTML();
+  renderLines();
+}
+
+function deliveryHTML(){ return `<section class="gf-block" data-sec="delivery">
+  <h2>Delivery &amp; hosting</h2>
+  <p class="gf-note">Kept separate from the build total. Everything specified above is delivered as one working experience — your team enters a password and connects a headset.</p>
+  <div class="gf-seg" role="group">
+    <button type="button" data-del="hosted">Hosted by Glimmerfell</button>
+    <button type="button" data-del="local">On-site hardware supplied</button>
+  </div>
+  <div id="del-hosted">
+    <div class="gf-line"><span></span><span>Hosting, all-inclusive</span><span></span>
+      <input type="number" id="hostMonthly"><span class="gf-tot" id="hostTot"></span><span></span></div>
+    <input type="range" id="months" min="3" max="36" step="1">
+    <div class="gf-slabel"><span><output id="out-months"></output> month term</span><span></span></div>
+  </div>
+  <div id="del-local">
+    <div class="gf-line gf-head-row"><span></span><span>Item</span><span class="gf-r">Qty</span>
+      <span class="gf-r">Rate</span><span class="gf-r">Total</span><span></span></div>
+    <div class="gf-lines" data-sec-lines="hardware"></div>
+    <button class="gf-add" data-add="hardware">+ Add hardware line</button>
+    <p class="gf-sub">Verify against current NZ supplier quotes before issuing.</p>
+  </div>
+  <div class="gf-line" style="margin-top:16px;border-top:1px solid var(--hair);padding-top:14px">
+    <label class="gf-cb"><input type="checkbox" id="supportOn"><span class="gf-box"></span></label>
+    <span>Maintenance &amp; technical support</span><span></span>
+    <input type="number" id="supportMonthly"><span class="gf-tot" id="supTot"></span><span></span>
+  </div>
+  <p class="gf-sub">Monthly, over the same term.</p></section>`;
+}
+
+function lineHTML(sec,l,i){ return `<div class="gf-line${l.on?'':' is-off'}">
+  <label class="gf-cb"><input type="checkbox" data-t="on" data-s="${sec}" data-i="${i}" ${l.on?'checked':''}><span class="gf-box"></span></label>
+  <input type="text" class="gf-name" data-t="n" data-s="${sec}" data-i="${i}" value="${esc(l.n)}">
+  <input type="number" data-t="q" data-s="${sec}" data-i="${i}" value="${l.q}" step="any" min="0">
+  <input type="number" data-t="r" data-s="${sec}" data-i="${i}" value="${l.r}" step="any" min="0">
+  <span class="gf-tot" data-tot="${sec}:${i}">${nz(lineTotal(l))}</span>
+  <button class="gf-x" data-del-line="${sec}" data-i="${i}" aria-label="Remove">×</button></div>`;
+}
+
+function dwellHTML(d,i){ return `<div class="gf-dline">
+  <input type="text" class="gf-name" data-t="n" data-s="dwellings" data-i="${i}" value="${esc(d.n)}">
+  <input type="number" data-t="count" data-s="dwellings" data-i="${i}" value="${d.count}" min="0">
+  <input type="number" data-t="build" data-s="dwellings" data-i="${i}" value="${d.build}" min="0">
+  <input type="number" data-t="site"  data-s="dwellings" data-i="${i}" value="${d.site}"  min="0">
+  <span class="gf-tot" data-tot="dwellings:${i}">${nz((+d.build||0)+(+d.count||0)*(+d.site||0))}</span>
+  <button class="gf-x" data-del-line="dwellings" data-i="${i}" aria-label="Remove">×</button></div>`;
+}
+
+function renderLines(){
+  SECTIONS.forEach(s=>{
+    const box=document.querySelector(`[data-sec="${s.k}"] .gf-lines`); if(!box) return;
+    box.innerHTML = s.special==='dwellings'
+      ? M.dwellings.map(dwellHTML).join('')
+      : M[s.k].map((l,i)=>lineHTML(s.k,l,i)).join('');
+  });
+  const hw=document.querySelector('[data-sec-lines="hardware"]');
+  if(hw) hw.innerHTML = M.hardware.map((l,i)=>lineHTML('hardware',l,i)).join('');
+}
+
+/* ---------- in-place total updates (no HTML rebuild) ---------- */
+function updateTotals(){
+  document.querySelectorAll('[data-tot]').forEach(sp=>{
+    const [s,i] = sp.dataset.tot.split(':');
+    if(s==='dwellings'){
+      const d=M.dwellings[+i]; if(!d) return;
+      sp.textContent = nz((+d.build||0)+(+d.count||0)*(+d.site||0));
+    } else {
+      const l=M[s][+i]; if(!l) return;
+      sp.textContent = nz(lineTotal(l));
+      const row = sp.closest('.gf-line'); if(row) row.classList.toggle('is-off', !l.on);
+    }
+  });
+  render();
+}
+
+function setVal(id,v){
+  const el=document.getElementById(id);
+  if(el && document.activeElement!==el) el.value=v;
+}
+
+function render(){
+  const b = buildTotal(), d = deliveryTotal(), t = b + d;
+  const dw = Math.max(1, dwellCount());
+  const price = Math.max(1, +M.price||1);
+  const days = Math.max(1, Math.round(M.months*30.44));
+
+  document.getElementById('fig-build').textContent = nz(b);
+  document.getElementById('fig-deliv').textContent = nz(d);
+  document.getElementById('fig-total').textContent = nz(t);
+  const tr = taxRate();
+  document.getElementById('fig-gst').textContent = tr
+    ? `${M.cur} excl. tax · ${nz(t*tr)} ${M.taxLabel} · ${nz(t*(1+tr))} incl. ${fx(t*(1+tr))}`
+    : `${M.cur} · no tax applied ${fx(t)}`;
+  document.getElementById('bar-build').textContent = nz(b);
+  document.getElementById('bar-total').textContent = nz(t*(1+tr));
+
+  const mo = monthlyRecurring();
+  document.getElementById('recur').innerHTML = mo
+    ? `<b>${nz(mo)}</b> per month over ${M.months} months`
+    : 'No recurring component';
+
+  document.getElementById('fig-perUnit').textContent = nz(t/dw);
+  document.getElementById('fig-pctUnit').textContent = (t/price*100).toFixed(2)+'%';
+  document.getElementById('fig-pctGdv').textContent  = (t/(dw*price)*100).toFixed(3)+'%';
+  setVal('dwellCount', dwellCount());
+
+  const rows = [
+    ['Foundation',  sumLines(M.foundation)], ['Dwellings', dwellTotal()],
+    ['Shared site', sumLines(M.shared)],     ['Amenities', sumLines(M.amenities)],
+    ['Interaction', sumLines(M.interaction)],['Capture',   sumLines(M.capture)],
+    ['Planning',    sumLines(M.analysis)],   ['Marketing', sumLines(M.marketing)],
+    ['Add-ons',     sumLines(M.addons)],     ['Delivery',  d]
+  ].filter(r=>r[1]>0);
+  document.getElementById('sect-breakdown').innerHTML =
+    '<span class="gf-eyebrow" style="display:block;margin-bottom:8px">Where it goes</span>' +
+    rows.map(r=>`<div class="gf-srow"><span>${r[0]}</span><span>${nz(r[1])}</span></div>`).join('');
+
+  const gdv=dw*price, hold=gdv*(M.debt/100)*(M.rate/100)/365, margin=price*(M.devmargin/100);
+  document.getElementById('fig-gdv').textContent    = nz(gdv);
+  document.getElementById('fig-hold').textContent   = hold>0?nz(hold):'—';
+  document.getElementById('fig-margin').textContent = margin>0?nz(margin):'—';
+  document.getElementById('say-days').innerHTML  = hold>0
+    ? `Equals <b>${(t/hold).toFixed(1)} days</b> of their finance cost.` : '';
+  document.getElementById('say-sales').innerHTML = margin>0
+    ? `Equals the margin on <b>${(t/margin).toFixed(2)}</b> of one sale.` : '';
+
+  setVal('hostMonthly', M.hostMonthly);
+  setVal('supportMonthly', M.supportMonthly);
+  setVal('months', M.months);
+  const so=document.getElementById('supportOn'); if(so) so.checked=!!M.supportOn;
+  document.getElementById('out-months').textContent = M.months;
+  document.getElementById('hostTot').textContent = nz(M.months*(+M.hostMonthly||0));
+  document.getElementById('supTot').textContent  = M.supportOn?nz(M.months*(+M.supportMonthly||0)):'—';
+  document.getElementById('del-hosted').style.display = M.delivery==='hosted'?'':'none';
+  document.getElementById('del-local').style.display  = M.delivery==='local'?'':'none';
+  document.querySelectorAll('[data-del]').forEach(x=>x.classList.toggle('is-on',x.dataset.del===M.delivery));
+}
+
+/* ---------- printable quote ---------- */
+function qSection(title, lines){
+  const on = lines.filter(l=>l.on);
+  if(!on.length) return '';
+  return `<div class="q-sec"><h3>${title}</h3>` + on.map(l=>
+    `<div class="q-row"><span>${esc(l.n)}</span><span>${l.q}</span>
+     <span>${nz(l.r)}</span><span>${nz(lineTotal(l))}</span></div>`).join('') +
+    `<div class="q-row q-subtotal"><span>Subtotal</span><span></span><span></span>
+     <span>${nz(sumLines(lines))}</span></div></div>`;
+}
+
+function buildQuote(){
+  const b=buildTotal(), d=deliveryTotal(), t=b+d;
+  const dw=Math.max(1,dwellCount()), price=Math.max(1,+M.price||1);
+  const days=Math.max(1,Math.round(M.months*30.44));
+  const date=new Date().toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'});
+
+  const dwellRows = M.dwellings.map(x=>
+    `<div class="q-row"><span>${esc(x.n)}</span><span>${x.count}</span>
+     <span>${nz(x.build)} + ${nz(x.site)}/unit</span>
+     <span>${nz((+x.build||0)+(+x.count||0)*(+x.site||0))}</span></div>`).join('');
+
+  document.getElementById('quote').innerHTML = `
+  <div class="q-head">
+    <div><div class="q-mark">Glimmer<em>fell</em></div>
+      <div class="q-tag">Digital twins for property development</div></div>
+    <div class="q-meta">
+      ${M.qClient?`<b>${esc(M.qClient)}</b><br>`:''}
+      ${M.qProject?`${esc(M.qProject)}<br>`:''}
+      ${M.qRef?`Ref ${esc(M.qRef)}<br>`:''}${date}
+    </div>
+  </div>
+  <div class="q-title">Scope &amp; investment</div>
+
+  <div class="q-sec"><h3>Dwelling types</h3>${dwellRows}
+    <div class="q-row q-subtotal"><span>Subtotal</span><span>${dwellCount()} dwellings</span>
+      <span></span><span>${nz(dwellTotal())}</span></div></div>
+  ${qSection('Project foundation', M.foundation)}
+  ${qSection('Shared site &amp; infrastructure', M.shared)}
+  ${qSection('Amenity &amp; community buildings', M.amenities)}
+  ${qSection('Interaction', M.interaction)}
+  ${qSection('On-site capture &amp; photography', M.capture)}
+  ${qSection('Planning analysis &amp; consultation', M.analysis)}
+  ${qSection('Assets cut from the build', M.marketing)}
+  ${qSection('Add-on packages', M.addons)}
+  ${M.delivery==='local' ? qSection('On-site hardware', M.hardware) : ''}
+
+  <div class="q-totals">
+    <div class="q-trow"><span>Twin build — one-off</span><span>${nz(b)}</span></div>
+    <div class="q-trow"><span>Delivery &amp; hosting — ${M.months} month term${
+      monthlyRecurring()?` at ${nz(monthlyRecurring())}/month`:''}</span><span>${nz(d)}</span></div>
+    <div class="q-trow"><span>Subtotal excl. tax</span><span>${nz(t)}</span></div>
+    ${taxRate()?`<div class="q-trow"><span>${esc(M.taxLabel)}</span><span>${nz(t*taxRate())}</span></div>`:''}
+    <div class="q-trow q-grand"><span>Total${taxRate()?' incl. tax':''}</span><span>${nz(t*(1+taxRate()))}</span></div>
+    ${fx(t*(1+taxRate()))?`<div class="q-trow"><span>Indicative equivalent</span><span>${fx(t*(1+taxRate()))}</span></div>`:''}
+    <div class="q-note">All figures in ${esc(M.cur)}, which is the contract currency${
+      (+M.fxRate>0&&M.fxCur)?`; the ${esc(M.fxCur)} figure is indicative only and not fixed`:''}.
+      The twin build is a one-off cost.
+      Delivery and hosting continue at ${nz(monthlyRecurring())} per month and may be extended
+      or ended at the end of the term.</div>
+  </div>
+
+  <div class="q-scale">
+    <div><div class="q-sv">${nz(t/dw)}</div><div class="q-sl">Per dwelling</div></div>
+    <div><div class="q-sv">${(t/price*100).toFixed(2)}%</div><div class="q-sl">Of one asking price</div></div>
+    <div><div class="q-sv">${(t/(dw*price)*100).toFixed(3)}%</div><div class="q-sl">Of development value</div></div>
+  </div>
+
+  <div class="q-foot">
+    Scope as listed. Items not shown are excluded. Planning and consultation material is
+    prepared from client-supplied data together with our own site capture; it is presented
+    as evidence for the consenting authority to consider and carries no assurance of outcome.
+    Valid 30 days from the date above. glimmerfell.com
+  </div>`;
+}
+
+/* ---------- events ---------- */
+document.addEventListener('input', e=>{
+  const el=e.target;
+  if(el.type==='checkbox') return;                      // checkboxes handled on change
+  if(el.dataset.s!==undefined && el.dataset.t){
+    const {s,i,t}=el.dataset;
+    M[s][+i][t] = (t==='n') ? el.value : (parseFloat(el.value)||0);
+    updateTotals(); return;
+  }
+  if(['price','debt','rate','devmargin','months','hostMonthly','supportMonthly',
+      'taxRate','fxRate'].includes(el.id)){
+    M[el.id]=parseFloat(el.value)||0; render(); return;
+  }
+  if(['qClient','qProject','qRef','cur','sym','taxLabel','fxCur'].includes(el.id)){
+    M[el.id]=el.value; render(); return;
+  }
+});
+
+document.addEventListener('change', e=>{
+  const el=e.target;
+  if(el.dataset.t==='on'){
+    M[el.dataset.s][+el.dataset.i].on = el.checked?1:0; updateTotals(); return;
+  }
+  if(el.id==='supportOn'){ M.supportOn=el.checked; render(); }
+});
+
+document.addEventListener('click', e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.add){
+    const k=b.dataset.add;
+    M[k].push(k==='dwellings' ? {n:'New type',count:1,build:3000,site:200}
+                              : {n:'New line',q:1,r:0,on:1});
+    renderLines(); render(); return;
+  }
+  if(b.dataset.delLine){ M[b.dataset.delLine].splice(+b.dataset.i,1); renderLines(); render(); return; }
+  if(b.dataset.del){ M.delivery=b.dataset.del; render(); return; }
+  if(b.id==='btn-save'){ save(); return; }
+  if(b.id==='btn-print'){ buildQuote(); window.print(); return; }
+  if(b.id==='btn-reset'){
+    try{ localStorage.removeItem('gf-scope-v4'); }catch(e){}
+    M=defaults(); init(); return;
+  }
+  if(b.id==='pres-btn'){ return; }
+});
+
+function togglePres(){
+  const p=document.getElementById('pres'), b=document.getElementById('pres-btn');
+  if(!p||!b) return;
+  const o=p.classList.toggle('is-open');
+  b.setAttribute('aria-expanded',o);
+  const car=b.querySelector('span:last-child'); if(car) car.textContent=o?'\u2212':'+';
+}
+
+function init(){
+  buildSections();
+  ['price','debt','rate','devmargin','qClient','qProject','qRef',
+   'cur','sym','taxLabel','taxRate','fxCur','fxRate'].forEach(id=>setVal(id,M[id]));
+  try{ render(); }catch(e){ console.error('render',e); }
+  const pb=document.getElementById('pres-btn');
+  if(pb && !pb.dataset.bound){ pb.dataset.bound='1'; pb.addEventListener('click',togglePres); }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+else init();
+</script>
+</body>
+</html>
