@@ -163,6 +163,7 @@ body.sheet-open { overflow: hidden }
     <div class="tools">
       <button class="btn" id="helpBtn" type="button" aria-haspopup="dialog">How it works</button>
       <button class="btn" id="importBtn" type="button">Sync</button>
+      <button class="btn" id="exportBtn" type="button">Save to Drive</button>
       <button class="btn primary" id="addCompanyTop" type="button">+ Company</button>
       <input type="file" id="importFile" accept=".html,.htm,.json,text/html,application/json" multiple hidden>
     </div>
@@ -346,14 +347,14 @@ function helpSheet() {
       <p>One file in your Drive, <b>${DATA_NAME}</b>, holds the shared copy that all your devices sync with.</p>
       <dl class="help-steps">
         <dt>New device</dt><dd>Open this page, tap <b>Sync</b> and pick ${DATA_NAME} from Drive. Your list loads in.</dd>
-        <dt>Phone</dt><dd>Tap <b>Sync</b> and pick ${DATA_NAME} (if Drive shows copies such as outreach-data (1).json, select those too). Then tap <b>Save to Drive</b> and choose Drive in the share sheet. Drive keeps it as a copy; that is fine.</dd>
+        <dt>Phone</dt><dd>Before editing, tap <b>Sync</b> and pick ${DATA_NAME} to get the latest. When you are done, tap <b>Save to Drive</b> and choose Drive in the share sheet. Drive keeps the save as a copy such as outreach-data (1).json; your linked computer folds it in.</dd>
         <dt>Computer</dt><dd>In Chrome or Edge, click <b>Sync</b> once and pick the Drive folder that holds ${DATA_NAME}. The button then reads <b>Auto-sync on</b>: this computer syncs by itself while the page is open, picks up changes from other computers, and merges in copies saved from phones, then deletes them. After a browser restart, Chrome may ask you to click <b>Reconnect sync</b> once.</dd>
       </dl>
       <p>Syncing always merges, so no device can wipe out another's work. For each person the newest edit wins, and a deletion carries over to every device. You can only save to Drive straight after a merge.</p>
     </section>
     <section class="help-sec">
       <h4>Keeping the folder tidy</h4>
-      <p>A phone cannot overwrite a Drive file, so each phone save arrives as a copy like <b>outreach-data (1).json</b>. A linked computer folds those copies into ${DATA_NAME} and clears them away within a minute of seeing them. Without a linked computer, pick all the copies when you Sync on your phone, and delete the old ones in Drive now and then.</p>
+      <p>A phone cannot overwrite a Drive file, so each phone save arrives as a copy like <b>outreach-data (1).json</b>. A linked computer folds those copies into ${DATA_NAME} and clears them away within a minute of seeing them. Your phone never loses its own edits: it keeps them until they reach Drive, and syncing only ever adds newer changes.</p>
     </section>` : `
     <section class="help-sec">
       <h4>Where your list is kept</h4>
@@ -724,6 +725,9 @@ function syncButton() {
   b.textContent = auto ? "Auto-sync on" : needsReconnect ? "Reconnect sync" : "Sync";
   b.classList.toggle("on", auto);
   b.title = auto ? "This computer syncs with Drive by itself. Click to sync right now." : "";
+  const s = $("#exportBtn");
+  s.hidden = auto;
+  s.classList.toggle("primary", !auto && (readyToSave || pendingCount() > 0));
 }
 function updateBar() {
   if (!db) return;
@@ -732,12 +736,12 @@ function updateBar() {
   if (fileHandle && fileHandle.kind === "directory") return fileBar(`Synced with ${DATA_NAME} in your ${fileHandle.name} folder${checked}. Copies saved from phones are merged in and cleared away automatically.`, [["fsOpen", "Switch folder"]]);
   if (fileHandle) return fileBar("Synced with " + fileHandle.name + checked + ". Link the Drive folder instead so copies saved from phones get merged in too.", [["fsOpen", "Link folder"]], "warn");
   if (needsReconnect) return fileBar("Click Reconnect to keep syncing with " + needsReconnect + ".", [["fsReconnect", "Reconnect", true]], "warn");
-  if (readyToSave) return fileBar(`Merged with ${mergedFrom}. Save the combined list back to Drive, replacing the old ${DATA_NAME}.`, [["exportBtn", "Save to Drive", true]], "warn");
   const n = pendingCount();
   const link = CAN_FILE && LOCAL ? [["fsOpen", "Link Drive folder"]] : [];
-  if (!lastFile) return fileBar("Not synced with a Drive file yet. Tap Sync and pick " + DATA_NAME + ", or save a first file if you have none.", [["exportBtn", "Save first file"], ...link], n ? "warn" : "");
+  if (readyToSave) return fileBar(`Merged with ${mergedFrom}. Tap Save to Drive to back up the combined list.`, link, "warn");
+  if (!lastFile) return fileBar(`Not synced with Drive yet. Tap Sync to load ${DATA_NAME}, or Save to Drive to start one.`, link, n ? "warn" : "");
   const when = " Last synced " + shortDate(lastFile) + ".";
-  fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Sync and pick ${DATA_NAME} from Drive.${when}` : "Saved on this device and in step with Drive." + when, link, n ? "warn" : "");
+  fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Save to Drive to back ${n === 1 ? "it" : "them"} up.${when}` : "Saved on this device and in step with Drive." + when, link, n ? "warn" : "");
 }
 /* Drive names a phone's upload "outreach-data (1).json" and may save a shared title as a tiny .txt. */
 const COPY_RE = /^outreach-data(?: \(\d+\))?\.json$/i, JUNK_RE = /^outreach-data(?: \(\d+\))?\.json\.txt$/i;
