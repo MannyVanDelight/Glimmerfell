@@ -106,9 +106,10 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .fab { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 6; background: var(--gold); color: var(--white); border-color: var(--gold); box-shadow: 0 6px 20px rgba(0,0,0,.08) }
 .fab:hover { background: var(--gold-ink); border-color: var(--gold-ink) }
 
-.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 20; display: flex; align-items: flex-end; justify-content: center }
-.sheet { background: var(--white); width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; border-top: 2px solid var(--gold); padding: 22px max(18px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)) }
-@media (min-width: 640px) { .scrim { align-items: center } }
+.scrim { position: fixed; inset: 0; background: var(--scrim); z-index: 20; display: flex; flex-direction: column; align-items: center; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding-top: calc(32px + env(safe-area-inset-top, 0px)) }
+.sheet { background: var(--white); width: 100%; max-width: 560px; flex: none; margin-top: auto; border-top: 2px solid var(--gold); padding: 22px max(18px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)) }
+@media (min-width: 640px) { .scrim { padding-block: 40px } .sheet { margin-block: auto } }
+body.sheet-open { overflow: hidden }
 .sheet h3 { font-family: var(--serif); font-weight: 300; font-size: 26px; margin: 0 0 16px; line-height: 1.15 }
 .form { display: grid; gap: 14px }
 .field { display: grid; gap: 5px; min-width: 0 }
@@ -142,6 +143,8 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .actions .right { display: flex; gap: 8px; margin-left: auto }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--white); padding: 9px 16px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; z-index: 30 }
 .tools { display: flex; gap: 8px; flex-wrap: wrap }
+#importBtn.on { border-color: var(--ok); color: var(--ok) }
+#importBtn.on::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ok) }
 .mode { background: var(--paper); border-left: 2px solid var(--gold); color: var(--body); padding: 10px 12px; font-size: 12.5px; margin: 16px 0 0; display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap }
 .mode span { flex: 1 1 240px }
 .mode.warn { border-left-color: var(--due) }
@@ -161,7 +164,7 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
       <button class="btn" id="helpBtn" type="button" aria-haspopup="dialog">How it works</button>
       <button class="btn" id="importBtn" type="button">Sync</button>
       <button class="btn primary" id="addCompanyTop" type="button">+ Company</button>
-      <input type="file" id="importFile" accept=".html,.htm,.json,text/html,application/json" hidden>
+      <input type="file" id="importFile" accept=".html,.htm,.json,text/html,application/json" multiple hidden>
     </div>
   </header>
   <div class="mode" id="mode" hidden></div>
@@ -330,7 +333,7 @@ function companyHTML(co, ppl, all, isFolded) {
 }
 
 /* ---------- editing sheets ---------- */
-function closeModal() { $("#modal").innerHTML = ""; }
+function closeModal() { $("#modal").innerHTML = ""; document.body.classList.remove("sheet-open"); }
 
 function helpSheet() {
   const sync = LOCAL ? `
@@ -343,14 +346,14 @@ function helpSheet() {
       <p>One file in your Drive, <b>${DATA_NAME}</b>, holds the shared copy that all your devices sync with.</p>
       <dl class="help-steps">
         <dt>New device</dt><dd>Open this page, tap <b>Sync</b> and pick ${DATA_NAME} from Drive. Your list loads in.</dd>
-        <dt>Phone</dt><dd>Tap <b>Sync</b>, pick ${DATA_NAME}, then tap <b>Save to Drive</b> and replace the old file. On most phones Save opens the share sheet: choose Drive.</dd>
-        <dt>Computer</dt><dd>In Chrome or Edge, click <b>Link Drive file</b> once and pick ${DATA_NAME} in your Drive folder. From then on this computer syncs by itself and picks up changes made on other computers.</dd>
+        <dt>Phone</dt><dd>Tap <b>Sync</b> and pick ${DATA_NAME} (if Drive shows copies such as outreach-data (1).json, select those too). Then tap <b>Save to Drive</b> and choose Drive in the share sheet. Drive keeps it as a copy; that is fine.</dd>
+        <dt>Computer</dt><dd>In Chrome or Edge, click <b>Sync</b> once and pick the Drive folder that holds ${DATA_NAME}. The button then reads <b>Auto-sync on</b>: this computer syncs by itself while the page is open, picks up changes from other computers, and merges in copies saved from phones, then deletes them. After a browser restart, Chrome may ask you to click <b>Reconnect sync</b> once.</dd>
       </dl>
       <p>Syncing always merges, so no device can wipe out another's work. For each person the newest edit wins, and a deletion carries over to every device. You can only save to Drive straight after a merge.</p>
     </section>
     <section class="help-sec">
-      <h4>Keeping the file tidy</h4>
-      <p>Always replace ${DATA_NAME} rather than adding a second copy. If Drive ends up with <b>outreach-data (1).json</b>, sync with each file in turn, save, then delete the extra one.</p>
+      <h4>Keeping the folder tidy</h4>
+      <p>A phone cannot overwrite a Drive file, so each phone save arrives as a copy like <b>outreach-data (1).json</b>. A linked computer folds those copies into ${DATA_NAME} and clears them away within a minute of seeing them. Without a linked computer, pick all the copies when you Sync on your phone, and delete the old ones in Drive now and then.</p>
     </section>` : `
     <section class="help-sec">
       <h4>Where your list is kept</h4>
@@ -375,9 +378,10 @@ function helpSheet() {
 function openSheet(html, onMount) {
   $("#modal").innerHTML = `<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
   $("#scrim").addEventListener("click", e => { if (e.target.id === "scrim") closeModal(); });
+  document.body.classList.add("sheet-open");
   onMount && onMount();
   const first = $("#modal input, #modal select");
-  first && first.focus({ preventScroll: true });
+  if (first && !isPhone()) first.focus({ preventScroll: true });
 }
 
 function companySheet(co) {
@@ -547,7 +551,12 @@ document.addEventListener("click", e => {
   else if (t.id === "helpBtn" || t.id === "helpBtn2") helpSheet();
   else if (t.id === "helpClose") closeModal();
   else if (t.id === "exportBtn") exportFile();
-  else if (t.id === "importBtn") fileHandle ? syncFile(false).then(() => toast("Synced with " + fileHandle.name)) : $("#importFile").click();
+  else if (t.id === "importBtn") {
+    if (fileHandle) syncFile(true).then(() => toast("Synced just now"));
+    else if (needsReconnect) reconnect();
+    else if (CAN_FILE && LOCAL) openDataFile();
+    else $("#importFile").click();
+  }
   else if (t.id === "fsOpen") openDataFile();
   else if (t.id === "fsReconnect") reconnect();
   else if (t.id === "fab") companies.length ? personSheet(null) : companySheet(null);
@@ -625,7 +634,7 @@ async function exportFile() {
   }
   const file = new File([json], DATA_NAME, { type: "application/json" });
   if (isPhone() && navigator.canShare && navigator.canShare({ files: [file] })) {
-    try { await navigator.share({ files: [file], title: DATA_NAME }); done("Shared " + DATA_NAME); return; }
+    try { await navigator.share({ files: [file] }); done("Shared " + DATA_NAME); return; }
     catch (e) { if (e && e.name === "AbortError") return; }
   }
   const a = document.createElement("a");
@@ -670,19 +679,22 @@ function aheadOf(data) {
     || deleted.some(d => !goneInFile.has(d.id));
 }
 const mergedNote = r => r.added + r.updated + r.removed ? `${r.added} new, ${r.updated} updated, ${r.removed} removed` : "nothing new";
-async function importFile(file) {
-  let data;
-  try { data = readImport(await file.text()); } catch { toast("That file has no tracker data in it"); return; }
-  const r = await mergeData(data);
-  mergedFrom = file.name;
-  if (aheadOf(data)) { readyToSave = true; toast("Merged: " + mergedNote(r) + ". Now save it back to Drive."); }
-  else { readyToSave = false; markFiled(); toast("Merged: " + mergedNote(r) + ". Drive file is already up to date."); }
+async function importFiles(files) {
+  const read = [], total = { added: 0, updated: 0, removed: 0 };
+  for (const f of files) {
+    try { read.push(readImport(await f.text())); } catch {}
+  }
+  if (!read.length) { toast(files.length > 1 ? "Those files have no tracker data in them" : "That file has no tracker data in it"); return; }
+  for (const data of read) { const r = await mergeData(data); for (const k in total) total[k] += r[k]; }
+  mergedFrom = files.length > 1 ? files.length + " files" : files[0].name;
+  if (read.some(aheadOf)) { readyToSave = true; toast("Merged: " + mergedNote(total) + ". Now save it back to Drive."); }
+  else { readyToSave = false; markFiled(); toast("Merged: " + mergedNote(total) + ". Drive is already up to date."); }
   render();
 }
-$("#importFile").addEventListener("change", e => { const f = e.target.files[0]; e.target.value = ""; if (f && db) importFile(f); });
+$("#importFile").addEventListener("change", e => { const fs = [...e.target.files]; e.target.value = ""; if (fs.length && db) importFiles(fs); });
 
 /* ---------- data file linked straight to the tracker (Chrome and Edge on a computer) ---------- */
-const CAN_FILE = "showOpenFilePicker" in window && !isPhone();
+const CAN_FILE = "showDirectoryPicker" in window && !isPhone();
 let fileHandle = null, saveTimer = null, savedAt = null, needsReconnect = null, seenModified = 0, queue = Promise.resolve();
 function kv(val) {
   return new Promise(res => {
@@ -706,49 +718,81 @@ function fileBar(msg, buttons, tone) {
   m.classList.toggle("warn", tone === "warn"); m.hidden = false;
 }
 const shortDate = t => new Date(t).toLocaleDateString([], { day: "numeric", month: "short" });
+function syncButton() {
+  const b = $("#importBtn"); if (!b) return;
+  const auto = !!fileHandle;
+  b.textContent = auto ? "Auto-sync on" : needsReconnect ? "Reconnect sync" : "Sync";
+  b.classList.toggle("on", auto);
+  b.title = auto ? "This computer syncs with Drive by itself. Click to sync right now." : "";
+}
 function updateBar() {
   if (!db) return;
-  if (fileHandle) return fileBar("Synced with " + fileHandle.name + (savedAt ? ", last checked " + savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "") + ". Changes from other computers come in automatically.", [["fsOpen", "Switch file"]]);
+  syncButton();
+  const checked = savedAt ? ", last checked " + savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
+  if (fileHandle && fileHandle.kind === "directory") return fileBar(`Synced with ${DATA_NAME} in your ${fileHandle.name} folder${checked}. Copies saved from phones are merged in and cleared away automatically.`, [["fsOpen", "Switch folder"]]);
+  if (fileHandle) return fileBar("Synced with " + fileHandle.name + checked + ". Link the Drive folder instead so copies saved from phones get merged in too.", [["fsOpen", "Link folder"]], "warn");
   if (needsReconnect) return fileBar("Click Reconnect to keep syncing with " + needsReconnect + ".", [["fsReconnect", "Reconnect", true]], "warn");
   if (readyToSave) return fileBar(`Merged with ${mergedFrom}. Save the combined list back to Drive, replacing the old ${DATA_NAME}.`, [["exportBtn", "Save to Drive", true]], "warn");
   const n = pendingCount();
-  const link = CAN_FILE && LOCAL ? [["fsOpen", "Link Drive file"]] : [];
+  const link = CAN_FILE && LOCAL ? [["fsOpen", "Link Drive folder"]] : [];
   if (!lastFile) return fileBar("Not synced with a Drive file yet. Tap Sync and pick " + DATA_NAME + ", or save a first file if you have none.", [["exportBtn", "Save first file"], ...link], n ? "warn" : "");
   const when = " Last synced " + shortDate(lastFile) + ".";
   fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Sync and pick ${DATA_NAME} from Drive.${when}` : "Saved on this device and in step with Drive." + when, link, n ? "warn" : "");
 }
-/* Read the file, merge it in, then write the combined list. Runs one at a time. */
+/* Drive names a phone's upload "outreach-data (1).json" and may save a shared title as a tiny .txt. */
+const COPY_RE = /^outreach-data(?: \(\d+\))?\.json$/i, JUNK_RE = /^outreach-data(?: \(\d+\))?\.json\.txt$/i;
+async function folderFiles(dir) {
+  const out = [];
+  for await (const [name, h] of dir.entries()) if (h.kind === "file" && (COPY_RE.test(name) || JUNK_RE.test(name))) out.push([name, h]);
+  return out;
+}
+async function signature() {
+  if (fileHandle.kind !== "directory") return String((await fileHandle.getFile()).lastModified);
+  const parts = [];
+  for (const [name, h] of await folderFiles(fileHandle)) parts.push(name + ":" + (await h.getFile()).lastModified);
+  return parts.sort().join("|");
+}
+const writeJson = async h => { const w = await h.createWritable(); await w.write(JSON.stringify(snapshot(), null, 2)); await w.close(); };
+/* Read every copy, merge it in, write one combined outreach-data.json, then clear away the copies. Runs one at a time. */
 function syncFile(forceWrite) {
   queue = queue.then(async () => {
     if (!fileHandle) return;
-    const f = await fileHandle.getFile();
-    const text = await f.text();
-    const data = text.trim() ? readImport(text) : null;
-    if (data) await mergeData(data);
-    if (forceWrite || !data || aheadOf(data)) {
-      const w = await fileHandle.createWritable();
-      await w.write(JSON.stringify(snapshot(), null, 2));
-      await w.close();
+    if (fileHandle.kind === "directory") {
+      let main = null; const extras = [];
+      for (const [name, h] of await folderFiles(fileHandle)) {
+        const text = await (await h.getFile()).text();
+        if (JUNK_RE.test(name)) { if (!text.trim().startsWith("{") && text.length < 200) extras.push(name); continue; }
+        let data; try { data = readImport(text); } catch { continue; }
+        await mergeData(data);
+        if (name.toLowerCase() === DATA_NAME) main = data; else extras.push(name);
+      }
+      if (forceWrite || !main || extras.length || aheadOf(main)) await writeJson(await fileHandle.getFileHandle(DATA_NAME, { create: true }));
+      for (const name of extras) { try { await fileHandle.removeEntry(name); } catch {} }
+      if (extras.length) toast("Merged in and tidied " + extras.length + (extras.length === 1 ? " extra file" : " extra files"));
+    } else {
+      const text = await (await fileHandle.getFile()).text();
+      const data = text.trim() ? readImport(text) : null;
+      if (data) await mergeData(data);
+      if (forceWrite || !data || aheadOf(data)) await writeJson(fileHandle);
     }
-    seenModified = (await fileHandle.getFile()).lastModified;
+    seenModified = await signature();
     savedAt = new Date(); markFiled(); updateBar();
   }).catch(() => { if (fileHandle) { needsReconnect = fileHandle.name; fileHandle = null; updateBar(); } });
   return queue;
 }
-/* Pick up edits other computers made, as Drive syncs the file across. */
+/* Pick up edits other computers and phones made, as Drive syncs them across. */
 async function checkFile() {
   if (!fileHandle || document.hidden) return;
-  try { if ((await fileHandle.getFile()).lastModified !== seenModified) syncFile(false); } catch {}
+  try { if ((await signature()) !== seenModified) syncFile(false); } catch {}
 }
 async function attach(handle) {
   fileHandle = handle; needsReconnect = null;
   await syncFile(false);
   await kv(handle);
 }
-const JSON_TYPE = [{ description: "Tracker data", accept: { "application/json": [".json"] } }];
 async function openDataFile() {
-  try { const [h] = await showOpenFilePicker({ types: JSON_TYPE }); await attach(h); toast("Linked to " + h.name); }
-  catch (e) { if (e && e.name !== "AbortError") toast("Could not open that file"); }
+  try { const h = await showDirectoryPicker({ id: "outreach", mode: "readwrite" }); await attach(h); toast("Linked to your " + h.name + " folder"); }
+  catch (e) { if (e && e.name !== "AbortError") toast("Could not open that folder"); }
 }
 async function reconnect() {
   const h = await kv();
