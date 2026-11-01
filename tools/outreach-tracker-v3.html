@@ -135,6 +135,20 @@ body.sheet-open { overflow: hidden }
 .help-steps dt { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); padding-top: 3px }
 .help-steps dd { margin: 0 }
 @media (max-width: 420px) { .help-steps { grid-template-columns: 1fr; gap: 2px } .help-steps dd { margin-bottom: 8px } }
+.lastlog { grid-column: 1 / -1; font-size: 12.5px; color: var(--body) }
+.lastlog .ld, .log .ld { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); white-space: nowrap }
+.lastlog .lw, .log .lw { font-weight: 600; color: var(--ink) }
+.lastlog .lc { color: var(--muted); font-size: 11px }
+.log { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--hair); border: 1px solid var(--hair) }
+.log li { display: grid; grid-template-columns: auto auto 1fr auto; gap: 10px; align-items: baseline; background: var(--white); padding: 7px 8px; font-size: 13px }
+.log li.none { display: block; color: var(--muted) }
+.log .lt { min-width: 0; overflow-wrap: anywhere }
+.logdel { border: 0; background: none; color: var(--muted); font-size: 16px; line-height: 1; padding: 0 4px }
+.logdel:hover { color: var(--due) }
+.logadd { display: grid; grid-template-columns: 140px 120px 1fr auto; gap: 6px; margin-top: 6px }
+.logadd input, .logadd select { border: 1px solid var(--hair); background: var(--white); border-radius: 0; padding: 7px 8px; min-height: 38px; font-size: 13.5px; min-width: 0 }
+.logadd input:focus, .logadd select:focus { outline: none; border-color: var(--gold) }
+@media (max-width: 560px) { .logadd { grid-template-columns: 1fr 1fr } .logadd #pLogText { grid-column: 1 / -1 } .logadd .btn { grid-column: 1 / -1; justify-content: center } }
 .hint { font-size: 11.5px; color: var(--body); margin: 0; border-left: 2px solid var(--gold); padding: 2px 0 2px 10px; line-height: 1.5 }
 .inline { display: flex; gap: 8px; align-items: end }
 .inline .field { flex: 1 }
@@ -215,6 +229,10 @@ function stateOf(c) {
     if (ENDED.includes(c.stage)) return { key: "closed", label: c.stage };
     const d = daysUntil(c.nextDate);
     if (d !== null && d <= 1) return { key: "soon", label: (c.stage || "Replied") + ", " + when(d) };
+    if (c.waitingSince) {
+      const w = daysSince(c.waitingSince);
+      return w >= FOLLOW_DAYS ? { key: "due", label: "No reply in " + w + "d" } : { key: "replied", label: (c.stage || "Replied") + ", waiting on them" };
+    }
     return { key: "replied", label: c.stage || "Replied" };
   }
   if (c.status === "closed") return { key: "closed", label: "No response, left" };
@@ -294,17 +312,22 @@ function companyHTML(co, ppl, all, isFolded) {
   const rows = isFolded ? "" : ppl.map(p => {
     const st = stateOf(p);
     let quick = "";
-    if (st.key === "due") quick = `<button class="btn small" data-act="followed" data-id="${p.id}" type="button">Followed up today</button>`;
+    const talking = p.status === "replied";
+    if (st.key === "due") quick = `<button class="btn small" data-act="${talking ? "nudge" : "followed"}" data-id="${p.id}" type="button">Followed up today</button>`;
+    else if (talking && p.waitingSince && st.key !== "soon") quick = `<button class="btn small" data-act="theyreplied" data-id="${p.id}" type="button">They replied</button>`;
+    else if (talking && p.nextStep && st.key !== "closed") quick = `<button class="btn small" data-act="done" data-id="${p.id}" type="button">Mark done</button>`;
     else if (st.key === "stale") quick = `<button class="btn small" data-act="close" data-id="${p.id}" type="button">Leave it</button>`;
     else if (st.key === "waiting") quick = `<button class="btn small" data-act="heard" data-id="${p.id}" type="button">Heard back</button>`;
     else if (st.key === "draft") quick = `<button class="btn small" data-act="sent" data-id="${p.id}" type="button">Emailed today</button>`;
-    else if (st.key === "soon") quick = `<button class="btn small" data-act="update" data-id="${p.id}" type="button">Update next step</button>`;
+    else if (st.key === "soon") quick = `<button class="btn small" data-act="${p.nextStep ? "done" : "update"}" data-id="${p.id}" type="button">${p.nextStep ? "Mark done" : "Update"}</button>`;
     const dates = [];
     if (p.sentDate && p.status !== "draft") dates.push("Emailed " + fmt(p.sentDate));
     if (p.followUpDate) dates.push("Follow-up " + fmt(p.followUpDate));
     if (p.status === "replied" && p.replyDate) dates.push("Reply " + fmt(p.replyDate));
     const nd = p.status === "replied" && p.nextDate ? ` <span class="nd">${esc(fmt(p.nextDate))}</span>` : "";
     const next = p.status === "replied" && (p.nextStep || p.nextDate) ? `<div class="next"><b>Next:</b> ${esc(p.nextStep || "Next step")}${nd}</div>` : "";
+    const last = p.status === "replied" && (p.log || []).length ? p.log[p.log.length - 1] : null;
+    const lastLine = last ? `<div class="lastlog"><span class="ld">${esc(fmt(last.d))}</span> <span class="lw">${last.who === "them" ? "They" : "You"}:</span> ${esc(last.text)}${p.log.length > 1 ? ` <span class="lc">${p.log.length} entries</span>` : ""}</div>` : "";
     return `<div class="person${p.pinned ? " pinned" : ""}">
       <div class="who">
         <div class="nameline">
@@ -317,6 +340,7 @@ function companyHTML(co, ppl, all, isFolded) {
         </div>
       </div>
       <div class="side"><span class="pill ${st.key}">${esc(st.label)}</span>${quick}</div>
+      ${lastLine}
       ${next}
       ${dates.length ? `<div class="dates">${dates.map(esc).join("<span>·</span>")}</div>` : ""}
     </div>`;
@@ -370,6 +394,7 @@ function helpSheet() {
       <section class="help-sec">
         <h4>What comes first</h4>
         <p>Inside each company: anyone pinned with <b class="star">★</b>, then anyone who needs action now, then people you're talking to, then not emailed yet, then waiting, and closed last. Give a reply a <b>Next step date</b> and that person moves up the day before.</p>
+        <p>Once someone has replied, keep the thread in their <b>Conversation</b> log. When you have done the next step, tap <b>Mark done</b>: it is logged and the person shows as waiting on them. Tap <b>They replied</b> when they answer, and set your next step. No answer within ${FOLLOW_DAYS} days moves them into Act now for a follow-up.</p>
         <p>The counters at the top filter the list. Tap a company name to fold it to one line.</p>
       </section>
       ${sync}
@@ -456,6 +481,17 @@ function personSheet(p, companyId) {
           <div class="field"><label for="pNextDate">Next step date</label><input id="pNextDate" type="date" value="${esc(p.nextDate)}"></div>
         </div>
         <p class="hint">A meeting or next step dated today or tomorrow moves this person into Act now.</p>
+        <div class="field"><span class="lbl">Conversation</span>
+          <ol class="log" id="pLog"></ol>
+          <div class="logadd">
+            <input id="pLogDate" type="date" aria-label="Date">
+            <select id="pLogWho" aria-label="Who wrote"><option value="me">I wrote</option><option value="them">They wrote</option></select>
+            <input id="pLogText" placeholder="e.g. Asked if keen on a walkthrough" aria-label="What was said">
+            <button class="btn small" id="pLogAdd" type="button">Add</button>
+          </div>
+        </div>
+        <div class="field"><label for="pWait">Waiting on their reply since</label><input id="pWait" type="date" value="${esc(p.waitingSince)}">
+          <p class="hint">Filled in when you log something you wrote; cleared when they write back. No reply after ${FOLLOW_DAYS} days moves them into Act now.</p></div>
       </div>
       <div class="field"><label for="pNotes">Notes</label><textarea id="pNotes" placeholder="What they said, context, anything to remember">${esc(p.notes)}</textarea></div>
       <div class="actions">
@@ -478,6 +514,21 @@ function personSheet(p, companyId) {
       sync();
     });
     $("#followToday").onclick = () => { $("#pFollow").value = today(); };
+    p.log = [...(p.log || [])];
+    const drawLog = () => {
+      $("#pLog").innerHTML = p.log.length ? p.log.map((e, i) => `<li><span class="ld">${esc(fmt(e.d))}</span><span class="lw">${e.who === "them" ? "They" : "You"}</span><span class="lt">${esc(e.text)}</span><button class="logdel" data-logdel="${i}" type="button" aria-label="Remove entry">×</button></li>`).join("") : `<li class="none">Nothing logged yet.</li>`;
+    };
+    drawLog();
+    $("#pLogDate").value = today();
+    if (p._them) { $("#pLogWho").value = "them"; $("#pLogText").placeholder = "What did they say?"; }
+    $("#pLogAdd").onclick = () => {
+      const text = $("#pLogText").value.trim(); if (!text) { $("#pLogText").focus(); return; }
+      const e = { d: $("#pLogDate").value || today(), who: $("#pLogWho").value, text };
+      p.log.push(e); p.log.sort((a, b) => a.d.localeCompare(b.d));
+      $("#pWait").value = e.who === "me" ? e.d : "";
+      $("#pLogText").value = ""; drawLog();
+    };
+    $("#pLog").onclick = e => { const b = e.target.closest("[data-logdel]"); if (b) { p.log.splice(+b.dataset.logdel, 1); drawLog(); } };
     $("#cancel").onclick = closeModal;
     sync();
     $("#pForm").onsubmit = async e => {
@@ -485,7 +536,7 @@ function personSheet(p, companyId) {
       const data = {
         name: $("#pName").value.trim(), position: $("#pPos").value.trim(), email: $("#pEmail").value.trim(),
         companyId: $("#pCo").value, status: p.status, sentDate: $("#pSent").value, followUpDate: $("#pFollow").value,
-        replyDate: $("#pReply").value, stage: $("#pStage").value, nextStep: $("#pNext").value.trim(), nextDate: $("#pNextDate").value, pinned: !!p.pinned, notes: $("#pNotes").value.trim(),
+        replyDate: $("#pReply").value, stage: $("#pStage").value, nextStep: $("#pNext").value.trim(), nextDate: $("#pNextDate").value, log: p.log, waitingSince: $("#pWait").value, pinned: !!p.pinned, notes: $("#pNotes").value.trim(),
         createdAt: p.createdAt || Date.now(), updatedAt: Date.now()
       };
       if (!data.name || !data.companyId) return;
@@ -511,6 +562,15 @@ async function quick(id, act) {
   const p = contacts.find(c => c.id === id); if (!p) return;
   if (act === "heard") return personSheet({ ...p, status: "replied", replyDate: today() });
   if (act === "update") return personSheet(p);
+  if (act === "theyreplied") return personSheet({ ...p, waitingSince: "", _them: true });
+  if (act === "done" || act === "nudge") {
+    const d = act === "done" && p.nextDate && p.nextDate <= today() ? p.nextDate : today();
+    const entry = { d, who: "me", text: act === "done" ? (p.nextStep || "Next step done") : "Followed up" };
+    const patch = { log: [...(p.log || []), entry], waitingSince: d, updatedAt: Date.now() };
+    if (act === "done") { patch.nextStep = ""; patch.nextDate = ""; }
+    if (await write(() => db.doc("contacts/" + id).update(patch))) toast(act === "done" ? "Logged as done. Waiting on their reply." : "Follow-up logged");
+    return;
+  }
   const patch = { updatedAt: Date.now() };
   if (act === "followed") patch.followUpDate = today();
   if (act === "close") patch.status = "closed";
@@ -739,9 +799,12 @@ function updateBar() {
   const n = pendingCount();
   const link = CAN_FILE && LOCAL ? [["fsOpen", "Link Drive folder"]] : [];
   if (readyToSave) return fileBar(`Merged with ${mergedFrom}. Tap Save to Drive to back up the combined list.`, link, "warn");
-  if (!lastFile) return fileBar(`Not synced with Drive yet. Tap Sync to load ${DATA_NAME}, or Save to Drive to start one.`, link, n ? "warn" : "");
+  const noAuto = LOCAL && !CAN_FILE && !isPhone()
+    ? (navigator.brave ? " Brave has automatic sync switched off: turn on brave://flags/#file-system-access-api and restart Brave, or use Edge or Chrome." : " This browser cannot sync by itself: use Edge or Chrome for that.")
+    : "";
+  if (!lastFile) return fileBar(`Not synced with Drive yet. Tap Sync to load ${DATA_NAME}, or Save to Drive to start one.` + noAuto, link, n ? "warn" : "");
   const when = " Last synced " + shortDate(lastFile) + ".";
-  fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Save to Drive to back ${n === 1 ? "it" : "them"} up.${when}` : "Saved on this device and in step with Drive." + when, link, n ? "warn" : "");
+  fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Save to Drive to back ${n === 1 ? "it" : "them"} up.${when}` + noAuto : "Saved on this device and in step with Drive." + when + noAuto, link, n || noAuto ? "warn" : "");
 }
 /* Drive names a phone's upload "outreach-data (1).json" and may save a shared title as a tiny .txt. */
 const COPY_RE = /^outreach-data(?: \(\d+\))?\.json$/i, JUNK_RE = /^outreach-data(?: \(\d+\))?\.json\.txt$/i;
