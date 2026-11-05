@@ -74,7 +74,7 @@
         '<div><h4>Contact</h4><p style="margin-bottom:18px;max-width:34ch">Ready to remove spatial ambiguity from your next development?</p><ul>' +
           '<li><a href="mailto:manny@glimmerfell.com" style="border-bottom:1px solid rgba(197,160,89,.5);padding-bottom:2px">Email</a></li>' +
           '<li><a href="https://www.youtube.com/@Glimmerfell" target="_blank" rel="me noopener">YouTube</a></li>' +
-          '<li><a href="' + SITE + '">www.glimmerfell.com</a></li><li>New Zealand · Working internationally</li></ul></div>' +
+          '<li><a href="' + SITE + '">www.glimmerfell.com</a></li><li>New Zealand · Dubai</li></ul></div>' +
       '</div><div class="base"><div>© ' + new Date().getFullYear() + ' Glimmerfell Ltd. All rights reserved.</div><div>Digital Twin Sales Platform · 1:1 scale from your drawings · VR ready</div></div></footer>';
   }
 
