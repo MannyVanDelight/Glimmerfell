@@ -420,8 +420,8 @@ function companySheet(co) {
   openSheet(`<h3>${isNew ? "New company" : "Edit company"}</h3>
     <form class="form" id="coForm">
       <div class="field"><label for="coName">Company name</label><input id="coName" required value="${esc(co.name)}"></div>
-      <div class="field"><label for="coNote">Note (optional)</label><input id="coNote" value="${esc(co.note)}" placeholder="Website, how you found them, anything useful"></div>
-      <div class="field"><label for="coNotes">Notes</label><textarea id="coNotes" rows="8" placeholder="Where they stand, timing, the approach to take">${esc(co.notes)}</textarea></div>
+      <div class="field"><label for="coNote">Info (optional)</label><input id="coNote" value="${esc(co.note)}" placeholder="Website, how you found them, anything useful"></div>
+      <div class="field"><label for="coNotes">Approach notes</label><textarea id="coNotes" rows="8" placeholder="Where they stand, timing, the approach to take">${esc(co.notes)}</textarea></div>
       <div class="actions">
         ${isNew ? "" : `<button class="btn danger" id="coDel" type="button">Delete company</button>`}
         <div class="right"><button class="btn" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
