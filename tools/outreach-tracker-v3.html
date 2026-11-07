@@ -57,6 +57,10 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .chead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 6px }
 .chead h2 { font-family: var(--serif); font-weight: 400; font-size: 21px; line-height: 1.25; margin: 0; min-width: 0; overflow-wrap: anywhere; flex: 1 1 180px }
 .chead .note { width: 100%; color: var(--muted); font-size: 12.5px; margin: 0; max-width: 58ch }
+.conotes { width: 100%; margin: 2px 0 0; font-size: 13.5px; color: var(--body) }
+.conotes summary { cursor: pointer; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); padding: 4px 0; width: fit-content }
+.conotes summary:hover { color: var(--ink) }
+.conotes div { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--paper); border-left: 2px solid var(--gold); padding: 10px 12px; margin-top: 4px; max-width: 72ch; line-height: 1.55 }
 .chead .count { font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-variant-numeric: tabular-nums }
 .person { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; padding: 14px 0; border-top: 1px solid var(--hair); align-items: start }
 .who { min-width: 0 }
@@ -350,7 +354,7 @@ function companyHTML(co, ppl, all, isFolded) {
       <h2><button class="fold" data-fold="${co.id}" type="button" aria-expanded="${!isFolded}"><span class="chev" aria-hidden="true"></span>${esc(co.name) || "Untitled company"}</button></h2>
       <span class="count">${total} ${total === 1 ? "person" : "people"}</span>
       <button class="btn small ghost" data-editco="${co.id}" type="button">Edit</button>
-      ${isFolded ? `<p class="summary">${summaryOf(all)}</p>` : co.note ? `<p class="note">${esc(co.note)}</p>` : ""}
+      ${isFolded ? `<p class="summary">${summaryOf(all)}</p>` : (co.note ? `<p class="note">${esc(co.note)}</p>` : "") + (co.notes ? `<details class="conotes"><summary>Approach notes</summary><div>${esc(co.notes)}</div></details>` : "")}
     </div>
     ${rows}
     ${isFolded ? "" : `<div class="addp"><button class="btn small" data-addp="${co.id}" type="button">+ Add person</button></div>`}
@@ -412,11 +416,12 @@ function openSheet(html, onMount) {
 
 function companySheet(co) {
   const isNew = !co;
-  co = co || { name: "", note: "" };
+  co = co || { name: "", note: "", notes: "" };
   openSheet(`<h3>${isNew ? "New company" : "Edit company"}</h3>
     <form class="form" id="coForm">
       <div class="field"><label for="coName">Company name</label><input id="coName" required value="${esc(co.name)}"></div>
       <div class="field"><label for="coNote">Note (optional)</label><input id="coNote" value="${esc(co.note)}" placeholder="Website, how you found them, anything useful"></div>
+      <div class="field"><label for="coNotes">Notes</label><textarea id="coNotes" rows="8" placeholder="Where they stand, timing, the approach to take">${esc(co.notes)}</textarea></div>
       <div class="actions">
         ${isNew ? "" : `<button class="btn danger" id="coDel" type="button">Delete company</button>`}
         <div class="right"><button class="btn" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
@@ -425,7 +430,7 @@ function companySheet(co) {
     $("#cancel").onclick = closeModal;
     $("#coForm").onsubmit = async e => {
       e.preventDefault();
-      const data = { name: $("#coName").value.trim(), note: $("#coNote").value.trim(), createdAt: co.createdAt || Date.now(), updatedAt: Date.now() };
+      const data = { name: $("#coName").value.trim(), note: $("#coNote").value.trim(), notes: $("#coNotes").value.trim(), createdAt: co.createdAt || Date.now(), updatedAt: Date.now() };
       if (!data.name) return;
       const ref = isNew ? db.collection("companies").doc() : db.doc("companies/" + co.id);
       if (await write(() => ref.set(data))) { closeModal(); toast(isNew ? "Company added" : "Saved"); if (isNew) personSheet(null, ref.id); }
