@@ -89,6 +89,7 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .mail { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; display: inline-flex; gap: 8px; align-items: baseline; margin-top: 2px; font-variant-numeric: tabular-nums }
 .copy { border: 0; background: none; color: var(--gold-ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 0 }
 .copy:hover { text-decoration: underline }
+.tel { color: inherit; text-decoration: none } .tel:hover { color: var(--gold-ink); text-decoration: underline }
 .side { display: grid; justify-items: end; gap: 8px }
 .pill { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; padding: 4px 8px; white-space: nowrap; border: 1px solid transparent }
 .pill.due { color: var(--due); background: var(--due-bg) }
@@ -276,7 +277,7 @@ function render() {
   const q = query.trim().toLowerCase();
   const narrowed = filter !== "all" || !!q;
   const matchP = p => (filter === "all" || bucket(p) === filter) &&
-    (!q || [p.name, p.email, p.position, p.stage, p.nextStep, p.notes].some(v => (v || "").toLowerCase().includes(q)));
+    (!q || [p.name, p.email, p.phone, p.position, p.stage, p.nextStep, p.notes].some(v => (v || "").toLowerCase().includes(q)));
   const groups = companies.map(co => {
     const all = contacts.filter(p => p.companyId === co.id).sort(byPriority);
     return { co, all, act: all.filter(p => bucket(p) === "due").length, pins: all.filter(p => p.pinned).length };
@@ -341,6 +342,7 @@ function companyHTML(co, ppl, all, isFolded) {
         <div class="whobody" data-edit="${p.id}">
           ${p.position ? `<div class="pos">${esc(p.position)}</div>` : ""}
           ${p.email ? `<div class="mail"><span>${esc(p.email)}</span><button class="copy" data-copy="${esc(p.email)}" type="button">Copy</button></div>` : ""}
+          ${p.phone ? `<div class="mail"><a class="tel" href="tel:${esc(p.phone.replace(/[^\d+]/g, ""))}">${esc(p.phone)}</a><button class="copy" data-copy="${esc(p.phone)}" data-what="Phone" type="button">Copy</button></div>` : ""}
         </div>
       </div>
       <div class="side"><span class="pill ${st.key}">${esc(st.label)}</span>${quick}</div>
@@ -449,7 +451,7 @@ function companySheet(co) {
 
 function personSheet(p, companyId) {
   const isNew = !p;
-  p = p ? { ...p } : { name: "", email: "", position: "", companyId: companyId || (companies[0] && companies[0].id), status: "sent", sentDate: today(), followUpDate: "", replyDate: "", stage: "Replied", nextStep: "", notes: "" };
+  p = p ? { ...p } : { name: "", email: "", position: "", phone: "", companyId: companyId || (companies[0] && companies[0].id), status: "sent", sentDate: today(), followUpDate: "", replyDate: "", stage: "Replied", nextStep: "", notes: "" };
   const coOpts = [...companies].sort((a, b) => (a.name || "").localeCompare(b.name || ""))
     .map(c => `<option value="${c.id}" ${c.id === p.companyId ? "selected" : ""}>${esc(c.name)}</option>`).join("");
   openSheet(`<h3>${isNew ? "New person" : esc(p.name) || "Edit person"}</h3>
@@ -462,6 +464,7 @@ function personSheet(p, companyId) {
         <div class="field"><label for="pEmail">Email</label><input id="pEmail" type="email" inputmode="email" autocapitalize="off" value="${esc(p.email)}"></div>
         <div class="field"><label for="pCo">Company</label><select id="pCo">${coOpts}</select></div>
       </div>
+      <div class="field"><label for="pPhone">Phone</label><input id="pPhone" type="tel" inputmode="tel" autocomplete="off" value="${esc(p.phone)}" placeholder="e.g. +64 21 123 456"></div>
       <div class="field"><span class="lbl">Where it stands</span>
         <div class="seg" id="pStatus">
           ${[["draft", "Not sent"], ["sent", "Emailed"], ["replied", "Heard back"], ["closed", "Left it"]].map(([k, l]) =>
@@ -539,7 +542,7 @@ function personSheet(p, companyId) {
     $("#pForm").onsubmit = async e => {
       e.preventDefault();
       const data = {
-        name: $("#pName").value.trim(), position: $("#pPos").value.trim(), email: $("#pEmail").value.trim(),
+        name: $("#pName").value.trim(), position: $("#pPos").value.trim(), email: $("#pEmail").value.trim(), phone: $("#pPhone").value.trim(),
         companyId: $("#pCo").value, status: p.status, sentDate: $("#pSent").value, followUpDate: $("#pFollow").value,
         replyDate: $("#pReply").value, stage: $("#pStage").value, nextStep: $("#pNext").value.trim(), nextDate: $("#pNextDate").value, log: p.log, waitingSince: $("#pWait").value, pinned: !!p.pinned, notes: $("#pNotes").value.trim(),
         createdAt: p.createdAt || Date.now(), updatedAt: Date.now()
@@ -597,11 +600,12 @@ let tt; function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidd
 
 /* ---------- events ---------- */
 document.addEventListener("click", e => {
+  if (e.target.closest("a.tel")) return;
   const t = e.target.closest("button, [data-edit]"); if (!t) return;
   if (t.dataset.copy !== undefined) {
     e.stopPropagation();
     const v = t.dataset.copy;
-    try { navigator.clipboard.writeText(v).then(() => toast("Email copied"), () => toast(v)); } catch { toast(v); }
+    try { navigator.clipboard.writeText(v).then(() => toast((t.dataset.what || "Email") + " copied"), () => toast(v)); } catch { toast(v); }
     return;
   }
   if (!db) return;
