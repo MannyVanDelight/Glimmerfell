@@ -89,6 +89,12 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .mail { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; display: inline-flex; gap: 8px; align-items: baseline; margin-top: 2px; font-variant-numeric: tabular-nums }
 .copy { border: 0; background: none; color: var(--gold-ink); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 0 }
 .copy:hover { text-decoration: underline }
+.countries { display: inline-flex; flex-wrap: wrap; margin-top: 14px; border: 1px solid var(--hair) }
+.countries button { border: 0; border-left: 1px solid var(--hair); background: var(--white); color: var(--body); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 14px; min-height: 36px; transition: background .15s }
+.countries[hidden] { display: none }
+.countries button:first-child { border-left: 0 }
+.countries button:hover { color: var(--ink) }
+.countries button[aria-current="true"] { background: var(--gold); color: var(--white); cursor: default }
 .tel { color: inherit; text-decoration: none } .tel:hover { color: var(--gold-ink); text-decoration: underline }
 .side { display: grid; justify-items: end; gap: 8px }
 .pill { font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; padding: 4px 8px; white-space: nowrap; border: 1px solid transparent }
@@ -175,9 +181,10 @@ body.sheet-open { overflow: hidden }
 <div class="wrap">
   <header class="top">
     <div>
-      <span class="eyebrow">Outreach</span>
+      <span class="eyebrow" id="eyebrow">Outreach</span>
       <h1>Who we wrote to. Where it stands.</h1>
       <p class="sub">Who you emailed, who answered, and what happens next. Follow-ups come due after <span id="fdays">7</span> days.</p>
+      <nav class="countries" id="countries" aria-label="Country" hidden></nav>
     </div>
     <div class="tools">
       <button class="btn" id="helpBtn" type="button" aria-haspopup="dialog">How it works</button>
@@ -210,6 +217,29 @@ body.sheet-open { overflow: hidden }
 <script id="tracker-data" type="application/json" data-own>{"mode": "file", "companies": [], "contacts": [], "deleted": []}</script>
 <script data-own>
 const SEED = (() => { try { return JSON.parse(document.getElementById("tracker-data").textContent); } catch { return { companies: [], contacts: [] }; } })();
+/* ---------- countries: each has its own data file, its own copy on this device and its own Drive folder ---------- */
+const REGIONS = { nz: { label: "New Zealand", file: "outreach-nz.json" }, au: { label: "Australia", file: "outreach-au.json" }, dubai: { label: "Dubai", file: "outreach-dubai.json" } };
+const URLQ = new URLSearchParams(location.search);
+const REGION = (() => { let r = (URLQ.get("country") || "").toLowerCase(); if (!REGIONS[r]) { try { r = localStorage.getItem("outreach-country"); } catch {} } return REGIONS[r] ? r : "nz"; })();
+try { localStorage.setItem("outreach-country", REGION); } catch {}
+/* ?only=1 hides the switcher, for a link given to a collaborator in one country. */
+const LOCKED = URLQ.get("only") === "1";
+/* New Zealand keeps the original storage names, so its list on this device carries straight over. */
+const RKEY = s => REGION === "nz" ? s : s + "-" + REGION;
+/* A file with no country in it predates countries, so it is New Zealand's. */
+const regionOf = data => (data && data.region) || "nz";
+function drawCountries() {
+  $("#eyebrow").textContent = "Outreach · " + REGIONS[REGION].label;
+  document.title = "Outreach Tracker · " + REGIONS[REGION].label;
+  const nav = $("#countries");
+  nav.innerHTML = Object.entries(REGIONS).map(([k, r]) => `<button type="button" data-country="${k}" aria-current="${k === REGION}">${r.label}</button>`).join("");
+  nav.hidden = LOCKED || !LOCAL;
+}
+function goCountry(k) {
+  if (k === REGION || !REGIONS[k]) return;
+  const q = new URLSearchParams(location.search); q.set("country", k); q.delete("only");
+  location.search = q.toString();
+}
 const FOLLOW_DAYS = 7;
 const STAGES = ["Replied", "Call scheduled", "In discussion", "Sent materials", "Proposal sent", "Negotiating", "Agreed", "Declined"];
 const $ = s => document.querySelector(s);
@@ -260,7 +290,7 @@ const byPriority = (a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)
   || (a.createdAt || 0) - (b.createdAt || 0);
 
 /* Which companies are folded is a per-device convenience, kept in this browser only. */
-const FOLD_KEY = "outreach-folded";
+const FOLD_KEY = RKEY("outreach-folded");
 let folded = new Set();
 try { folded = new Set(JSON.parse(localStorage.getItem(FOLD_KEY)) || []); } catch {}
 const saveFolded = () => { try { localStorage.setItem(FOLD_KEY, JSON.stringify([...folded])); } catch {} };
@@ -402,6 +432,11 @@ function helpSheet() {
         <p>Inside each company: anyone pinned with <b class="star">★</b>, then anyone who needs action now, then people you're talking to, then not emailed yet, then waiting, and closed last. Give a reply a <b>Next step date</b> and that person moves up the day before.</p>
         <p>Once someone has replied, keep the thread in their <b>Conversation</b> log. When you have done the next step, tap <b>Mark done</b>: it is logged and the person shows as waiting on them. Tap <b>They replied</b> when they answer, and set your next step. No answer within ${FOLLOW_DAYS} days moves them into Act now for a follow-up.</p>
         <p>The counters at the top filter the list. Tap a company name to fold it to one line.</p>
+      </section>
+      <section class="help-sec">
+        <h4>Countries</h4>
+        <p>New Zealand, Australia and Dubai each keep their own list, saved on this device and synced to their own file: <b>outreach-nz.json</b>, <b>outreach-au.json</b> and <b>outreach-dubai.json</b>. Keep each file in its own Drive folder and link each country to its folder once. A file from another country is never merged in.</p>
+        <p>To share one country with a collaborator, share only that country's Drive folder and send them this page's link ending in <b>?country=au&amp;only=1</b> (or <b>nz</b>, <b>dubai</b>). They see just that country, with no switcher.</p>
       </section>
       ${sync}
     </div>
@@ -602,6 +637,7 @@ let tt; function toast(msg) { const t = $("#toast"); t.textContent = msg; t.hidd
 document.addEventListener("click", e => {
   if (e.target.closest("a.tel")) return;
   const t = e.target.closest("button, [data-edit]"); if (!t) return;
+  if (t.dataset.country) { goCountry(t.dataset.country); return; }
   if (t.dataset.copy !== undefined) {
     e.stopPropagation();
     const v = t.dataset.copy;
@@ -642,7 +678,7 @@ function fail(msg) { const b = $("#banner"); b.textContent = msg; b.hidden = fal
 /* ---------- this device's copy: same calls as the claude.ai store, kept in this browser ---------- */
 const COLS = ["companies", "contacts", "deleted"];
 function localStore(seed) {
-  const KEY = "outreach-tracker-v1";
+  const KEY = RKEY("outreach-tracker-v1");
   const toMap = arr => Object.fromEntries((arr || []).map(({ id, ...d }) => [id, d]));
   let st = null;
   try { st = JSON.parse(localStorage.getItem(KEY)); } catch {}
@@ -678,14 +714,14 @@ async function remove(col, id) {
 }
 
 /* ---------- saving and merging data files ---------- */
-const DATA_NAME = "outreach-data.json";
-const LAST_KEY = "outreach-last-file";
+const DATA_NAME = REGIONS[REGION].file;
+const LAST_KEY = RKEY("outreach-last-file");
 let lastFile = 0;
 try { lastFile = +localStorage.getItem(LAST_KEY) || 0; } catch {}
 const markFiled = () => { lastFile = Date.now(); try { localStorage.setItem(LAST_KEY, String(lastFile)); } catch {} };
 /* Deletion markers only need to outlive the slowest device's next sync; after 90 days they are dropped from files. */
 const MARKER_DAYS = 90;
-const snapshot = () => ({ format: "outreach-tracker", savedAt: Date.now(), companies, contacts,
+const snapshot = () => ({ format: "outreach-tracker", region: REGION, savedAt: Date.now(), companies, contacts,
   deleted: deleted.filter(d => Date.now() - (d.deletedAt || 0) < MARKER_DAYS * 864e5) });
 const pendingCount = () => [...companies, ...contacts].filter(x => (x.updatedAt || 0) > lastFile).length + deleted.filter(d => (d.deletedAt || 0) > lastFile).length;
 const isPhone = () => matchMedia("(pointer: coarse)").matches;
@@ -755,6 +791,13 @@ async function importFiles(files) {
     try { read.push(readImport(await f.text())); } catch {}
   }
   if (!read.length) { toast(files.length > 1 ? "Those files have no tracker data in them" : "That file has no tracker data in it"); return; }
+  const other = read.filter(d => regionOf(d) !== REGION);
+  if (other.length) {
+    const o = REGIONS[regionOf(other[0])];
+    toast((other.length === read.length ? "Not merged: " : "Skipped a file: ") + "that is the " + (o ? o.label : "other country's") + " list. Switch country first.");
+    read.splice(0, read.length, ...read.filter(d => regionOf(d) === REGION));
+    if (!read.length) return;
+  }
   for (const data of read) { const r = await mergeData(data); for (const k in total) total[k] += r[k]; }
   mergedFrom = files.length > 1 ? files.length + " files" : files[0].name;
   if (read.some(aheadOf)) { readyToSave = true; toast("Merged: " + mergedNote(total) + ". Now save it back to Drive."); }
@@ -774,7 +817,7 @@ function kv(val) {
       r.onsuccess = () => {
         try {
           const s = r.result.transaction("kv", val === undefined ? "readonly" : "readwrite").objectStore("kv");
-          const q = val === undefined ? s.get("dataFile") : s.put(val, "dataFile");
+          const q = val === undefined ? s.get("dataFile-" + REGION) : s.put(val, "dataFile-" + REGION);
           q.onsuccess = () => res(q.result); q.onerror = () => res(null);
         } catch { res(null); }
       };
@@ -816,7 +859,8 @@ function updateBar() {
   fileBar(n ? `${n} ${n === 1 ? "change" : "changes"} on this device only. Tap Save to Drive to back ${n === 1 ? "it" : "them"} up.${when}` + noAuto : "Saved on this device and in step with Drive." + when + noAuto, link, n || noAuto ? "warn" : "");
 }
 /* Drive names a phone's upload "outreach-data (1).json" and may save a shared title as a tiny .txt. */
-const COPY_RE = /^outreach-data(?: \(\d+\))?\.json$/i, JUNK_RE = /^outreach-data(?: \(\d+\))?\.json\.txt$/i;
+const FILE_BASE = DATA_NAME.replace(/\.json$/i, "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const COPY_RE = new RegExp("^" + FILE_BASE + "(?: \\(\\d+\\))?\\.json$", "i"), JUNK_RE = new RegExp("^" + FILE_BASE + "(?: \\(\\d+\\))?\\.json\\.txt$", "i");
 async function folderFiles(dir) {
   const out = [];
   for await (const [name, h] of dir.entries()) if (h.kind === "file" && (COPY_RE.test(name) || JUNK_RE.test(name))) out.push([name, h]);
@@ -839,6 +883,7 @@ function syncFile(forceWrite) {
         const text = await (await h.getFile()).text();
         if (JUNK_RE.test(name)) { if (!text.trim().startsWith("{") && text.length < 200) extras.push(name); continue; }
         let data; try { data = readImport(text); } catch { continue; }
+        if (regionOf(data) !== REGION) continue;
         await mergeData(data);
         if (name.toLowerCase() === DATA_NAME) main = data; else extras.push(name);
       }
@@ -848,6 +893,7 @@ function syncFile(forceWrite) {
     } else {
       const text = await (await fileHandle.getFile()).text();
       const data = text.trim() ? readImport(text) : null;
+      if (data && regionOf(data) !== REGION) { toast("That file is the " + ((REGIONS[regionOf(data)] || {}).label || "other") + " list. Link this country's own folder."); fileHandle = null; updateBar(); return; }
       if (data) await mergeData(data);
       if (forceWrite || !data || aheadOf(data)) await writeJson(fileHandle);
     }
@@ -867,7 +913,7 @@ async function attach(handle) {
   await kv(handle);
 }
 async function openDataFile() {
-  try { const h = await showDirectoryPicker({ id: "outreach", mode: "readwrite" }); await attach(h); toast("Linked to your " + h.name + " folder"); }
+  try { const h = await showDirectoryPicker({ id: "outreach-" + REGION, mode: "readwrite" }); await attach(h); toast("Linked to your " + h.name + " folder"); }
   catch (e) { if (e && e.name !== "AbortError") toast("Could not open that folder"); }
 }
 async function reconnect() {
@@ -898,6 +944,7 @@ async function boot() {
     db = localStore(SEED);
     startFileMode();
   } else db = await window.claude.use("db");
+  drawCountries();
   if (!db) { fail("Your list could not load here. Sign in to claude.ai with the account that owns this page, then reload."); $("#list").innerHTML = ""; return; }
   const onErr = e => fail("Lost the connection to your list (" + (e && e.code) + "). Reload the page.");
   db.collection("companies").onSnapshot(s => { companies = s.docs.map(d => ({ id: d.id, ...d.data() })); loaded.c = true; render(); }, onErr);
