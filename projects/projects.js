@@ -16,7 +16,7 @@
     ['Credentials',    SITE + '#credentials'],
     ['Projects',       HOME, 'here']
   ];
-  var CTA = ['Request a Demonstration', 'mailto:manny@glimmerfell.com'];
+  var CTA = ['Request a Demonstration', SITE + '#enquire'];
   /* ─────────────────────────────────────────────────────────────────────── */
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -72,7 +72,7 @@
         '<div><h3>Glimmerfell</h3><p>Glimmerfell transforms architectural data into interactive 1:1 scale digital twins that let buyers, planners and communities see a development before it is built, for off-plan pre-sales and planning approvals. Built to feature-film and regulated-industry production standards.</p></div>' +
         '<div><h4>Explore</h4><ul>' + MENU.map(function (m) { return '<li><a href="' + m[1] + '">' + (m[0] === 'Credentials' ? 'Production Credentials' : m[0]) + '</a></li>'; }).join('') + '</ul></div>' +
         '<div><h4>Contact</h4><p style="margin-bottom:18px;max-width:34ch">Ready to remove spatial ambiguity from your next development?</p><ul>' +
-          '<li><a href="mailto:manny@glimmerfell.com" style="border-bottom:1px solid rgba(197,160,89,.5);padding-bottom:2px">Email</a></li>' +
+          '<li><a href="' + SITE + '#enquire" style="border-bottom:1px solid rgba(197,160,89,.5);padding-bottom:2px">Send an enquiry</a></li>' +
           '<li><a href="https://www.youtube.com/@Glimmerfell" target="_blank" rel="me noopener">YouTube</a></li>' +
           '<li><a href="' + SITE + '">www.glimmerfell.com</a></li><li>New Zealand · Dubai</li></ul></div>' +
       '</div><div class="base"><div>© ' + new Date().getFullYear() + ' Glimmerfell Ltd. All rights reserved.</div><div>Digital Twin Sales Platform · 1:1 scale from your drawings · VR ready</div></div></footer>';
