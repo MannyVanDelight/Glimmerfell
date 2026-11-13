@@ -671,6 +671,7 @@ document.addEventListener("click", e => {
   else if (t.id === "exportBtn") exportFile();
   else if (t.id === "importBtn") {
     if (fileHandle) syncFile(true).then(() => toast("Synced just now"));
+    else if (linkProblem) openDataFile();
     else if (needsReconnect) reconnect();
     else if (CAN_FILE && LOCAL) openDataFile();
     else $("#importFile").click();
@@ -960,6 +961,7 @@ $("#importFile").addEventListener("change", e => { const fs = [...e.target.files
 /* ---------- data file linked straight to the tracker (Chrome and Edge on a computer) ---------- */
 const CAN_FILE = "showDirectoryPicker" in window && !isPhone();
 let fileHandle = null, saveTimer = null, savedAt = null, needsReconnect = null, seenModified = 0, queue = Promise.resolve();
+let storedHandle = null, linkProblem = "";
 function kv(val) {
   return new Promise(res => {
     try {
@@ -985,7 +987,7 @@ const shortDate = t => new Date(t).toLocaleDateString([], { day: "numeric", mont
 function syncButton() {
   const b = $("#importBtn"); if (!b) return;
   const auto = !!fileHandle;
-  b.textContent = auto ? "Auto-sync on" : needsReconnect ? "Reconnect sync" : "Sync";
+  b.textContent = auto ? "Auto-sync on" : linkProblem ? "Pick folder" : needsReconnect ? "Reconnect sync" : "Sync";
   b.classList.toggle("on", auto);
   b.title = auto ? "This computer syncs with Drive by itself. Click to sync right now." : "";
   const s = $("#exportBtn");
@@ -998,6 +1000,7 @@ function updateBar() {
   const checked = savedAt ? ", last checked " + savedAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
   if (fileHandle && fileHandle.kind === "directory") return fileBar(`Synced with ${DATA_NAME} in your ${fileHandle.name} folder${checked}. Copies saved from phones are merged in and cleared away automatically.`, [["fsOpen", "Switch folder"]]);
   if (fileHandle) return fileBar("Synced with " + fileHandle.name + checked + ". Link the Drive folder instead so copies saved from phones get merged in too.", [["fsOpen", "Link folder"]], "warn");
+  if (linkProblem) return fileBar(linkProblem, [["fsOpen", "Pick folder", true]], "warn");
   if (needsReconnect) return fileBar("Click Reconnect to keep syncing with " + needsReconnect + ".", [["fsReconnect", "Reconnect", true]], "warn");
   const n = pendingCount();
   const link = CAN_FILE && LOCAL ? [["fsOpen", "Link Drive folder"]] : [];
@@ -1058,19 +1061,35 @@ async function checkFile() {
   if (!fileHandle || document.hidden) return;
   try { if ((await signature()) !== seenModified) syncFile(false); } catch {}
 }
+/* Links a folder and syncs once; says so on the page if the folder cannot be read. */
 async function attach(handle) {
-  fileHandle = handle; needsReconnect = null;
+  fileHandle = handle; needsReconnect = null; linkProblem = "";
   await syncFile(false);
+  if (!fileHandle) {
+    needsReconnect = null;
+    linkProblem = `Could not read the ${handle.name} folder. It may have been moved or renamed. Pick the folder that holds ${DATA_NAME}.`;
+    updateBar(); return false;
+  }
+  storedHandle = handle;
   await kv(handle);
+  return true;
 }
 async function openDataFile() {
-  try { const h = await showDirectoryPicker({ id: "outreach-" + REGION, mode: "readwrite" }); await attach(h); toast("Linked to your " + h.name + " folder"); }
-  catch (e) { if (e && e.name !== "AbortError") toast("Could not open that folder"); }
+  try { const h = await showDirectoryPicker({ id: "outreach-" + REGION, mode: "readwrite" }); if (await attach(h)) toast("Linked to your " + h.name + " folder"); }
+  catch (e) { if (e && e.name !== "AbortError") toast("Could not open the folder picker. Click Pick folder again."); }
 }
+/* One click asks the browser for access again. If that fails, the page offers Pick folder, which needs a click of its own. */
 async function reconnect() {
-  const h = await kv();
-  try { if (h && (await h.requestPermission({ mode: "readwrite" })) === "granted") return attach(h); } catch {}
-  openDataFile();
+  const h = storedHandle;
+  if (!h) return openDataFile();
+  let state;
+  try { state = await h.requestPermission({ mode: "readwrite" }); } catch { state = "error"; }
+  if (state === "granted") { if (await attach(h)) toast("Auto-sync is back on"); return; }
+  needsReconnect = null;
+  linkProblem = state === "error"
+    ? `Could not reopen the ${h.name} folder. It may have been moved or renamed. Pick the folder that holds ${DATA_NAME}.`
+    : `Access to the ${h.name} folder was not allowed. Pick the folder again to turn auto-sync back on.`;
+  updateBar();
 }
 async function startFileMode() {
   db.onChange(() => {
@@ -1084,6 +1103,7 @@ async function startFileMode() {
   if (!CAN_FILE) return;
   const h = await kv();
   if (!h) return;
+  storedHandle = h;
   try { if ((await h.queryPermission({ mode: "readwrite" })) === "granted") return attach(h); } catch {}
   needsReconnect = h.name; updateBar();
 }
