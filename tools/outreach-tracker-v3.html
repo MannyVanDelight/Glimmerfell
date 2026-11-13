@@ -168,6 +168,16 @@ body.sheet-open { overflow: hidden }
 .actions .right { display: flex; gap: 8px; margin-left: auto }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--white); padding: 9px 16px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; z-index: 30 }
 .tools { display: flex; gap: 8px; flex-wrap: wrap }
+#pasteNewWrap[hidden] { display: none }
+.pastelist { display: grid; gap: 14px }
+.pastegroup h4 { margin: 0 0 2px; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); font-weight: 400 }
+.pastegroup h4.missing { color: var(--due) }
+.pasterow { display: grid; grid-template-columns: auto 1fr; gap: 0 10px; padding: 8px 0; border-top: 1px solid var(--hair); font-size: 13px; cursor: pointer; align-items: start }
+.pasterow input { margin-top: 3px; accent-color: var(--gold) }
+.pasterow b { font-weight: 600 }
+.pasterow span { display: block; min-width: 0; overflow-wrap: anywhere }
+.pasterow small { display: block; color: var(--muted); font-size: 12px }
+.pasterow em { font-style: normal; color: var(--due); font-size: 11px }
 #importBtn.on { border-color: var(--ok); color: var(--ok) }
 #importBtn.on::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ok) }
 .mode { background: var(--paper); border-left: 2px solid var(--gold); color: var(--body); padding: 10px 12px; font-size: 12.5px; margin: 16px 0 0; display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap }
@@ -190,6 +200,7 @@ body.sheet-open { overflow: hidden }
       <button class="btn" id="helpBtn" type="button" aria-haspopup="dialog">How it works</button>
       <button class="btn" id="importBtn" type="button">Sync</button>
       <button class="btn" id="exportBtn" type="button">Save to Drive</button>
+      <button class="btn" id="pasteBtn" type="button">Paste list</button>
       <button class="btn primary" id="addCompanyTop" type="button">+ Company</button>
       <input type="file" id="importFile" accept=".html,.htm,.json,text/html,application/json" multiple hidden>
     </div>
@@ -424,7 +435,7 @@ function helpSheet() {
     <div class="help">
       <section class="help-sec">
         <h4>Your list</h4>
-        <p>Add a company with <b>+ Company</b>, then the people you wrote to there. Tap a name to edit it. Each person moves through <b>Not sent</b>, <b>Emailed</b>, then <b>Heard back</b> or <b>Left it</b>.</p>
+        <p>Add a company with <b>+ Company</b>, then the people you wrote to there. To add several people at once, tap <b>Paste list</b> and paste rows copied from a spreadsheet or a table. Tap a name to edit it. Each person moves through <b>Not sent</b>, <b>Emailed</b>, then <b>Heard back</b> or <b>Left it</b>.</p>
         <p>If someone hasn't replied ${FOLLOW_DAYS} days after you emailed, they show <span class="pill due">Follow-up due</span>. Log the follow-up, and if that also gets nothing after ${FOLLOW_DAYS} days, choose <b>Leave it</b>.</p>
       </section>
       <section class="help-sec">
@@ -654,6 +665,7 @@ document.addEventListener("click", e => {
   else if (t.dataset.editco) companySheet(companies.find(c => c.id === t.dataset.editco));
   else if (t.dataset.addp) personSheet(null, t.dataset.addp);
   else if (t.id === "addCompanyTop") companySheet(null);
+  else if (t.id === "pasteBtn") pasteSheet();
   else if (t.id === "helpBtn" || t.id === "helpBtn2") helpSheet();
   else if (t.id === "helpClose") closeModal();
   else if (t.id === "exportBtn") exportFile();
@@ -672,6 +684,145 @@ document.addEventListener("keydown", e => {
   if ((e.key === "Enter" || e.key === " ") && e.target.dataset && e.target.dataset.edit) { e.preventDefault(); e.target.click(); }
 });
 $("#search").addEventListener("input", e => { query = e.target.value; render(); });
+
+/* ---------- paste a table of contacts ---------- */
+const HEADS = { name: /^(person|name|contact|full name)$/i, position: /^(role|position|title|job title)$/i, email: /e-?mail/i, phone: /phone|mobile|tel/i, notes: /^(why|notes?|comments?)/i };
+function splitCells(line, delim) {
+  if (delim === "|") return line.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(s => s.trim());
+  if (delim !== ",") return line.split(delim).map(s => s.trim());
+  const out = []; let cur = "", q = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { if (q && line[i + 1] === '"') { cur += '"'; i++; } else q = !q; }
+    else if (ch === "," && !q) { out.push(cur.trim()); cur = ""; }
+    else cur += ch;
+  }
+  out.push(cur.trim());
+  return out;
+}
+/* Turns pasted rows into [{ company, people }]. A company name alone on a line above a table starts a new group. */
+function parsePaste(text) {
+  const lines = text.replace(/\r/g, "").split("\n").filter(l => l.trim() && !/^[\s|:-]+$/.test(l));
+  const count = re => lines.filter(l => re.test(l)).length;
+  const delim = count(/\t/) ? "\t" : count(/\|/) >= lines.length / 2 ? "|" : count(/,/) >= lines.length / 2 ? "," : "\t";
+  const rows = lines.map(l => splitCells(l, delim));
+  const filled = r => r.filter(Boolean).length;
+  const bare = c => c.replace(/\(.*\)/, "").trim();
+  const groups = []; let g = null, map = null, inferred = false;
+  const open = company => { g = { company, people: [] }; groups.push(g); };
+  rows.forEach((cells, i) => {
+    const next = rows[i + 1], prev = rows[i - 1], all = cells.join("");
+    if (filled(cells) === 1 && !/@/.test(all) && next && filled(next) > 1 && (!prev || filled(prev) > 1)) { open(cells.find(Boolean)); map = null; return; }
+    if (!/@/.test(all) && cells.filter(c => Object.values(HEADS).some(re => re.test(bare(c)))).length >= 2) {
+      map = cells.map(c => (Object.entries(HEADS).find(([, re]) => re.test(bare(c))) || [/^(#|no\.?)$/i.test(bare(c)) || !c ? "skip" : "extra:" + c])[0]);
+      inferred = cells.some(c => /e-?mail/i.test(c) && /inferred|guess/i.test(c));
+      return;
+    }
+    if (!g) open(null);
+    const p = { name: "", position: "", email: "", phone: "" }, notes = [];
+    let emailCell = "";
+    if (map) cells.forEach((c, j) => {
+      const k = map[j]; if (!c || !k || k === "skip") return;
+      if (k === "email") emailCell = c; else if (k === "notes") notes.push(c); else if (k.startsWith("extra:")) notes.push(k.slice(6) + ": " + c); else p[k] = c;
+    });
+    else {
+      const rest = [];
+      cells.forEach((c, j) => {
+        if (!c || (j === 0 && /^(\d+\.?|[–-])$/.test(c))) return;
+        if (/@/.test(c) && !emailCell) emailCell = c; else if (/^\+?[\d\s()-]{7,}$/.test(c) && !p.phone) p.phone = c; else rest.push(c);
+      });
+      p.name = rest.shift() || ""; p.position = rest.shift() || ""; notes.push(...rest);
+    }
+    const m = emailCell.match(/[A-Z0-9._%+-]+@[A-Z0-9-]+(\.[A-Z0-9-]+)+/i);
+    const extra = emailCell.replace(m ? m[0] : "", "").replace(/[✅⚠️]/g, "").trim();
+    const en = [];
+    if (m) {
+      p.email = m[0];
+      if (/✅/.test(emailCell)) en.push("Email confirmed."); else if (/⚠/.test(emailCell) || inferred) en.push("Email not confirmed.");
+      if (extra.length > 2) en.push(extra);
+    } else if (extra && !/^[–-]$/.test(extra)) en.push("Email: " + extra);
+    p.notes = [...en, ...notes].join(" ");
+    if (p.name) g.people.push(p);
+  });
+  return groups.filter(x => x.people.length);
+}
+function pasteSheet() {
+  const coOpts = [...companies].sort((a, b) => (a.name || "").localeCompare(b.name || "")).map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join("");
+  openSheet(`<h3>Paste contacts</h3>
+    <form class="form" id="pasteForm">
+      <p class="hint">Copy rows from a spreadsheet, a table or a chat and paste them below. Columns are picked up from their headings: Person, Role, Email, Phone, Why them. A company name on its own line above a table starts a new company.</p>
+      <div class="row2">
+        <div class="field"><label for="pasteCo">Add to</label><select id="pasteCo"><option value="">A new company</option>${coOpts}</select></div>
+        <div class="field" id="pasteNewWrap"><label for="pasteNew">New company name</label><input id="pasteNew" autocomplete="off"></div>
+      </div>
+      <div class="field"><label for="pasteText">Pasted rows</label><textarea id="pasteText" rows="6" placeholder="Person&#9;Role&#9;Email&#10;Jane Doe&#9;Head of Sales&#9;jane@example.com"></textarea></div>
+      <div id="pastePreview" class="pastelist"></div>
+      <div class="actions"><div class="right"><button class="btn" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit" id="pasteGo" disabled>Add people</button></div></div>
+    </form>`, () => {
+    let groups = [];
+    const same = (a, b) => (a || "").trim().toLowerCase() === (b || "").trim().toLowerCase();
+    const target = g => {
+      const sel = $("#pasteCo").value;
+      if (!g.company && sel) { const co = companies.find(c => c.id === sel); return { name: co.name, existing: co }; }
+      const name = g.company || $("#pasteNew").value.trim();
+      return { name, existing: name ? companies.find(c => same(c.name, name)) : null };
+    };
+    const tally = () => {
+      const n = document.querySelectorAll("#pastePreview input:checked").length;
+      const unnamed = groups.some((g, gi) => !target(g).name && document.querySelector(`#pastePreview input[data-g="${gi}"]:checked`));
+      $("#pasteGo").textContent = n ? `Add ${n} ${n === 1 ? "person" : "people"}` : "Add people";
+      $("#pasteGo").disabled = !n || unnamed;
+    };
+    const draw = () => {
+      groups = parsePaste($("#pasteText").value);
+      $("#pasteNewWrap").hidden = !!$("#pasteCo").value;
+      $("#pastePreview").innerHTML = groups.map((g, gi) => {
+        const t = target(g);
+        const have = t.existing ? contacts.filter(c => c.companyId === t.existing.id) : [];
+        const rows = g.people.map((p, i) => {
+          const dup = have.some(c => (p.email && same(c.email, p.email)) || same(c.name, p.name));
+          const off = dup || /^fallback$/i.test(p.name);
+          return `<label class="pasterow"><input type="checkbox" data-g="${gi}" data-i="${i}" ${off ? "" : "checked"}>
+            <span><b>${esc(p.name)}</b>${p.position ? ", " + esc(p.position) : ""}${dup ? " <em>already in the list</em>" : ""}
+            <small>${esc([p.email, p.phone].filter(Boolean).join(" · ") || "No email")}</small>${p.notes ? `<small>${esc(p.notes)}</small>` : ""}</span></label>`;
+        }).join("");
+        return `<div class="pastegroup"><h4 class="${t.name ? "" : "missing"}">${t.name ? esc(t.name) + (t.existing ? "" : " · new company") : "Name the company above"}</h4>${rows}</div>`;
+      }).join("") || ($("#pasteText").value.trim() ? `<p class="hint">No people found in that text yet.</p>` : "");
+      tally();
+    };
+    $("#pasteText").addEventListener("input", draw);
+    $("#pasteCo").addEventListener("change", draw);
+    $("#pasteNew").addEventListener("input", draw);
+    $("#pastePreview").addEventListener("change", tally);
+    $("#cancel").onclick = closeModal;
+    draw();
+    $("#pasteForm").onsubmit = async e => {
+      e.preventDefault();
+      $("#pasteGo").disabled = true;
+      let n = 0; const into = new Set();
+      for (let gi = 0; gi < groups.length; gi++) {
+        const picked = groups[gi].people.filter((p, i) => { const b = document.querySelector(`#pastePreview input[data-g="${gi}"][data-i="${i}"]`); return b && b.checked; });
+        if (!picked.length) continue;
+        const t = target(groups[gi]), now = Date.now();
+        let coId = t.existing && t.existing.id;
+        if (!coId) {
+          const ref = db.collection("companies").doc();
+          if (!(await write(() => ref.set({ name: t.name, note: "", notes: "", createdAt: now, updatedAt: now })))) return;
+          coId = ref.id;
+        }
+        into.add(t.name);
+        for (let i = 0; i < picked.length; i++) {
+          const p = picked[i], ref = db.collection("contacts").doc();
+          if (await write(() => ref.set({ name: p.name, position: p.position, email: p.email, phone: p.phone, companyId: coId, status: "draft",
+            sentDate: "", followUpDate: "", replyDate: "", stage: "Replied", nextStep: "", nextDate: "", log: [], waitingSince: "", pinned: false,
+            notes: p.notes, createdAt: now + i + 1, updatedAt: now + i + 1 }))) n++;
+        }
+      }
+      closeModal();
+      toast(`Added ${n} ${n === 1 ? "person" : "people"} to ${into.size === 1 ? [...into][0] : into.size + " companies"}`);
+    };
+  });
+}
 
 /* ---------- data ---------- */
 function fail(msg) { const b = $("#banner"); b.textContent = msg; b.hidden = false; }
