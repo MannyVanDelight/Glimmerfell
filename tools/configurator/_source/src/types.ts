@@ -339,6 +339,10 @@ export interface Look {
     sheerGlow?: number;
     /** Largest texture edge loaded for finishes (px). */
     maxTextureSize?: number;
+    /** Phones / tablets: largest edge of every texture except baked light (px, default 512). */
+    lowMemoryTextureSize?: number;
+    /** Phones / tablets: largest edge of baked light textures (px, default 1024). */
+    lowMemoryLightmapSize?: number;
 }
 
 export interface Config {

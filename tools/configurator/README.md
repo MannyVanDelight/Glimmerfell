@@ -304,3 +304,12 @@ project folder `D:\_ACTIVE\WebConfigurator`. The same code runs in both layouts.
 | A finish doesn't appear in a list | Its texture set isn't in `manifest.json` (the console names it), or the part's family excludes its category. |
 | A look sets something else than written | A value that doesn't exist falls back to the default, or a tap the vanity doesn't take is replaced by the vanity's default tap. |
 | Old share link opens the default room | A slot or option was renamed; add the old name to `legacyParams` / `viewAliases`. |
+| The page reloads by itself on a phone | The phone ran out of graphics memory. Phones and tablets get a low-memory mode (below); check that the new models or textures aren't much larger than the existing ones. |
+
+**Phones and tablets (low-memory mode).** On touch screens the browser gets far less graphics
+memory, and iOS Safari reloads the tab when it runs out. There, textures load at 512 px and baked
+light at 1024 px (`look.lowMemoryTextureSize` / `look.lowMemoryLightmapSize` in `config.json`), and
+models and finish textures that are no longer on screen are released shortly after a change.
+Measured on an iPhone-sized screen: about 260 MB right after loading and about 300 MB after trying
+every look, against about 600 MB and 1.2 GB (still growing) without it. Add `?mem=low` or `?mem=high`
+to the address to force either mode when testing on a computer.

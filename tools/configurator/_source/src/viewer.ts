@@ -29,7 +29,46 @@ const LOOK: Required<Look> = {
     glassReflection: 0.3,
     sheerGlow: 0.4,
     maxTextureSize: 1024,
+    lowMemoryTextureSize: 512,
+    lowMemoryLightmapSize: 1024,
 };
+
+/**
+ * Phones and tablets (touch screens): the browser gives a page far less GPU memory than a desktop,
+ * and iOS Safari reloads the tab when it runs out. Such devices get smaller textures and only keep
+ * what is on screen (configurator.ts evicts the rest). ?mem=low / ?mem=high overrides, for testing.
+ */
+function detectLowMemory(): boolean {
+    const forced = new URLSearchParams(location.search).get('mem');
+    if (forced === 'low') return true;
+    if (forced === 'high') return false;
+    return matchMedia('(pointer: coarse)').matches;
+}
+
+/** Texture slots of a material that can hold an image (lightMap separately: it gets a larger cap). */
+const TEX_KEYS = ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap', 'alphaMap', 'bumpMap',
+    'specularIntensityMap', 'specularColorMap', 'transmissionMap', 'thicknessMap', 'sheenColorMap', 'sheenRoughnessMap',
+    'clearcoatMap', 'clearcoatNormalMap', 'clearcoatRoughnessMap', 'iridescenceMap', 'anisotropyMap'] as const;
+
+const shrunk = new WeakSet<THREE.Source>();
+/** Scales a texture's picture down to `cap` px on its long side, before it ever reaches the GPU. */
+function shrink(t: THREE.Texture | null | undefined, cap: number) {
+    if (!t || !t.isTexture || (t as THREE.DataTexture).isDataTexture || shrunk.has(t.source)) return;
+    const im = t.image as (HTMLImageElement | ImageBitmap | HTMLCanvasElement) & { naturalWidth?: number; naturalHeight?: number };
+    const w = im?.naturalWidth || im?.width || 0, h = im?.naturalHeight || im?.height || 0;
+    shrunk.add(t.source);
+    if (!w || !h || Math.max(w, h) <= cap) return;
+    const k = cap / Math.max(w, h);
+    const cv = document.createElement('canvas');
+    cv.width = Math.max(1, Math.round(w * k)); cv.height = Math.max(1, Math.round(h * k));
+    const ctx = cv.getContext('2d')!;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(im, 0, 0, cv.width, cv.height);
+    // an ImageBitmap is uploaded as it is (three ignores flipY for it); a canvas would be flipped: keep it as it was
+    if (typeof ImageBitmap !== 'undefined' && im instanceof ImageBitmap) { t.flipY = false; im.close(); }
+    t.image = cv;
+    t.needsUpdate = true;
+}
 
 export interface Insets { left: number; right: number; bottom: number }
 
@@ -61,6 +100,8 @@ export class Viewer {
     private insetGoal: Insets = { left: 0, right: 0, bottom: 0 };
     private last = 0;
     private probed = new WeakSet<THREE.Material>();
+    /** Phone / tablet: smaller textures, and models not on screen are unloaded (see detectLowMemory). */
+    readonly lowMemory = detectLowMemory();
     private colourReady: Promise<void> | null = null;
     private gfMaterials: Record<string, string> = {};
     /** HDR sky (clamped like the bake world) used for reflections; the LDR picture is the backdrop. */
@@ -408,10 +449,17 @@ export class Viewer {
             applyGfLighting(gltf.scene, gf);
             root.add(gltf.scene);
         }
+        // the baked light textures (and their multipliers) belong to this folder: released with it
+        root.userData.gfTextures = [...Object.values(gf.maps ?? {}), ...Object.values(gf.mult ?? {})];
+        if (this.lowMemory) for (const t of root.userData.gfTextures) shrink(t as THREE.Texture, this.look.lowMemoryLightmapSize);
         root.traverse((o) => {
             const m = o as THREE.Mesh;
             if (!m.isMesh) return;
             for (const mat of (Array.isArray(m.material) ? m.material : [m.material]) as THREE.MeshStandardMaterial[]) {
+                if (this.lowMemory) {
+                    for (const k of TEX_KEYS) shrink((mat as any)[k], this.look.lowMemoryTextureSize);
+                    shrink(mat.lightMap, this.look.lowMemoryLightmapSize);
+                }
                 this.tagSurface(mat);
                 if (mat.userData.cfgSheer) sheerGrazing(mat);     // after the lighting patch (which may clone materials)
                 if (!this.probed.has(mat)) { this.probed.add(mat); this.probes.register(mat); }
@@ -420,6 +468,30 @@ export class Viewer {
         this.scene.add(root);
         this.dirty = true;
         return root;
+    }
+
+    /**
+     * Unloads a model: geometry, materials and its own textures leave the GPU. `keep` names textures
+     * that are shared with other surfaces (finish textures) and must stay. `extra` adds textures a
+     * material no longer shows but still holds (the original texture behind a finish).
+     */
+    disposeModel(root: THREE.Object3D, keep: (t: THREE.Texture) => boolean, extra: (m: THREE.Material) => (THREE.Texture | null)[] = () => []) {
+        root.removeFromParent();
+        const textures = new Set<THREE.Texture>((root.userData.gfTextures ?? []) as THREE.Texture[]);
+        root.traverse((o) => {
+            const m = o as THREE.Mesh;
+            if (!m.isMesh) return;
+            m.geometry?.dispose();
+            for (const mat of (Array.isArray(m.material) ? m.material : [m.material]) as THREE.MeshStandardMaterial[]) {
+                if (!mat) continue;
+                for (const v of Object.values(mat)) if (v && (v as THREE.Texture).isTexture) textures.add(v as THREE.Texture);
+                for (const t of extra(mat)) if (t) textures.add(t);
+                this.probes?.materials?.delete(mat);
+                mat.dispose();
+            }
+        });
+        for (const t of textures) if (!keep(t)) t.dispose();
+        this.dirty = true;
     }
 
     /**

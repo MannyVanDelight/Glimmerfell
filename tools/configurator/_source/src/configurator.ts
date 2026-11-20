@@ -4,7 +4,7 @@
 import * as THREE from 'three';
 import type { Config, Finish, Option, Part, Slot, SummaryLine } from './types';
 import { Viewer, contactShadow } from './viewer';
-import { applyFinish, boxProject, ensureFinish, manifestSets, matKey, pbrSet, prefetchFinish, uvDensity } from './finishes';
+import { applyFinish, boxProject, ensureFinish, isSharedTexture, manifestSets, matKey, originalTextures, pbrSet, prefetchFinish, releaseUnused, uvDensity } from './finishes';
 import { categoryOf, clothMaterials, expandCatalogue, isSheer } from './catalogue';
 import type { CodeVersion } from './code';
 
@@ -266,7 +266,33 @@ export class Configurator {
         return this.loading.get(key)!;
     }
 
-    private setBusy(d: number) { this.busy += d; this.onBusy(this.busy > 0); }
+    private setBusy(d: number) {
+        this.busy += d;
+        this.onBusy(this.busy > 0);
+        // low-memory devices: once everything has settled, let go of what is not on screen
+        if (this.busy === 0 && this.viewer.lowMemory) {
+            clearTimeout(this.cleanTimer);
+            this.cleanTimer = setTimeout(() => { if (this.busy === 0) this.evict(); }, 600);
+        }
+    }
+    private cleanTimer: ReturnType<typeof setTimeout> | undefined;
+
+    /**
+     * Unloads option models that are not shown (taps stay: a small shared library) and finish
+     * textures no surface uses. Choosing one again loads it again, from the browser cache.
+     */
+    private evict() {
+        for (const [key, l] of [...this.loaded]) {
+            const i = key.indexOf(':'), slotId = key.slice(0, i), optId = key.slice(i + 1);
+            const slot = this.cfg.slots.find((s) => s.id === slotId);
+            if (!slot || slot.anchorSlot || this.state[slotId]?.option === optId) continue;
+            this.loaded.delete(key);
+            this.loading.delete(key);
+            this.viewer.disposeModel(l.root, isSharedTexture, originalTextures);
+        }
+        releaseUnused(this.viewer.scene);
+        this.viewer.invalidate();
+    }
 
     /** Shows the slot's current option (loading it first if needed) and hides the others. */
     private async showOption(slot: Slot) {

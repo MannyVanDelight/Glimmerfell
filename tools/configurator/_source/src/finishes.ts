@@ -96,7 +96,7 @@ export function swatchOf(f: Finish): string | undefined {
 }
 
 // ------------------------------------------------------------------ images
-interface Img { image: ImageBitmap | HTMLImageElement; flipped: boolean; w: number; h: number }
+interface Img { image: ImageBitmap | HTMLImageElement | HTMLCanvasElement; flipped: boolean; w: number; h: number }
 const images = new Map<string, Img>();
 const pending = new Map<string, Promise<Img | null>>();
 
@@ -119,17 +119,31 @@ function loadImage(url: string, size: number): Promise<Img | null> {
             if (!res.ok) throw new Error(`${url}: ${res.status}`);
             const blob = await res.blob();
             textureStats.bytes += blob.size; textureStats.images++;
-            let img: Img;
+            let img: Img | null = null;
             try {
                 const opts: ImageBitmapOptions = { imageOrientation: 'flipY', colorSpaceConversion: 'none', premultiplyAlpha: 'none' };
                 if (size) Object.assign(opts, { resizeWidth: size, resizeHeight: size, resizeQuality: 'high' });
                 const bmp = await createImageBitmap(blob, opts);
-                img = { image: bmp, flipped: true, w: bmp.width, h: bmp.height };
-            } catch {
+                // a browser that ignores the resize options would hand back the full picture: fall through
+                if (!size || (bmp.width <= size && bmp.height <= size)) img = { image: bmp, flipped: true, w: bmp.width, h: bmp.height };
+                else bmp.close();
+            } catch { /* no createImageBitmap (or no options): <img> below */ }
+            if (!img) {
                 const el = new Image();
-                el.src = URL.createObjectURL(blob);
+                const u = URL.createObjectURL(blob);
+                el.src = u;
                 await el.decode();
-                img = { image: el, flipped: false, w: el.naturalWidth, h: el.naturalHeight };
+                URL.revokeObjectURL(u);
+                const w = el.naturalWidth, h = el.naturalHeight;
+                if (size && (w > size || h > size)) {
+                    // resize on a canvas, or the full-size picture would sit in memory (iOS Safari)
+                    const cv = document.createElement('canvas');
+                    cv.width = cv.height = size;
+                    const ctx = cv.getContext('2d')!;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(el, 0, 0, size, size);
+                    img = { image: cv, flipped: false, w: size, h: size };
+                } else img = { image: el, flipped: false, w, h };
             }
             textureStats.gpuBytes += img.w * img.h * 4 * 1.33;
             images.set(key, img);
@@ -196,8 +210,44 @@ function texture(r: TexReq, repeat: number, rotation: number, channel: number, s
     t.channel = channel;
     t.needsUpdate = true;
     textures.set(key, t);
+    shared.add(t);
     textureStats.textures++;
     return t;
+}
+
+/** Textures owned by this module (finish sets, 1x1 stand-ins, weaves): shared between surfaces. */
+const shared = new WeakSet<THREE.Texture>();
+export const isSharedTexture = (t: THREE.Texture) => shared.has(t);
+
+/** The textures a material had before any finish (kept here to restore "original"): released with its model. */
+export function originalTextures(mat: THREE.Material): (THREE.Texture | null)[] {
+    const o = originals.get(mat as Std);
+    return o ? [o.map, o.roughnessMap, o.metalnessMap, o.normalMap, o.alphaMap] : [];
+}
+
+/**
+ * Low-memory devices: drops finish textures no surface in `root` uses any more, and their decoded
+ * pictures. Used again later, a finish simply loads again (from the browser cache).
+ */
+export function releaseUnused(root: THREE.Object3D) {
+    const used = new Set<THREE.Texture>();
+    root.traverse((o) => {
+        const m = (o as THREE.Mesh).material;
+        if (!m) return;
+        for (const mat of Array.isArray(m) ? m : [m]) for (const v of Object.values(mat)) if (v && (v as THREE.Texture).isTexture) used.add(v as THREE.Texture);
+    });
+    let freed = 0;
+    for (const [k, t] of textures) if (!used.has(t)) { t.dispose(); textures.delete(k); freed++; }
+    const live = new Set([...textures.values()].map((t) => t.source));
+    for (const [k, s] of sources) {
+        if (live.has(s)) continue;
+        sources.delete(k);
+        const img = images.get(k);
+        if (img) { (img.image as ImageBitmap).close?.(); images.delete(k); textureStats.gpuBytes -= img.w * img.h * 4 * 1.33; }
+    }
+    // decoded but never used (pointer prefetch): drop too
+    for (const [k, img] of images) if (!sources.has(k)) { (img.image as ImageBitmap).close?.(); images.delete(k); textureStats.gpuBytes -= img.w * img.h * 4 * 1.33; }
+    return freed;
 }
 
 const neutrals = new Map<string, THREE.DataTexture>();
@@ -212,6 +262,7 @@ function neutral(kind: 'white' | 'normal', channel: number): THREE.DataTexture {
         t.wrapS = t.wrapT = THREE.RepeatWrapping;
         t.needsUpdate = true;
         neutrals.set(key, t);
+        shared.add(t);
     }
     return t;
 }
@@ -250,6 +301,7 @@ function weave(repeat: number, rotation: number, channel: number): THREE.Texture
         t.anisotropy = anisotropy;
         t.needsUpdate = true;
         weaves.set(key, t);
+        shared.add(t);
     }
     return t;
 }

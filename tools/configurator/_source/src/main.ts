@@ -74,7 +74,8 @@ async function start() {
     const canvas = document.getElementById('view') as HTMLCanvasElement;
     const viewer = new Viewer(canvas, cfg);
     viewer.setScene(scene);
-    await initFinishes({ maxAnisotropy: viewer.maxAnisotropy, maxSize: viewer.look.maxTextureSize, manifest: cfg.pbrManifest,
+    await initFinishes({ maxAnisotropy: viewer.maxAnisotropy,
+        maxSize: viewer.lowMemory ? Math.min(viewer.look.lowMemoryTextureSize, viewer.look.maxTextureSize) : viewer.look.maxTextureSize, manifest: cfg.pbrManifest,
         sheerGlow: viewer.look.sheerGlow, onLoaded: () => viewer.invalidate() });
     const c = new Configurator(cfg, viewer);
 
