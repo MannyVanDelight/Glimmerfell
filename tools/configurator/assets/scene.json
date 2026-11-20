@@ -1,0 +1,1943 @@
+{
+ "version": 3,
+ "source": "Blender export: 02_3d/scripts/cfg_scene_export.py on 02_3d/assets_bake.blend",
+ "units": "metres, three.js axes = (Blender X, Blender Z, -Blender Y); fov = vertical degrees",
+ "room": {
+  "min": [
+   -3.6,
+   0.0,
+   -4.5
+  ],
+  "max": [
+   3.91,
+   2.9,
+   6.5
+  ]
+ },
+ "cameras": {
+  "kitchen": {
+   "position": [
+    -1.9259,
+    1.6,
+    -0.7901
+   ],
+   "target": [
+    2.555,
+    1.4502,
+    -0.0
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_kitchen",
+   "fovPortrait": 96.2,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 4.552
+  },
+  "bed": {
+   "position": [
+    -1.7191,
+    1.65,
+    3.0341
+   ],
+   "target": [
+    1.4187,
+    0.7849,
+    4.9948
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_bed",
+   "fovPortrait": 87.7,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 3.8
+  },
+  "oven": {
+   "position": [
+    1.4387,
+    1.3,
+    1.2779
+   ],
+   "target": [
+    3.6053,
+    1.1667,
+    1.6599
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_oven",
+   "fovPortrait": 49.7,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 1.94
+  },
+  "cooktop": {
+   "position": [
+    2.4906,
+    2.0,
+    -0.6116
+   ],
+   "target": [
+    3.622,
+    0.904,
+    0.5198
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_cooktop",
+   "fovPortrait": 49.8,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 1.047
+  },
+  "sink": {
+   "position": [
+    2.9371,
+    1.95,
+    1.7481
+   ],
+   "target": [
+    3.61,
+    0.7899,
+    -0.7633
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_sink",
+   "fovPortrait": 32.6,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 2.676
+  },
+  "tap": {
+   "position": [
+    2.7227,
+    1.4,
+    -0.3873
+   ],
+   "target": [
+    3.7094,
+    1.1764,
+    -0.7464
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_tap",
+   "fovPortrait": 48.1,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 1.052
+  },
+  "fronts": {
+   "position": [
+    -2.6452,
+    1.45,
+    -4.146
+   ],
+   "target": [
+    2.2957,
+    1.4508,
+    -0.0
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_fronts",
+   "fovPortrait": 80.0,
+   "portraitOk": false,
+   "landscapeOk": false,
+   "distanceLandscape": 6.45
+  },
+  "benchtop": {
+   "position": [
+    1.9727,
+    2.05,
+    2.0733
+   ],
+   "target": [
+    2.555,
+    0.4507,
+    -0.1
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_benchtop",
+   "fovPortrait": 143.2,
+   "portraitOk": false,
+   "landscapeOk": false,
+   "distanceLandscape": 2.76
+  },
+  "splashback": {
+   "position": [
+    0.9064,
+    1.45,
+    0.2615
+   ],
+   "target": [
+    3.895,
+    1.2525,
+    -0.0
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_splashback",
+   "fovPortrait": 91.1,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 3.006
+  },
+  "sofa": {
+   "position": [
+    -0.2206,
+    1.35,
+    -1.3235
+   ],
+   "target": [
+    -1.9206,
+    0.4183,
+    1.621
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_sofa",
+   "fovPortrait": 100.3,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 3.525
+  },
+  "feature": {
+   "position": [
+    -0.7832,
+    1.55,
+    -1.8684
+   ],
+   "target": [
+    -1.9349,
+    1.45,
+    2.43
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_feature",
+   "fovPortrait": 85.4,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 4.451
+  },
+  "blind": {
+   "position": [
+    0.7178,
+    1.45,
+    0.0757
+   ],
+   "target": [
+    -3.4184,
+    1.3868,
+    -0.6536
+   ],
+   "fov": 65.0,
+   "source": "generated",
+   "blender": "CamGen_blind",
+   "fovPortrait": 127.0,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 4.2
+  },
+  "rug": {
+   "position": [
+    0.6897,
+    1.8,
+    0.4398
+   ],
+   "target": [
+    -1.92,
+    0.006,
+    0.9
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_rug",
+   "fovPortrait": 95.1,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 3.2
+  },
+  "bed-el": {
+   "position": [
+    -2.6143,
+    1.75,
+    3.1142
+   ],
+   "target": [
+    1.4187,
+    0.7849,
+    4.9948
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_bed-el",
+   "fovPortrait": 93.0,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 4.553
+  },
+  "vanity": {
+   "position": [
+    0.2,
+    1.75,
+    2.9533
+   ],
+   "target": [
+    -1.7,
+    1.1184,
+    6.2442
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_vanity",
+   "fovPortrait": 62.8,
+   "portraitOk": false,
+   "landscapeOk": false,
+   "distanceLandscape": 3.852
+  },
+  "basintap": {
+   "position": [
+    -3.0563,
+    1.35,
+    4.0472
+   ],
+   "target": [
+    -1.7313,
+    0.984,
+    6.3422
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_basintap",
+   "fovPortrait": 49.8,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 1.284
+  },
+  "vanitywall": {
+   "position": [
+    -1.9615,
+    1.55,
+    3.5094
+   ],
+   "target": [
+    -1.7,
+    1.15,
+    6.498
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_vanitywall",
+   "fovPortrait": 81.6,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 3.027
+  },
+  "floor": {
+   "position": [
+    -0.4,
+    2.25,
+    -3.9
+   ],
+   "target": [
+    0.4,
+    0.0,
+    0.6
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_floor"
+  },
+  "walls": {
+   "position": [
+    2.9,
+    1.6,
+    -3.8
+   ],
+   "target": [
+    -1.6,
+    1.45,
+    1.2
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_walls"
+  },
+  "hood": {
+   "position": [
+    0.9445,
+    1.75,
+    0.7594
+   ],
+   "target": [
+    3.684,
+    2.2399,
+    0.5198
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_hood",
+   "fovPortrait": 37.4,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 2.793
+  },
+  "islandtop": {
+   "position": [
+    -0.0,
+    2.05,
+    -0.4
+   ],
+   "target": [
+    1.65,
+    0.4502,
+    -0.4
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_islandtop",
+   "fovPortrait": 116.8,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 2.298
+  },
+  "islandstorage": {
+   "position": [
+    -0.2783,
+    1.25,
+    -0.4009
+   ],
+   "target": [
+    1.3217,
+    0.4261,
+    -0.4009
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_islandstorage",
+   "fovPortrait": 116.5,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 1.8
+  },
+  "coffeetable": {
+   "position": [
+    0.7015,
+    1.35,
+    -0.0585
+   ],
+   "target": [
+    -1.9575,
+    0.2131,
+    0.4104
+   ],
+   "fov": 50.0,
+   "source": "generated",
+   "blender": "CamGen_coffeetable",
+   "fovPortrait": 49.4,
+   "portraitOk": true,
+   "landscapeOk": true,
+   "distanceLandscape": 1.934
+  },
+  "dining": {
+   "position": [
+    -0.8172,
+    1.65,
+    -0.5441
+   ],
+   "target": [
+    0.8328,
+    0.3897,
+    -3.402
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_dining",
+   "fovPortrait": 93.0,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 3.532
+  },
+  "floorliving": {
+   "position": [
+    -0.4,
+    2.25,
+    -3.9
+   ],
+   "target": [
+    0.0,
+    0.0,
+    0.4
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_floorliving"
+  },
+  "floorbed": {
+   "position": [
+    -0.75,
+    2.2,
+    3.0
+   ],
+   "target": [
+    2.0,
+    0.0,
+    4.9
+   ],
+   "fov": 58.0,
+   "source": "generated",
+   "blender": "CamGen_floorbed"
+  },
+  "floorbath": {
+   "position": [
+    0.8,
+    2.2,
+    2.95
+   ],
+   "target": [
+    -2.0,
+    0.0,
+    4.9
+   ],
+   "fov": 58.0,
+   "source": "generated",
+   "blender": "CamGen_floorbath"
+  },
+  "edgestrip": {
+   "position": [
+    -1.7,
+    1.75,
+    3.05
+   ],
+   "target": [
+    0.3,
+    0.0,
+    3.7
+   ],
+   "fov": 60.0,
+   "source": "generated",
+   "blender": "CamGen_edgestrip"
+  },
+  "hero-alt": {
+   "position": [
+    3.195,
+    1.5,
+    -4.1265
+   ],
+   "target": [
+    0.155,
+    1.45,
+    0.215
+   ],
+   "fov": 58.0,
+   "source": "generated",
+   "blender": "CamGen_hero-alt",
+   "fovPortrait": 135.3,
+   "portraitOk": false,
+   "landscapeOk": false,
+   "distanceLandscape": 5.3
+  },
+  "living-alt": {
+   "position": [
+    0.509,
+    1.55,
+    -2.2004
+   ],
+   "target": [
+    -1.9,
+    1.0,
+    1.24
+   ],
+   "fov": 55.0,
+   "source": "generated",
+   "blender": "CamGen_living-alt",
+   "fovPortrait": 83.9,
+   "portraitOk": false,
+   "landscapeOk": true,
+   "distanceLandscape": 4.236
+  },
+  "hero": {
+   "position": [
+    -0.6,
+    1.55,
+    -4.2
+   ],
+   "target": [
+    0.3891,
+    1.1696,
+    0.137
+   ],
+   "fov": 58.72,
+   "source": "user",
+   "blender": "CamOverview"
+  },
+  "living": {
+   "position": [
+    0.6224,
+    1.2672,
+    -2.933
+   ],
+   "target": [
+    -3.0234,
+    1.2955,
+    -0.3472
+   ],
+   "fov": 58.72,
+   "source": "user",
+   "blender": "CamLiving"
+  },
+  "bath": {
+   "position": [
+    -0.5589,
+    1.4755,
+    3.9427
+   ],
+   "target": [
+    -1.6374,
+    1.0599,
+    6.2596
+   ],
+   "fov": 58.72,
+   "source": "user",
+   "blender": "CamWindow"
+  }
+ },
+ "elements": {
+  "oven": {
+   "zone": "kitchen",
+   "anchor": [
+    3.2706,
+    1.5494,
+    1.6599
+   ],
+   "bbox": {
+    "min": [
+     3.3006,
+     0.62,
+     1.3198
+    ],
+    "max": [
+     3.91,
+     1.7134,
+     2.0
+    ]
+   },
+   "camera": "oven"
+  },
+  "cooktop": {
+   "zone": "kitchen",
+   "anchor": [
+    3.622,
+    0.9369,
+    0.5198
+   ],
+   "bbox": {
+    "min": [
+     3.357,
+     0.9011,
+     0.2196
+    ],
+    "max": [
+     3.887,
+     0.9069,
+     0.82
+    ]
+   },
+   "camera": "cooktop"
+  },
+  "sink": {
+   "zone": "kitchen",
+   "anchor": [
+    3.61,
+    0.9343,
+    -0.7633
+   ],
+   "bbox": {
+    "min": [
+     3.3495,
+     0.6756,
+     -1.0738
+    ],
+    "max": [
+     3.8705,
+     0.9043,
+     -0.4528
+    ]
+   },
+   "camera": "sink"
+  },
+  "tap": {
+   "zone": "kitchen",
+   "anchor": [
+    3.4862,
+    1.3707,
+    -0.7464
+   ],
+   "bbox": {
+    "min": [
+     3.5162,
+     0.8989,
+     -0.8408
+    ],
+    "max": [
+     3.9026,
+     1.4539,
+     -0.652
+    ]
+   },
+   "camera": "tap"
+  },
+  "fronts": {
+   "zone": "kitchen",
+   "anchor": [
+    1.2066,
+    2.4652,
+    -0.0
+   ],
+   "bbox": {
+    "min": [
+     1.2366,
+     0.0017,
+     -2.0
+    ],
+    "max": [
+     3.3549,
+     2.9,
+     2.0
+    ]
+   },
+   "camera": "fronts"
+  },
+  "benchtop": {
+   "zone": "kitchen",
+   "anchor": [
+    1.65,
+    0.93,
+    -0.75
+   ],
+   "bbox": {
+    "min": [
+     1.2,
+     0.0004,
+     -1.5
+    ],
+    "max": [
+     3.91,
+     0.9011,
+     1.3
+    ]
+   },
+   "camera": "benchtop"
+  },
+  "splashback": {
+   "zone": "kitchen",
+   "anchor": [
+    3.85,
+    1.4958,
+    -0.0
+   ],
+   "bbox": {
+    "min": [
+     3.88,
+     0.905,
+     -1.3
+    ],
+    "max": [
+     3.91,
+     1.6,
+     1.3
+    ]
+   },
+   "camera": "splashback"
+  },
+  "sofa": {
+   "zone": "living",
+   "anchor": [
+    -1.92,
+    0.92,
+    1.85
+   ],
+   "bbox": {
+    "min": [
+     -3.4188,
+     0.0,
+     0.9619
+    ],
+    "max": [
+     -0.4225,
+     0.8367,
+     2.28
+    ]
+   },
+   "camera": "sofa"
+  },
+  "feature": {
+   "zone": "living",
+   "anchor": [
+    -1.9349,
+    2.465,
+    2.4
+   ],
+   "bbox": {
+    "min": [
+     -3.6,
+     0.0,
+     2.43
+    ],
+    "max": [
+     -0.2698,
+     2.9,
+     2.43
+    ]
+   },
+   "camera": "feature"
+  },
+  "blind": {
+   "zone": "living",
+   "anchor": [
+    -3.2047,
+    2.355,
+    -0.6536
+   ],
+   "bbox": {
+    "min": [
+     -3.6021,
+     0.0035,
+     -3.6978
+    ],
+    "max": [
+     -3.2347,
+     2.77,
+     2.3906
+    ]
+   },
+   "camera": "blind"
+  },
+  "rug": {
+   "zone": "living",
+   "anchor": [
+    -0.95,
+    0.03,
+    0.25
+   ],
+   "bbox": {
+    "min": [
+     -3.12,
+     0.0,
+     0.05
+    ],
+    "max": [
+     -0.72,
+     0.012,
+     1.75
+    ]
+   },
+   "camera": "rug"
+  },
+  "bed": {
+   "zone": "bed",
+   "anchor": [
+    1.42,
+    0.85,
+    4.55
+   ],
+   "bbox": {
+    "min": [
+     0.2751,
+     0.0,
+     3.5197
+    ],
+    "max": [
+     2.5624,
+     1.5697,
+     6.47
+    ]
+   },
+   "camera": "bed-el"
+  },
+  "vanity": {
+   "zone": "bath",
+   "anchor": [
+    -1.7,
+    0.95,
+    5.97
+   ],
+   "bbox": {
+    "min": [
+     -2.6105,
+     0.0,
+     5.9933
+    ],
+    "max": [
+     -0.7895,
+     2.2368,
+     6.495
+    ]
+   },
+   "camera": "vanity"
+  },
+  "basintap": {
+   "zone": "bath",
+   "anchor": [
+    -1.7313,
+    1.1564,
+    6.1583
+   ],
+   "bbox": {
+    "min": [
+     -2.2408,
+     0.7376,
+     6.1883
+    ],
+    "max": [
+     -1.2218,
+     1.2303,
+     6.496
+    ]
+   },
+   "camera": "basintap"
+  },
+  "vanitywall": {
+   "zone": "bath",
+   "anchor": [
+    -0.7,
+    1.55,
+    6.47
+   ],
+   "bbox": {
+    "min": [
+     -2.76,
+     0.0,
+     6.496
+    ],
+    "max": [
+     -0.64,
+     2.3,
+     6.5
+    ]
+   },
+   "camera": "vanitywall"
+  },
+  "floor": {
+   "zone": "room",
+   "anchor": [
+    -0.4,
+    0.02,
+    -1.6
+   ],
+   "bbox": {
+    "min": [
+     -3.6,
+     0.0,
+     -4.5
+    ],
+    "max": [
+     3.91,
+     0.0,
+     6.5
+    ]
+   },
+   "camera": "floor"
+  },
+  "walls": {
+   "zone": "room",
+   "anchor": [
+    1.4,
+    2.7,
+    2.4
+   ],
+   "bbox": {
+    "min": [
+     -3.75,
+     0.0,
+     -4.5
+    ],
+    "max": [
+     3.91,
+     2.9,
+     6.5
+    ]
+   },
+   "camera": "walls"
+  },
+  "hood": {
+   "zone": "kitchen",
+   "anchor": [
+    3.52,
+    1.72,
+    0.52
+   ],
+   "bbox": {
+    "min": [
+     3.458,
+     1.5998,
+     0.1705
+    ],
+    "max": [
+     3.91,
+     2.88,
+     0.869
+    ]
+   },
+   "camera": "hood"
+  },
+  "islandtop": {
+   "zone": "kitchen",
+   "anchor": [
+    1.65,
+    0.93,
+    -0.2
+   ],
+   "bbox": {
+    "min": [
+     1.2,
+     0.0004,
+     -1.5
+    ],
+    "max": [
+     2.1,
+     0.9,
+     0.7
+    ]
+   },
+   "camera": "islandtop"
+  },
+  "islandstorage": {
+   "zone": "kitchen",
+   "anchor": [
+    1.2,
+    0.45,
+    -0.4
+   ],
+   "bbox": {
+    "min": [
+     1.2167,
+     0.0062,
+     -1.4495
+    ],
+    "max": [
+     1.4267,
+     0.846,
+     0.6477
+    ]
+   },
+   "camera": "islandstorage"
+  },
+  "coffeetable": {
+   "zone": "living",
+   "anchor": [
+    -1.95,
+    0.46,
+    0.42
+   ],
+   "bbox": {
+    "min": [
+     -2.6075,
+     0.012,
+     0.0704
+    ],
+    "max": [
+     -1.3075,
+     0.4142,
+     0.7504
+    ]
+   },
+   "camera": "coffeetable"
+  },
+  "dining": {
+   "zone": "kitchen",
+   "anchor": [
+    0.83,
+    0.79,
+    -3.42
+   ],
+   "bbox": {
+    "min": [
+     -0.5172,
+     0.0,
+     -4.2156
+    ],
+    "max": [
+     2.1828,
+     0.7793,
+     -2.5884
+    ]
+   },
+   "camera": "dining"
+  },
+  "floorliving": {
+   "zone": "living",
+   "anchor": [
+    -1.4,
+    0.02,
+    -0.6
+   ],
+   "bbox": {
+    "min": [
+     -3.6,
+     0.0,
+     -4.5
+    ],
+    "max": [
+     3.91,
+     0.0,
+     2.499
+    ]
+   },
+   "camera": "floorliving"
+  },
+  "floorbed": {
+   "zone": "bed",
+   "anchor": [
+    2.9,
+    0.02,
+    3.3
+   ],
+   "bbox": {
+    "min": [
+     -0.1945,
+     0.0,
+     2.499
+    ],
+    "max": [
+     3.91,
+     0.0,
+     6.5
+    ]
+   },
+   "camera": "floorbed"
+  },
+  "floorbath": {
+   "zone": "bath",
+   "anchor": [
+    -2.3,
+    0.02,
+    5.5
+   ],
+   "bbox": {
+    "min": [
+     -3.6,
+     0.0,
+     2.499
+    ],
+    "max": [
+     -0.1945,
+     0.0,
+     6.5
+    ]
+   },
+   "camera": "floorbath"
+  },
+  "edgestrip": {
+   "zone": "bed",
+   "anchor": [
+    1.4,
+    0.02,
+    2.499
+   ],
+   "bbox": {
+    "min": [
+     -0.2646,
+     0.0,
+     2.4804
+    ],
+    "max": [
+     3.1728,
+     0.0027,
+     6.4964
+    ]
+   },
+   "camera": "edgestrip"
+  }
+ },
+ "anchors": {
+  "sink": {
+   "square": {
+    "deck": [
+     [
+      3.8676,
+      0.9011,
+      -0.7633,
+      -90
+     ]
+    ]
+   },
+   "wide": {
+    "deck": [
+     [
+      3.8063,
+      0.899,
+      -0.7858,
+      -90
+     ]
+    ]
+   }
+  },
+  "vanity": {
+   "single": {
+    "deck": [
+     [
+      -1.7,
+      0.7388,
+      6.4625,
+      180
+     ]
+    ],
+    "wall": [
+     [
+      -1.7734,
+      0.9526,
+      6.496,
+      180
+     ]
+    ]
+   },
+   "floating": {
+    "deck": [
+     [
+      -1.699,
+      0.7377,
+      6.4608,
+      180
+     ]
+    ],
+    "wall": [
+     [
+      -1.7724,
+      0.9575,
+      6.496,
+      180
+     ]
+    ],
+    "side": [
+     [
+      -1.25,
+      0.7377,
+      6.25,
+      -90
+     ]
+    ]
+   },
+   "double": {
+    "deck": [
+     [
+      -2.15,
+      0.861,
+      6.42,
+      180
+     ],
+     [
+      -1.25,
+      0.861,
+      6.42,
+      180
+     ]
+    ]
+   }
+  }
+ },
+ "tapRules": {
+  "sink": {
+   "square": {
+    "allowed": [
+     "gooseneck",
+     "pullout",
+     "flow",
+     "tall"
+    ],
+    "default": "gooseneck",
+    "mount": {
+     "gooseneck": "deck",
+     "pullout": "deck",
+     "flow": "deck",
+     "tall": "deck"
+    }
+   },
+   "wide": {
+    "allowed": [
+     "gooseneck",
+     "pullout",
+     "flow",
+     "tall"
+    ],
+    "default": "gooseneck",
+    "mount": {
+     "gooseneck": "deck",
+     "pullout": "deck",
+     "flow": "deck",
+     "tall": "deck"
+    }
+   }
+  },
+  "vanity": {
+   "single": {
+    "allowed": [
+     "basin-tall",
+     "wall"
+    ],
+    "default": "basin-tall",
+    "mount": {
+     "basin-tall": "deck",
+     "wall": "wall"
+    }
+   },
+   "floating": {
+    "allowed": [
+     "flow",
+     "gooseneck",
+     "basin-tall",
+     "wall"
+    ],
+    "default": "basin-tall",
+    "mount": {
+     "flow": "side",
+     "gooseneck": "side",
+     "basin-tall": "deck",
+     "wall": "wall"
+    }
+   },
+   "double": {
+    "allowed": [
+     "flow",
+     "gooseneck",
+     "slim",
+     "classic",
+     "basin-tall",
+     "basin-compact"
+    ],
+    "default": "classic",
+    "mount": {
+     "flow": "deck",
+     "gooseneck": "deck",
+     "slim": "deck",
+     "classic": "deck",
+     "basin-tall": "deck",
+     "basin-compact": "deck"
+    }
+   }
+  }
+ },
+ "tapLibrary": {
+  "gooseneck": {
+   "glb": "assets/taps/tap-gooseneck-black.glb",
+   "collection": "Tap Gooseneck Black",
+   "mount": "deck",
+   "thumb": "thumbs/tap-gooseneck-black.jpg",
+   "kitchen": true,
+   "basin": true
+  },
+  "pullout": {
+   "glb": "assets/taps/tap-pull-out-steel.glb",
+   "collection": "Tap Pull-Out Steel",
+   "mount": "deck",
+   "thumb": "thumbs/tap-pull-out-steel.jpg",
+   "kitchen": true,
+   "basin": false
+  },
+  "flow": {
+   "glb": "assets/taps/flow-single-lever-kitchen-mixer-tap.glb",
+   "collection": "Flow single lever kitchen mixer tap",
+   "mount": "deck",
+   "thumb": "thumbs/flow-single-lever-kitchen-mixer-tap.jpg",
+   "kitchen": true,
+   "basin": true
+  },
+  "tall": {
+   "glb": "assets/taps/tap-07.glb",
+   "collection": "Tap-07",
+   "mount": "deck",
+   "thumb": "thumbs/tap-07.jpg",
+   "kitchen": true,
+   "basin": false
+  },
+  "slim": {
+   "glb": "assets/taps/faucet-tap-matt-black.glb",
+   "collection": "Faucet (Tap) Matt Black",
+   "mount": "deck",
+   "thumb": "thumbs/faucet-tap-matt-black.jpg",
+   "kitchen": false,
+   "basin": true
+  },
+  "classic": {
+   "glb": "assets/taps/faucet-tap-chrome.glb",
+   "collection": "Faucet (Tap) Chrome",
+   "mount": "deck",
+   "thumb": "thumbs/faucet-tap-chrome.jpg",
+   "kitchen": false,
+   "basin": true
+  },
+  "basin-tall": {
+   "glb": "assets/taps/basin-mixer-tall.glb",
+   "collection": "Basin Mixer Tall",
+   "mount": "deck",
+   "thumb": "thumbs/basin-mixer-tall.jpg",
+   "kitchen": false,
+   "basin": true
+  },
+  "basin-compact": {
+   "glb": "assets/taps/basin-mixer-compact.glb",
+   "collection": "Basin Mixer Compact",
+   "mount": "deck",
+   "thumb": "thumbs/basin-mixer-compact.jpg",
+   "kitchen": false,
+   "basin": true
+  },
+  "wall": {
+   "glb": "assets/taps/basin-wall-mixer.glb",
+   "collection": "Basin Wall Mixer",
+   "mount": "wall",
+   "thumb": "thumbs/basin-wall-mixer.jpg",
+   "kitchen": false,
+   "basin": true
+  }
+ },
+ "colliders": [
+  {
+   "min": [
+    -3.75,
+    -0.15,
+    -4.65
+   ],
+   "max": [
+    -3.6,
+    3.05,
+    6.65
+   ],
+   "name": "wall-west",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    3.91,
+    -0.15,
+    -4.65
+   ],
+   "max": [
+    4.06,
+    3.05,
+    6.65
+   ],
+   "name": "wall-east",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    -3.75,
+    -0.15,
+    -4.65
+   ],
+   "max": [
+    4.06,
+    3.05,
+    -4.5
+   ],
+   "name": "wall-north",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    -3.75,
+    -0.15,
+    6.5
+   ],
+   "max": [
+    4.06,
+    3.05,
+    6.65
+   ],
+   "name": "wall-south",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    -3.75,
+    -0.15,
+    -4.65
+   ],
+   "max": [
+    4.06,
+    0.0,
+    6.65
+   ],
+   "name": "floor",
+   "kind": "floor"
+  },
+  {
+   "min": [
+    -3.75,
+    2.9,
+    -4.65
+   ],
+   "max": [
+    4.06,
+    3.05,
+    6.65
+   ],
+   "name": "ceiling",
+   "kind": "ceiling"
+  },
+  {
+   "min": [
+    -3.6,
+    0.0,
+    2.43
+   ],
+   "max": [
+    -0.2,
+    2.9,
+    2.57
+   ],
+   "name": "partition-west",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    3.0,
+    0.0,
+    2.43
+   ],
+   "max": [
+    3.91,
+    2.9,
+    2.57
+   ],
+   "name": "partition-east",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    -0.2,
+    2.5,
+    2.43
+   ],
+   "max": [
+    3.0,
+    2.9,
+    2.57
+   ],
+   "name": "door-lintel",
+   "kind": "wall"
+  },
+  {
+   "min": [
+    3.335,
+    0.0,
+    -2.0
+   ],
+   "max": [
+    3.91,
+    0.92,
+    2.0
+   ],
+   "name": "kitchen-base",
+   "kind": "furniture",
+   "element": "fronts"
+  },
+  {
+   "min": [
+    3.335,
+    0.0,
+    1.32
+   ],
+   "max": [
+    3.91,
+    2.9,
+    2.0
+   ],
+   "name": "kitchen-tall-south",
+   "kind": "furniture",
+   "element": "oven"
+  },
+  {
+   "min": [
+    3.335,
+    0.0,
+    -2.0
+   ],
+   "max": [
+    3.91,
+    2.9,
+    -1.32
+   ],
+   "name": "kitchen-tall-north",
+   "kind": "furniture"
+  },
+  {
+   "min": [
+    3.595,
+    1.6,
+    -1.32
+   ],
+   "max": [
+    3.91,
+    2.9,
+    1.32
+   ],
+   "name": "kitchen-uppers",
+   "kind": "furniture",
+   "element": "splashback"
+  },
+  {
+   "min": [
+    1.2,
+    0.0,
+    -1.5
+   ],
+   "max": [
+    2.1,
+    0.9,
+    0.7
+   ],
+   "name": "island",
+   "kind": "furniture",
+   "element": "islandtop"
+  },
+  {
+   "min": [
+    -3.4188,
+    0.0,
+    0.9619
+   ],
+   "max": [
+    -0.4225,
+    0.8367,
+    2.28
+   ],
+   "name": "sofa",
+   "kind": "furniture",
+   "element": "sofa"
+  },
+  {
+   "min": [
+    0.2751,
+    0.0,
+    3.5197
+   ],
+   "max": [
+    2.5624,
+    1.5697,
+    6.47
+   ],
+   "name": "bed",
+   "kind": "furniture",
+   "element": "bed"
+  },
+  {
+   "min": [
+    -2.6105,
+    0.0,
+    5.9933
+   ],
+   "max": [
+    -0.7895,
+    2.2368,
+    6.495
+   ],
+   "name": "vanity",
+   "kind": "furniture",
+   "element": "vanity"
+  },
+  {
+   "min": [
+    -0.5172,
+    0.0,
+    -4.2156
+   ],
+   "max": [
+    2.1828,
+    0.7793,
+    -2.5884
+   ],
+   "name": "dining",
+   "kind": "furniture",
+   "element": "dining"
+  },
+  {
+   "min": [
+    -2.6075,
+    0.012,
+    0.0704
+   ],
+   "max": [
+    -1.3075,
+    0.4142,
+    0.7504
+   ],
+   "name": "coffeetable",
+   "kind": "furniture",
+   "element": "coffeetable"
+  },
+  {
+   "min": [
+    -3.6021,
+    0.0035,
+    -3.6978
+   ],
+   "max": [
+    -3.2347,
+    2.77,
+    2.3906
+   ],
+   "name": "blind",
+   "kind": "furniture",
+   "element": "blind"
+  },
+  {
+   "min": [
+    3.458,
+    1.5998,
+    0.1705
+   ],
+   "max": [
+    3.91,
+    2.88,
+    0.869
+   ],
+   "name": "hood",
+   "kind": "furniture",
+   "element": "hood"
+  }
+ ],
+ "windows": [
+  {
+   "name": "main",
+   "min": [
+    -3.69,
+    0.0,
+    -2.8
+   ],
+   "max": [
+    -3.63,
+    2.6,
+    1.8
+   ],
+   "normal": [
+    1,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "bedroom",
+   "min": [
+    -3.69,
+    0.9,
+    3.6
+   ],
+   "max": [
+    -3.63,
+    2.4,
+    5.6
+   ],
+   "normal": [
+    1,
+    0,
+    0
+   ]
+  }
+ ],
+ "doorways": [
+  {
+   "name": "living-bed",
+   "min": [
+    -0.2,
+    0.0,
+    2.43
+   ],
+   "max": [
+    3.0,
+    2.5,
+    2.57
+   ]
+  }
+ ],
+ "lights": [
+  {
+   "name": "CFG_Down_1",
+   "position": [
+    -1.5,
+    2.88,
+    -2.6
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Down_2",
+   "position": [
+    1.2,
+    2.88,
+    -2.6
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Down_3",
+   "position": [
+    -1.5,
+    2.88,
+    -0.2
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Down_4",
+   "position": [
+    1.2,
+    2.88,
+    -0.2
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Down_5",
+   "position": [
+    -1.7,
+    2.88,
+    4.0
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Down_6",
+   "position": [
+    1.4,
+    2.88,
+    4.0
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Down_7",
+   "position": [
+    1.4,
+    2.88,
+    5.6
+   ],
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "intensity": 1.0,
+   "watts": 18.0,
+   "type": "area"
+  },
+  {
+   "name": "CFG_Pendant_1",
+   "position": [
+    1.65,
+    1.68,
+    0.25
+   ],
+   "color": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 0.333,
+   "watts": 6.0,
+   "type": "spot"
+  },
+  {
+   "name": "CFG_Pendant_2",
+   "position": [
+    1.65,
+    1.68,
+    -0.4
+   ],
+   "color": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 0.333,
+   "watts": 6.0,
+   "type": "spot"
+  },
+  {
+   "name": "CFG_Pendant_3",
+   "position": [
+    1.65,
+    1.68,
+    -1.05
+   ],
+   "color": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 0.333,
+   "watts": 6.0,
+   "type": "spot"
+  }
+ ],
+ "sky": {
+  "file": "sky/sky.jpg",
+  "env": "sky/sky_env.hdr",
+  "rotationY": -2.90674,
+  "intensity": 1.428,
+  "blenderMappingZ": 2.90674,
+  "clamp": 12.0,
+  "sunDirection": [
+   -0.8088,
+   0.5014,
+   -0.3073
+  ],
+  "hdriSunUV": [
+   0.59518,
+   0.766
+  ],
+  "hdriSunDirection": [
+   -0.627,
+   0.7417,
+   -0.2382
+  ]
+ }
+}

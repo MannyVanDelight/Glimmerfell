@@ -1,0 +1,10 @@
+# installed / built: recreated with npm ci and npm run build
+node_modules/
+dist/
+
+# local backups made before config or source edits
+_backup_*/
+_backup_*.json
+
+# sample output
+glimmerfell-configuration.pdf

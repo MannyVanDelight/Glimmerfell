@@ -1,0 +1,414 @@
+{
+ "version": 2,
+ "uv": "GF_Lightmap",
+ "vertex_attribute": "GF_Light",
+ "groups": {
+  "furniture_1": {
+   "image": "lightmap_furniture_1.webp",
+   "multiplier": "lightmap_furniture_1_m.webp",
+   "hdr": "lightmap_furniture_1.exr",
+   "size": 1024,
+   "intensity": 52.4064,
+   "median": 0.00129,
+   "denoised": true,
+   "px_per_m": 219.8,
+   "objects": 8,
+   "buried_texels_pct": 1.52,
+   "samples": 384,
+   "seconds": 19,
+   "bytes": 3048584,
+   "glb": "furniture_1.glb",
+   "textures_resized": 4
+  }
+ },
+ "vertex": {
+  "furniture_1": {
+   "objects": [
+    "GF_Cube.025",
+    "GF_Cube.027",
+    "GF_Cream.001",
+    "GF_Bottle_3.001",
+    "GF_bottle_2.001",
+    "GF_Cube.030",
+    "GF_Cube.032"
+   ],
+   "intensity": 1.3372,
+   "seconds": 7
+  }
+ },
+ "colour": {
+  "display": "sRGB",
+  "view": "AgX",
+  "look": "None",
+  "exposure": 0.0,
+  "gamma": 1.0,
+  "curves": false,
+  "lut": "gf_colour_lut.png",
+  "lut_size": 48,
+  "lut_k": 64.0,
+  "lut_max": 64.0
+ },
+ "lights": [
+  {
+   "name": "Area.012",
+   "type": "AREA",
+   "power": 3.927,
+   "color": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "position": [
+    -1.6837,
+    0.2672,
+    6.4695
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    1.4,
+    0.02
+   ]
+  },
+  {
+   "name": "Area.014",
+   "type": "AREA",
+   "power": 3.927,
+   "color": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "position": [
+    -1.6837,
+    0.6873,
+    6.465
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    1.4,
+    0.02
+   ]
+  },
+  {
+   "name": "Area.015",
+   "type": "AREA",
+   "power": 3.927,
+   "color": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "position": [
+    -1.6837,
+    0.4764,
+    6.4695
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    1.4,
+    0.02
+   ]
+  },
+  {
+   "name": "Area.007",
+   "type": "AREA",
+   "power": 10.0,
+   "color": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "position": [
+    3.9003,
+    1.6087,
+    0.0
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    2.6,
+    0.02
+   ]
+  },
+  {
+   "name": "CFG_Sun",
+   "type": "SUN",
+   "power": 4.0,
+   "color": [
+    1.0,
+    0.95,
+    0.86
+   ],
+   "position": [
+    -8.0,
+    6.0,
+    -3.0
+   ],
+   "direction": [
+    0.8088,
+    -0.5014,
+    0.3073
+   ]
+  },
+  {
+   "name": "CFG_Down_1",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    -1.5,
+    2.88,
+    -2.6
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Down_2",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    1.2,
+    2.88,
+    -2.6
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Down_3",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    -1.5,
+    2.88,
+    -0.2
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Down_4",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    1.2,
+    2.88,
+    -0.2
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Down_5",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    -1.7,
+    2.88,
+    4.0
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Down_6",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    1.4,
+    2.88,
+    4.0
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Down_7",
+   "type": "AREA",
+   "power": 18.0,
+   "color": [
+    1.0,
+    0.86,
+    0.7
+   ],
+   "position": [
+    1.4,
+    2.88,
+    5.6
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "size": [
+    0.12,
+    0.12
+   ]
+  },
+  {
+   "name": "CFG_Pendant_1",
+   "type": "SPOT",
+   "power": 6.0,
+   "color": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "position": [
+    1.65,
+    1.68,
+    0.25
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "radius": 0.06,
+   "spot_size": 1.9199,
+   "spot_blend": 0.8
+  },
+  {
+   "name": "CFG_Pendant_2",
+   "type": "SPOT",
+   "power": 6.0,
+   "color": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "position": [
+    1.65,
+    1.68,
+    -0.4
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "radius": 0.06,
+   "spot_size": 1.9199,
+   "spot_blend": 0.8
+  },
+  {
+   "name": "CFG_Pendant_3",
+   "type": "SPOT",
+   "power": 6.0,
+   "color": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "position": [
+    1.65,
+    1.68,
+    -1.05
+   ],
+   "direction": [
+    0.0,
+    -1.0,
+    -0.0
+   ],
+   "radius": 0.06,
+   "spot_size": 1.9199,
+   "spot_blend": 0.8
+  }
+ ],
+ "gf_version": "0.11.0",
+ "materials": {
+  "GF_Mirror.001": "other",
+  "GF_Emission.001": "emissive",
+  "GF_Glass_brown.001": "glass",
+  "GF_meraki  8555.001": "glass",
+  "GF_Brown_glass.001": "glass"
+ }
+}

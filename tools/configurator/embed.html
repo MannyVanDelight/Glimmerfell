@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embed the Glimmerfell Configurator</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root { --gold: #c5a059; --ink: #0e0e0f; --hair: #eaeaea; --body: #4a4a4e; --muted: #8a8a8f; }
+  body { font-family: Helvetica, Arial, sans-serif; color: var(--ink); margin: 0; background: #fff; line-height: 1.55; }
+  main { max-width: 980px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-family: 'Spectral', Georgia, serif; font-weight: 300; font-size: clamp(26px, 4vw, 38px); margin: 0 0 6px; }
+  h2 { font-family: 'Spectral', Georgia, serif; font-weight: 400; font-size: 20px; margin: 34px 0 8px; }
+  p { color: var(--body); margin: 0 0 12px; font-size: 14.5px; }
+  pre { background: #fafafa; border: 1px solid var(--hair); padding: 14px 16px; overflow-x: auto; font-size: 12.5px; }
+  .frame { border: 1px solid var(--hair); margin-top: 18px; }
+  iframe { width: 100%; height: min(78vh, 680px); border: 0; display: block; }
+  #log { font-size: 12px; color: var(--muted); min-height: 1.5em; }
+  table { border-collapse: collapse; font-size: 13.5px; width: 100%; }
+  td, th { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
+  th { font-weight: 400; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  code { font-size: 12.5px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>One line on your website</h1>
+  <p>Paste this where the configurator should appear. It runs in its own frame, so your site's styles and scripts can't affect it and it can't affect them.</p>
+  <pre id="snippet"></pre>
+
+  <div class="frame"><iframe id="cfg" title="Glimmerfell Configurator" allow="fullscreen; clipboard-write" loading="lazy"></iframe></div>
+  <p id="log">Change something in the room: the page around it hears about it.</p>
+
+  <h2>Open a category directly</h2>
+  <table>
+    <tr><th>Address ending</th><th>Opens</th></tr>
+    <tr><td><code>?p=kitchen</code></td><td>Kitchen view</td></tr>
+    <tr><td><code>?p=flooring</code></td><td>Overview with a different floor</td></tr>
+    <tr><td><code>?p=living</code></td><td>Sofa, feature wall and window</td></tr>
+    <tr><td><code>?p=blinds</code></td><td>Window with a blind</td></tr>
+    <tr><td><code>?p=beds</code></td><td>Bedroom</td></tr>
+    <tr><td><code>?p=bathroom</code></td><td>Vanity</td></tr>
+    <tr><td><code>?look=warm-oak</code></td><td>The whole room in a styled look (also <code>dark-walnut</code>, <code>coastal-white</code>, <code>stone-brass</code>)</td></tr>
+    <tr><td><code>?code=GF1-8A</code></td><td>A configuration by its code (shown in the summary and on the PDF)</td></tr>
+  </table>
+
+  <h2>React to what visitors choose (optional)</h2>
+  <p>The frame reports these events to your page. Each carries the full configuration (<code>state</code>), so it can go straight into an enquiry form.</p>
+  <table>
+    <tr><th>Event</th><th>When</th><th>Extra fields</th></tr>
+    <tr><td><code>presetLoaded</code></td><td>The room is ready</td><td><code>preset</code></td></tr>
+    <tr><td><code>optionChanged</code></td><td>Any change</td><td><code>slot</code></td></tr>
+    <tr><td><code>lookApplied</code></td><td>A look is chosen</td><td><code>look</code>, <code>url</code></td></tr>
+    <tr><td><code>quoteRequested</code></td><td>The visitor downloads the PDF</td><td><code>url</code></td></tr>
+    <tr><td><code>cta</code></td><td>A button at the end of the summary is used</td><td><code>id</code>, <code>kind</code>, <code>url</code>, <code>total</code></td></tr>
+  </table>
+  <p>The summary buttons come from <code>cta</code> in <code>config.json</code>. A button with <code>"kind": "event"</code> does nothing by itself and only sends <code>cta</code>, so your site can open its own form:</p>
+  <pre>window.addEventListener('message', (e) => {
+  if (e.data?.source !== 'glimmerfell-configurator') return;
+  if (e.data.type === 'cta' && e.data.id === 'quote') openMyEnquiryForm(e.data.url, e.data.total);
+});</pre>
+</main>
+<script>
+  const src = new URL('./index.html', location.href).href.replace(/index\.html$/, '');
+  document.getElementById('snippet').textContent =
+    '<iframe src="' + src + '?p=kitchen" style="width:100%;height:min(80vh,720px);border:0"\n        allow="fullscreen; clipboard-write" loading="lazy" title="Product configurator"></iframe>';
+  document.getElementById('cfg').src = './index.html' + location.search;
+  addEventListener('message', (e) => {
+    if (!e.data || e.data.source !== 'glimmerfell-configurator') return;
+    document.getElementById('log').textContent = 'Event: ' + e.data.type + (e.data.slot ? ' (' + e.data.slot + ')' : '');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,3363 @@
+{
+ "title": "Glimmerfell Configurator",
+ "currency": "NZD",
+ "shareBase": "",
+ "base": "assets/base",
+ "highlights": 3,
+ "sky": [
+  0.62,
+  0.74,
+  0.88
+ ],
+ "bounds": {
+  "min": [
+   -3.45,
+   0.25,
+   -4.35
+  ],
+  "max": [
+   3.75,
+   2.75,
+   6.35
+  ]
+ },
+ "probes": [
+  {
+   "position": [
+    0.6,
+    1.5,
+    -1
+   ],
+   "box": {
+    "min": [
+     -3.6,
+     0,
+     -4.5
+    ],
+    "max": [
+     3.91,
+     2.9,
+     2.43
+    ]
+   }
+  },
+  {
+   "position": [
+    0,
+    1.5,
+    4.7
+   ],
+   "box": {
+    "min": [
+     -3.6,
+     0,
+     2.57
+    ],
+    "max": [
+     3.91,
+     2.9,
+     6.5
+    ]
+   }
+  }
+ ],
+ "cameras": {
+  "hero": {
+   "yaw": [
+    -80,
+    80
+   ]
+  },
+  "feature": {
+   "yaw": [
+    -60,
+    60
+   ],
+   "pitch": [
+    -5,
+    40
+   ]
+  },
+  "blind": {
+   "yaw": [
+    -60,
+    60
+   ],
+   "pitch": [
+    -5,
+    40
+   ]
+  },
+  "splashback": {
+   "yaw": [
+    -65,
+    65
+   ],
+   "pitch": [
+    -5,
+    45
+   ]
+  },
+  "vanitywall": {
+   "yaw": [
+    -65,
+    65
+   ],
+   "pitch": [
+    -5,
+    45
+   ]
+  },
+  "rug": {
+   "pitch": [
+    10,
+    85
+   ]
+  },
+  "floor": {
+   "pitch": [
+    5,
+    85
+   ]
+  },
+  "floorliving": {
+   "pitch": [
+    5,
+    85
+   ]
+  },
+  "floorbed": {
+   "pitch": [
+    5,
+    85
+   ]
+  },
+  "floorbath": {
+   "pitch": [
+    5,
+    85
+   ]
+  }
+ },
+ "viewAliases": {
+  "window": "blind",
+  "bed-bath": "bed"
+ },
+ "zones": [
+  {
+   "id": "overview",
+   "label": "Overview",
+   "camera": "hero"
+  },
+  {
+   "id": "kitchen",
+   "label": "Kitchen",
+   "camera": "kitchen",
+   "anchor": [
+    3.2,
+    1.25,
+    0
+   ]
+  },
+  {
+   "id": "living",
+   "label": "Living",
+   "camera": "living",
+   "anchor": [
+    -1.9,
+    1.15,
+    1.5
+   ]
+  },
+  {
+   "id": "bed",
+   "label": "Bedroom",
+   "camera": "bed",
+   "anchor": [
+    2.3,
+    1.15,
+    3.4
+   ]
+  },
+  {
+   "id": "bath",
+   "label": "Bathroom",
+   "camera": "bath",
+   "anchor": [
+    0.1,
+    1.7,
+    3.6
+   ]
+  }
+ ],
+ "elements": [
+  {
+   "id": "cooktop",
+   "label": "Cooktop",
+   "zone": "kitchen",
+   "camera": "cooktop",
+   "slots": [
+    "cooktop"
+   ],
+   "order": 8
+  },
+  {
+   "id": "oven",
+   "label": "Oven",
+   "zone": "kitchen",
+   "camera": "oven",
+   "slots": [
+    "oven"
+   ],
+   "order": 9
+  },
+  {
+   "id": "sink",
+   "label": "Sink",
+   "zone": "kitchen",
+   "camera": "sink",
+   "slots": [
+    "sink"
+   ],
+   "order": 6
+  },
+  {
+   "id": "tap",
+   "label": "Tap",
+   "zone": "kitchen",
+   "camera": "tap",
+   "slots": [
+    "tap"
+   ],
+   "order": 7
+  },
+  {
+   "id": "fronts",
+   "label": "Cabinet fronts",
+   "zone": "kitchen",
+   "camera": "fronts",
+   "slots": [
+    "fronts"
+   ],
+   "order": 1
+  },
+  {
+   "id": "benchtop",
+   "label": "Benchtop",
+   "zone": "kitchen",
+   "camera": "benchtop",
+   "slots": [
+    "benchtop"
+   ],
+   "order": 2
+  },
+  {
+   "id": "splashback",
+   "label": "Splashback",
+   "zone": "kitchen",
+   "camera": "splashback",
+   "slots": [
+    "splashback"
+   ],
+   "order": 3
+  },
+  {
+   "id": "pendants",
+   "label": "Pendant lights",
+   "zone": "kitchen",
+   "camera": "benchtop",
+   "anchor": [
+    1.65,
+    1.95,
+    -0.4
+   ],
+   "slots": [
+    "pendants"
+   ],
+   "order": 11
+  },
+  {
+   "id": "sofa",
+   "label": "Sofa",
+   "zone": "living",
+   "camera": "sofa",
+   "slots": [
+    "sofa"
+   ]
+  },
+  {
+   "id": "feature",
+   "label": "Feature wall",
+   "zone": "living",
+   "camera": "feature",
+   "slots": [
+    "feature"
+   ]
+  },
+  {
+   "id": "blind",
+   "label": "Window blind",
+   "zone": "living",
+   "camera": "blind",
+   "slots": [
+    "blind"
+   ]
+  },
+  {
+   "id": "rug",
+   "label": "Rug",
+   "zone": "living",
+   "camera": "rug",
+   "slots": [
+    "rug"
+   ]
+  },
+  {
+   "id": "bed",
+   "label": "Bed",
+   "zone": "bed",
+   "camera": "bed-el",
+   "slots": [
+    "bed"
+   ]
+  },
+  {
+   "id": "vanity",
+   "label": "Vanity",
+   "zone": "bath",
+   "camera": "vanity",
+   "slots": [
+    "vanity"
+   ]
+  },
+  {
+   "id": "basintap",
+   "label": "Basin tap",
+   "zone": "bath",
+   "camera": "basintap",
+   "slots": [
+    "basintap"
+   ]
+  },
+  {
+   "id": "vanitywall",
+   "label": "Vanity wall",
+   "zone": "bath",
+   "camera": "vanitywall",
+   "slots": [
+    "vanitywall"
+   ]
+  },
+  {
+   "id": "walls",
+   "label": "Walls",
+   "zone": "room",
+   "slots": [
+    "walls"
+   ]
+  },
+  {
+   "id": "hood",
+   "label": "Range hood",
+   "zone": "kitchen",
+   "camera": "hood",
+   "slots": [
+    "hood"
+   ],
+   "order": 10
+  },
+  {
+   "id": "islandtop",
+   "label": "Island top",
+   "zone": "kitchen",
+   "camera": "islandtop",
+   "slots": [
+    "islandtop"
+   ],
+   "order": 4
+  },
+  {
+   "id": "islandstorage",
+   "label": "Island storage",
+   "zone": "kitchen",
+   "camera": "islandstorage",
+   "slots": [
+    "islandstorage"
+   ],
+   "order": 5
+  },
+  {
+   "id": "dining",
+   "label": "Dining set",
+   "zone": "kitchen",
+   "camera": "dining",
+   "slots": [
+    "dining"
+   ],
+   "order": 12
+  },
+  {
+   "id": "floorkitchen",
+   "label": "Floor",
+   "zone": "kitchen",
+   "camera": "floorliving",
+   "anchor": [
+    2.7,
+    0.02,
+    1.3
+   ],
+   "slots": [
+    "floorliving"
+   ],
+   "order": 13
+  },
+  {
+   "id": "coffeetable",
+   "label": "Coffee table",
+   "zone": "living",
+   "camera": "coffeetable",
+   "slots": [
+    "coffeetable"
+   ]
+  },
+  {
+   "id": "floorliving",
+   "label": "Floor",
+   "zone": "living",
+   "camera": "floorliving",
+   "slots": [
+    "floorliving"
+   ]
+  },
+  {
+   "id": "floorbed",
+   "label": "Floor",
+   "zone": "bed",
+   "camera": "floorbed",
+   "slots": [
+    "floorbed",
+    "edgestrip"
+   ]
+  },
+  {
+   "id": "edgestrip",
+   "label": "Edge strip",
+   "zone": "bed",
+   "camera": "edgestrip",
+   "slots": [
+    "edgestrip"
+   ]
+  },
+  {
+   "id": "floorbath",
+   "label": "Floor",
+   "zone": "bath",
+   "camera": "floorbath",
+   "slots": [
+    "floorbath"
+   ]
+  }
+ ],
+ "doorways": [
+  {
+   "name": "living-bed",
+   "min": [
+    -0.2,
+    0,
+    2.43
+   ],
+   "max": [
+    3,
+    2.5,
+    2.57
+   ]
+  }
+ ],
+ "finishes": {
+  "paint-white": {
+   "label": "Warm white",
+   "color": "#efebe3",
+   "roughness": 0.82,
+   "price": 0,
+   "category": "paint"
+  },
+  "paint-greige": {
+   "label": "Warm greige",
+   "color": "#cfc7ba",
+   "roughness": 0.82,
+   "price": 0,
+   "category": "paint"
+  },
+  "paint-sage": {
+   "label": "Sage",
+   "color": "#a9b4a0",
+   "roughness": 0.82,
+   "price": 0,
+   "category": "paint"
+  },
+  "paint-clay": {
+   "label": "Clay",
+   "color": "#c7a48c",
+   "roughness": 0.82,
+   "price": 0,
+   "category": "paint"
+  },
+  "paint-navy": {
+   "label": "Deep navy",
+   "color": "#2f3a4b",
+   "roughness": 0.78,
+   "price": 0,
+   "category": "paint"
+  },
+  "paint-charcoal": {
+   "label": "Charcoal",
+   "color": "#3b3b3d",
+   "roughness": 0.78,
+   "price": 0,
+   "category": "paint"
+  },
+  "plaster-lime": {
+   "label": "Limewash plaster",
+   "pbr": "polyethylene_foam_01",
+   "price": 650,
+   "color": "#e6dfd3",
+   "tile": 2.5,
+   "roughness": 0.9,
+   "normalScale": 0.6,
+   "category": "paint"
+  },
+  "plaster-clay": {
+   "label": "Clay plaster",
+   "pbr": "polyethylene_foam_01",
+   "price": 650,
+   "color": "#c9a98f",
+   "tile": 2.5,
+   "roughness": 0.9,
+   "normalScale": 0.6,
+   "category": "paint"
+  },
+  "floor-oak": {
+   "label": "Natural oak planks",
+   "pbr": "floor_planks_oak",
+   "price": 0,
+   "pbrFallback": [
+    {
+     "pbr": "generic_wood_02",
+     "color": "#b48d68",
+     "tile": 1.4,
+     "roughnessScale": 0.85
+    }
+   ],
+   "badge": "Bestseller"
+  },
+  "floor-walnut": {
+   "label": "Walnut planks",
+   "pbr": "floor_planks_walnut",
+   "price": 1900,
+   "pbrFallback": [
+    {
+     "pbr": "generic_wood_01",
+     "tile": 1.4,
+     "roughnessScale": 0.85
+    }
+   ]
+  },
+  "floor-weathered": {
+   "label": "Weathered oak planks",
+   "pbr": "floor_planks_weathered",
+   "price": 1400
+  },
+  "floor-marble": {
+   "label": "White marble tiles",
+   "pbr": "marble_tiles_01",
+   "price": 5400,
+   "tile": 1.2
+  },
+  "floor-travertine": {
+   "label": "Travertine tiles",
+   "pbr": "marble_tiles_03",
+   "price": 4200,
+   "tile": 1.2
+  },
+  "floor-octagon": {
+   "label": "Grey octagon tiles",
+   "pbr": "diamond_corner_tiles_01",
+   "price": 3100
+  },
+  "floor-terracotta": {
+   "label": "Terracotta octagon tiles",
+   "pbr": "diamond_corner_tiles_03",
+   "price": 3300,
+   "badge": "Designer pick"
+  },
+  "floor-carpet": {
+   "label": "Oatmeal wool carpet",
+   "pbr": "wool_carpet_01",
+   "price": 800,
+   "color": "#a8977f"
+  },
+  "panel-walnut": {
+   "label": "Walnut panelling",
+   "pbr": "generic_wood_01",
+   "price": 2200,
+   "tile": 1.2,
+   "rotation": 90,
+   "stretch": 3,
+   "badge": "Designer pick"
+  },
+  "panel-oak": {
+   "label": "Oak panelling",
+   "pbr": "generic_wood_02",
+   "price": 1900,
+   "tile": 1.2,
+   "rotation": 90,
+   "stretch": 3,
+   "color": "#a98763"
+  },
+  "panel-marble": {
+   "label": "Calacatta marble",
+   "pbr": "marble_calacatta",
+   "price": 4800,
+   "tile": 1.6
+  },
+  "panel-green-marble": {
+   "label": "Green marble tiles",
+   "pbr": "marble_tiles_04",
+   "price": 3900
+  },
+  "lacquer-sage": {
+   "label": "Sage lacquer",
+   "color": "#8e9a86",
+   "roughness": 0.32,
+   "price": 0,
+   "swatch": "#8e9a86",
+   "category": "lacquer",
+   "badge": "Designer pick"
+  },
+  "lacquer-white": {
+   "label": "White lacquer",
+   "color": "#ebe8e1",
+   "roughness": 0.3,
+   "price": 0,
+   "category": "lacquer"
+  },
+  "lacquer-charcoal": {
+   "label": "Charcoal lacquer",
+   "color": "#2e2f31",
+   "roughness": 0.3,
+   "price": 400,
+   "category": "lacquer"
+  },
+  "lacquer-navy": {
+   "label": "Navy lacquer",
+   "color": "#27344a",
+   "roughness": 0.3,
+   "price": 400,
+   "category": "lacquer"
+  },
+  "lacquer-sage2": {
+   "label": "Sage lacquer",
+   "color": "#8e9a86",
+   "roughness": 0.32,
+   "price": 300,
+   "category": "lacquer"
+  },
+  "gloss-black": {
+   "label": "Black high gloss",
+   "pbr": "plastic_03",
+   "price": 900
+  },
+  "veneer-oak": {
+   "label": "Oak veneer",
+   "pbr": "generic_wood_02",
+   "price": 1800,
+   "tile": 1.2,
+   "rotation": 90,
+   "stretch": 3,
+   "color": "#a98763",
+   "roughnessScale": 0.9
+  },
+  "veneer-walnut": {
+   "label": "Walnut veneer",
+   "pbr": "generic_wood_01",
+   "price": 2400,
+   "tile": 1.2,
+   "rotation": 90,
+   "stretch": 3,
+   "roughnessScale": 0.9,
+   "badge": "Bestseller"
+  },
+  "veneer-mahogany": {
+   "label": "Mahogany veneer",
+   "pbr": "generic_wood_04",
+   "price": 2600,
+   "tile": 1.2,
+   "rotation": 90,
+   "stretch": 3
+  },
+  "veneer-smoked": {
+   "label": "Smoked figured veneer",
+   "pbr": "generic_wood_03",
+   "price": 2900,
+   "tile": 1.2,
+   "rotation": 90,
+   "stretch": 3
+  },
+  "bench-marble": {
+   "label": "Calacatta marble",
+   "pbr": "marble_calacatta",
+   "price": 3200,
+   "tile": 1.6,
+   "badge": "Bestseller"
+  },
+  "bench-gold": {
+   "label": "Gold vein marble",
+   "pbr": "gold_marble_04",
+   "price": 3600,
+   "tile": 1.6,
+   "badge": "Designer pick"
+  },
+  "bench-pavonazzetto": {
+   "label": "Pavonazzetto marble",
+   "pbr": "pavonazzetto_marble_04",
+   "price": 3900,
+   "tile": 1.6
+  },
+  "bench-marquina": {
+   "label": "Nero Marquina marble",
+   "pbr": "marble_marquina_black",
+   "price": 3800,
+   "tile": 1.6
+  },
+  "bench-granite": {
+   "label": "Black granite",
+   "pbr": "granite_blk_polished",
+   "price": 2600
+  },
+  "bench-sage": {
+   "label": "Sage composite",
+   "color": "#9a9b7c",
+   "roughness": 0.42,
+   "price": 0,
+   "swatch": "#9a9b7c",
+   "category": "stone"
+  },
+  "bench-walnut": {
+   "label": "Walnut",
+   "pbr": "generic_wood_01",
+   "price": 1700,
+   "tile": 1.2,
+   "roughnessScale": 0.8
+  },
+  "bench-stainless": {
+   "label": "Brushed stainless",
+   "pbr": "silver_polished",
+   "price": 2100,
+   "roughness": 0.32
+  },
+  "splash-marble": {
+   "label": "Calacatta slab",
+   "pbr": "marble_calacatta",
+   "price": 1400,
+   "tile": 1
+  },
+  "splash-gloss": {
+   "label": "White gloss glass",
+   "pbr": "polyethylene_01",
+   "price": 900,
+   "color": "#ece9e2",
+   "roughness": 0.06,
+   "category": "glass"
+  },
+  "splash-circle": {
+   "label": "White tiles, dot inlay",
+   "pbr": "circle_corner_tiles_01",
+   "price": 1100
+  },
+  "splash-diagonal": {
+   "label": "Beige diagonal tiles",
+   "pbr": "circle_corner_tiles_04",
+   "price": 1100
+  },
+  "splash-octagon": {
+   "label": "Octagon tiles, blue inlay",
+   "pbr": "diamond_corner_tiles_04",
+   "price": 1300,
+   "badge": "New"
+  },
+  "splash-green": {
+   "label": "Green marble tiles",
+   "pbr": "marble_tiles_04",
+   "price": 1500
+  },
+  "splash-black": {
+   "label": "Black marble tiles",
+   "pbr": "marble_tiles_02",
+   "price": 1500
+  },
+  "rug-oatmeal": {
+   "label": "Oatmeal wool",
+   "pbr": "wool_carpet_01",
+   "price": 0,
+   "color": "#b3a48f"
+  },
+  "rug-rust": {
+   "label": "Rust wool",
+   "pbr": "wool_carpet_02",
+   "price": 150
+  },
+  "rug-stone": {
+   "label": "Stone felt",
+   "pbr": "felt_fabric_01",
+   "price": 120,
+   "color": "#8f8d88"
+  },
+  "rug-moss": {
+   "label": "Moss felt",
+   "pbr": "felt_fabric_02",
+   "price": 120,
+   "color": "#6d775c"
+  },
+  "rug-charcoal": {
+   "label": "Charcoal wool",
+   "pbr": "wool_carpet_01",
+   "price": 150,
+   "color": "#3e3c3a"
+  },
+  "vw-marble-tiles": {
+   "label": "White marble tiles",
+   "pbr": "marble_tiles_01",
+   "price": 0
+  },
+  "vw-calacatta": {
+   "label": "Calacatta slab",
+   "pbr": "marble_calacatta",
+   "price": 900,
+   "tile": 1.6
+  },
+  "vw-black": {
+   "label": "Black marble tiles",
+   "pbr": "marble_tiles_02",
+   "price": 400
+  },
+  "vw-green": {
+   "label": "Green marble tiles",
+   "pbr": "marble_tiles_04",
+   "price": 400
+  },
+  "vw-travertine": {
+   "label": "Travertine tiles",
+   "pbr": "marble_tiles_03",
+   "price": 300
+  },
+  "vw-circle": {
+   "label": "White tiles, dot inlay",
+   "pbr": "circle_corner_tiles_01",
+   "price": 200
+  },
+  "vw-terracotta": {
+   "label": "Terracotta octagons",
+   "pbr": "diamond_corner_tiles_03",
+   "price": 300,
+   "badge": "New"
+  },
+  "trim-white": {
+   "label": "White satin",
+   "color": "#f1eee8",
+   "roughness": 0.45,
+   "price": 0,
+   "category": "paint"
+  },
+  "trim-black": {
+   "label": "Black satin",
+   "color": "#1c1c1d",
+   "roughness": 0.45,
+   "price": 120,
+   "category": "paint"
+  },
+  "trim-oak": {
+   "label": "Oak",
+   "pbr": "generic_wood_02",
+   "price": 260,
+   "tile": 1.2,
+   "color": "#a98763"
+  },
+  "trim-walnut": {
+   "label": "Walnut",
+   "pbr": "generic_wood_01",
+   "price": 320,
+   "tile": 1.2
+  },
+  "metal-chrome": {
+   "label": "Chrome",
+   "pbr": "chrome_02",
+   "price": 0
+  },
+  "metal-brass": {
+   "label": "Brushed brass",
+   "pbr": "brass_polished",
+   "price": 180,
+   "roughness": 0.3
+  },
+  "metal-brass-polished": {
+   "label": "Polished brass",
+   "pbr": "brass_polished",
+   "price": 220
+  },
+  "metal-gold": {
+   "label": "Polished gold",
+   "pbr": "gold_polished",
+   "price": 260
+  },
+  "metal-steel": {
+   "label": "Brushed steel",
+   "pbr": "silver_polished",
+   "price": 120,
+   "roughness": 0.3
+  },
+  "metal-black": {
+   "label": "Matte black",
+   "color": "#141415",
+   "roughness": 0.42,
+   "price": 90,
+   "metalness": 0.4,
+   "category": "metal"
+  },
+  "metal-iron": {
+   "label": "Cast iron",
+   "pbr": "cast_iron_02",
+   "price": 140,
+   "color": "#3a3b3d"
+  },
+  "metal-gunmetal": {
+   "label": "Gunmetal",
+   "pbr": "brushed_metal_03",
+   "price": 140,
+   "color": "#56595c"
+  },
+  "orig-peru": {
+   "label": "Cream leather",
+   "pbr": "leather_01",
+   "price": 0,
+   "color": "#d6cab6",
+   "roughnessScale": 1.15
+  },
+  "fabric-linen": {
+   "label": "Natural linen",
+   "pbr": "fabric_03",
+   "price": 0,
+   "color": "#cdc3b2",
+   "normalScale": 0.7
+  },
+  "fabric-stone": {
+   "label": "Stone grey",
+   "pbr": "felt_fabric_01",
+   "price": 0,
+   "color": "#8d8b87"
+  },
+  "fabric-sage": {
+   "label": "Sage",
+   "pbr": "felt_fabric_02",
+   "price": 150,
+   "color": "#86917d"
+  },
+  "fabric-rust": {
+   "label": "Rust weave",
+   "pbr": "fabric_04",
+   "price": 150,
+   "normalScale": 0.7
+  },
+  "fabric-navy": {
+   "label": "Navy",
+   "pbr": "felt_fabric_01",
+   "price": 150,
+   "color": "#2c374c"
+  },
+  "fabric-charcoal": {
+   "label": "Charcoal",
+   "pbr": "felt_fabric_01",
+   "price": 150,
+   "color": "#3a3b3d"
+  },
+  "fabric-quilted": {
+   "label": "Quilted grey",
+   "pbr": "quilted_fabric_03",
+   "price": 450
+  },
+  "leather-brown": {
+   "label": "Brown leather",
+   "pbr": "leather_01",
+   "price": 900,
+   "color": "#5e3d27"
+  },
+  "leather-aubergine": {
+   "label": "Aubergine leather",
+   "pbr": "leather_05",
+   "price": 950
+  },
+  "leather-red-quilted": {
+   "label": "Red quilted leather",
+   "pbr": "quilted_leather_04",
+   "price": 1200
+  },
+  "sheer-white": {
+   "label": "White sheer",
+   "color": "#f1efea",
+   "roughness": 0.9,
+   "price": 0,
+   "category": "fabric",
+   "sheer": true,
+   "pbrPreferred": {
+    "pbr": "sheer_white",
+    "color": null
+   }
+  },
+  "sheer-sand": {
+   "label": "Sand sheer",
+   "color": "#d9cdb8",
+   "roughness": 0.9,
+   "price": 0,
+   "category": "fabric",
+   "sheer": true,
+   "pbrPreferred": {
+    "pbr": "sheer_linen",
+    "color": null,
+    "label": "Linen sheer"
+   }
+  },
+  "linen-white": {
+   "label": "White linen",
+   "pbr": "fabric_03",
+   "price": 0,
+   "color": "#e6e2da",
+   "normalScale": 0.5
+  },
+  "linen-sand": {
+   "label": "Sand linen",
+   "pbr": "fabric_03",
+   "price": 0,
+   "color": "#c6b79c",
+   "normalScale": 0.5
+  },
+  "linen-sage": {
+   "label": "Sage linen",
+   "pbr": "fabric_03",
+   "price": 120,
+   "color": "#94a08c",
+   "normalScale": 0.5
+  },
+  "linen-charcoal": {
+   "label": "Charcoal linen",
+   "pbr": "fabric_03",
+   "price": 120,
+   "color": "#3d3e40",
+   "normalScale": 0.5
+  },
+  "orig-white-paint": {
+   "label": "White painted",
+   "original": true,
+   "swatch": "#e9e6df",
+   "category": "lacquer"
+  },
+  "orig-walnut": {
+   "label": "Walnut",
+   "original": true,
+   "swatch": "#6b4a33",
+   "category": "wood"
+  },
+  "sheer-grey": {
+   "label": "Grey sheer",
+   "color": "#b4b3af",
+   "roughness": 0.9,
+   "price": 0,
+   "category": "fabric",
+   "sheer": true,
+   "pbrPreferred": {
+    "pbr": "sheer_grey",
+    "color": null
+   }
+  },
+  "orig-gold": {
+   "label": "Brushed gold",
+   "original": true,
+   "swatch": "#b08d57",
+   "category": "metal"
+  },
+  "orig-chrome": {
+   "label": "Chrome",
+   "original": true,
+   "swatch": "#c9ccd0",
+   "category": "metal"
+  },
+  "orig-light-oak": {
+   "label": "Light oak",
+   "original": true,
+   "swatch": "#c4a27c",
+   "category": "wood"
+  },
+  "orig-vintage-wood": {
+   "label": "Aged wood",
+   "original": true,
+   "swatch": "#7a5a3e",
+   "category": "wood"
+  },
+  "orig-natural-oak": {
+   "label": "Natural oak",
+   "original": true,
+   "swatch": "#b48d68",
+   "category": "wood"
+  },
+  "orig-boucle-grey": {
+   "label": "Grey boucle",
+   "original": true,
+   "swatch": "#9a9692",
+   "category": "fabric"
+  },
+  "orig-denim": {
+   "label": "Denim blue",
+   "original": true,
+   "swatch": "#536177",
+   "category": "fabric"
+  },
+  "orig-edge": {
+   "label": "Brushed aluminium",
+   "original": true,
+   "swatch": "#a7a9ab",
+   "category": "metal"
+  }
+ },
+ "catalogue": {
+  "categoryOrder": [
+   "paint",
+   "lacquer",
+   "wood",
+   "stone",
+   "tile",
+   "glass",
+   "metal",
+   "fabric",
+   "plastic"
+  ],
+  "categoryLabels": {
+   "paint": "Paint",
+   "lacquer": "Lacquer",
+   "wood": "Wood",
+   "stone": "Stone",
+   "tile": "Tiles",
+   "glass": "Glass",
+   "metal": "Metal",
+   "fabric": "Fabric",
+   "plastic": "Synthetics"
+  },
+  "proceduralSheer": true,
+  "premium": {
+   "leather_01": 3,
+   "leather_05": 3.2,
+   "quilted_leather_04": 4,
+   "quilted_fabric_03": 1.5,
+   "marble_calacatta": 1.3,
+   "gold_marble_04": 1.4,
+   "pavonazzetto_marble_04": 1.4,
+   "marble_marquina_black": 1.35,
+   "marble_tiles_01": 1.2,
+   "marble_tiles_02": 1.2,
+   "marble_tiles_04": 1.2,
+   "marble_tiles_03": 1.1,
+   "gold_polished": 1.8,
+   "brass_polished": 1.4,
+   "silver_polished": 1.3,
+   "generic_wood_01": 1.15,
+   "generic_wood_03": 1.3,
+   "generic_wood_04": 1.25,
+   "floor_planks_walnut": 1.2
+  },
+  "families": {
+   "upholstery": {
+    "label": "Upholstery: fabrics (incl. leather) and soft synthetics",
+    "cloth": true,
+    "categories": [
+     "fabric",
+     "plastic"
+    ],
+    "exclude": [
+     "plastic_03",
+     "polyethylene_01",
+     "rubber_01",
+     "wool_carpet_*"
+    ],
+    "price": {
+     "fabric": 300,
+     "plastic": 250
+    },
+    "labels": {
+     "polyethylene_foam_01": "Synthetic suede, beige"
+    }
+   },
+   "linen": {
+    "label": "Bed linen and blankets: fabrics only",
+    "cloth": true,
+    "categories": [
+     "fabric"
+    ],
+    "exclude": [
+     "leather_*",
+     "quilted_leather_*",
+     "wool_carpet_*"
+    ],
+    "price": {
+     "fabric": 120
+    }
+   },
+   "blind": {
+    "label": "Blinds and curtains: woven fabrics, blackout or sheer",
+    "cloth": true,
+    "sheer": true,
+    "categories": [
+     "fabric"
+    ],
+    "use": [
+     "sheer"
+    ],
+    "exclude": [
+     "leather_*",
+     "quilted_*",
+     "wool_carpet_*"
+    ],
+    "extra": [
+     "sheer-white",
+     "sheer-sand",
+     "sheer-grey"
+    ],
+    "price": {
+     "fabric": 150
+    }
+   },
+   "sheer": {
+    "label": "See-through layer of a curtain: sheer fabrics only",
+    "cloth": true,
+    "sheer": true,
+    "sheerOnly": true,
+    "categories": [
+     "fabric"
+    ],
+    "use": [
+     "sheer"
+    ],
+    "extra": [
+     "sheer-white",
+     "sheer-sand",
+     "sheer-grey"
+    ],
+    "price": {
+     "fabric": 150
+    }
+   },
+   "rug": {
+    "label": "Rugs: wool carpet, felt and weaves",
+    "cloth": true,
+    "categories": [
+     "fabric"
+    ],
+    "exclude": [
+     "leather_*",
+     "quilted_*",
+     "jean_*",
+     "fabric_drape_*"
+    ],
+    "price": {
+     "fabric": 150
+    }
+   },
+   "hard": {
+    "label": "Hard furniture parts (legs, coffee / dining tables, shelves): wood and metal",
+    "categories": [
+     "wood",
+     "metal"
+    ],
+    "price": {
+     "wood": 250,
+     "metal": 200
+    }
+   },
+   "cabinet": {
+    "label": "Cabinets and bed bases: wood, metal, lacquers",
+    "categories": [
+     "wood",
+     "metal"
+    ],
+    "extra": [
+     "lacquer-white",
+     "lacquer-charcoal",
+     "lacquer-navy",
+     "lacquer-sage2"
+    ],
+    "defaults": {
+     "wood": {
+      "tile": 1.2,
+      "rotation": 90,
+      "stretch": 3
+     }
+    },
+    "price": {
+     "wood": 1800,
+     "metal": 2200
+    }
+   },
+   "front": {
+    "label": "Kitchen fronts: wood veneers, lacquers, gloss synthetics, brushed steel",
+    "categories": [
+     "wood",
+     "metal",
+     "plastic"
+    ],
+    "exclude": [
+     "brass_polished",
+     "chrome_02",
+     "gold_polished",
+     "silver_polished",
+     "cast_iron_02",
+     "polyethylene_foam_01",
+     "rubber_01"
+    ],
+    "extra": [
+     "lacquer-white",
+     "lacquer-sage",
+     "lacquer-charcoal",
+     "lacquer-navy"
+    ],
+    "defaults": {
+     "wood": {
+      "tile": 1.2,
+      "rotation": 90,
+      "stretch": 3,
+      "roughnessScale": 0.9
+     }
+    },
+    "labels": {
+     "polyethylene_01": "White high gloss",
+     "anisotropic_brushed_metal_01": "Brushed stainless",
+     "brushed_metal_03": "Brushed dark steel"
+    },
+    "price": {
+     "wood": 1800,
+     "metal": 3200,
+     "plastic": 900
+    }
+   },
+   "metal": {
+    "label": "Taps, handles, pendants: metals",
+    "categories": [
+     "metal"
+    ],
+    "labels": {
+     "anisotropic_brushed_metal_01": "Brushed stainless"
+    },
+    "price": {
+     "metal": 150
+    }
+   },
+   "edge": {
+    "label": "Edge strips (floor joins): metal and wood",
+    "categories": [
+     "metal",
+     "wood"
+    ],
+    "price": {
+     "metal": 80,
+     "wood": 60
+    }
+   },
+   "wall": {
+    "label": "Room walls: paint, wood panelling, tiles, stone",
+    "categories": [
+     "wood",
+     "tile",
+     "stone"
+    ],
+    "extra": [
+     "paint-white",
+     "paint-greige",
+     "paint-sage",
+     "paint-clay",
+     "paint-navy",
+     "paint-charcoal",
+     "plaster-lime",
+     "plaster-clay"
+    ],
+    "defaults": {
+     "wood": {
+      "tile": 1.2,
+      "rotation": 90,
+      "stretch": 3
+     },
+     "stone": {
+      "tile": 1.6
+     }
+    },
+    "price": {
+     "wood": 4800,
+     "tile": 6500,
+     "stone": 9800
+    }
+   },
+   "feature": {
+    "label": "Feature wall: paint, wood panelling, tiles, stone",
+    "categories": [
+     "wood",
+     "tile",
+     "stone"
+    ],
+    "extra": [
+     "paint-white",
+     "paint-greige",
+     "paint-sage",
+     "paint-clay",
+     "paint-navy",
+     "paint-charcoal",
+     "plaster-lime",
+     "plaster-clay"
+    ],
+    "defaults": {
+     "wood": {
+      "tile": 1.2,
+      "rotation": 90,
+      "stretch": 3
+     },
+     "stone": {
+      "tile": 1.6
+     }
+    },
+    "price": {
+     "wood": 2000,
+     "tile": 3000,
+     "stone": 4500
+    }
+   },
+   "vanitywall": {
+    "label": "Vanity wall: paint, wood, tiles, stone",
+    "categories": [
+     "wood",
+     "tile",
+     "stone"
+    ],
+    "extra": [
+     "paint-white",
+     "paint-greige",
+     "paint-sage",
+     "paint-clay",
+     "paint-navy",
+     "paint-charcoal",
+     "plaster-lime",
+     "plaster-clay"
+    ],
+    "defaults": {
+     "wood": {
+      "tile": 1.2,
+      "rotation": 90,
+      "stretch": 3
+     },
+     "stone": {
+      "tile": 1.6
+     }
+    },
+    "price": {
+     "wood": 500,
+     "tile": 350,
+     "stone": 900
+    }
+   },
+   "bench": {
+    "label": "Benchtop: stone, metal, wood",
+    "categories": [
+     "stone",
+     "metal",
+     "wood"
+    ],
+    "defaults": {
+     "stone": {
+      "tile": 1.6
+     },
+     "wood": {
+      "tile": 1.2,
+      "roughnessScale": 0.8
+     }
+    },
+    "labels": {
+     "anisotropic_brushed_metal_01": "Brushed stainless, satin"
+    },
+    "price": {
+     "stone": 3400,
+     "metal": 2400,
+     "wood": 1700
+    }
+   },
+   "splash": {
+    "label": "Splashback: stone, tiles, metal, wood (and gloss glass)",
+    "categories": [
+     "stone",
+     "tile",
+     "metal",
+     "wood"
+    ],
+    "defaults": {
+     "stone": {
+      "tile": 1
+     },
+     "wood": {
+      "tile": 1.2,
+      "rotation": 90,
+      "stretch": 3
+     }
+    },
+    "price": {
+     "stone": 1500,
+     "tile": 1100,
+     "metal": 1300,
+     "wood": 900
+    }
+   },
+   "floor": {
+    "label": "Floor: floor planks and woods as boards, tiles, stone, wool carpet",
+    "categories": [
+     "wood",
+     "tile",
+     "stone"
+    ],
+    "use": [
+     "floor"
+    ],
+    "include": [
+     "wool_carpet_01",
+     "wool_carpet_02"
+    ],
+    "defaults": {
+     "wood": {
+      "tile": 1.4
+     },
+     "stone": {
+      "tile": 1.2
+     }
+    },
+    "price": {
+     "wood": 1600,
+     "tile": 3200,
+     "stone": 4800,
+     "fabric": 800
+    }
+   },
+   "trim": {
+    "label": "Skirting and trim: paint colours and wood",
+    "categories": [
+     "wood"
+    ],
+    "extra": [
+     "paint-greige",
+     "paint-sage",
+     "paint-clay",
+     "paint-navy",
+     "paint-charcoal"
+    ],
+    "price": {
+     "wood": 300
+    }
+   }
+  }
+ },
+ "slots": [
+  {
+   "id": "floorliving",
+   "label": "Floor, living & kitchen",
+   "group": "Room",
+   "kind": "surface",
+   "camera": "floorliving",
+   "name": "Floor, living & kitchen",
+   "price": 4400,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "FloorLiving"
+     ],
+     "family": "floor",
+     "finishes": [
+      "floor-oak",
+      "floor-walnut",
+      "floor-weathered",
+      "floor-marble",
+      "floor-travertine",
+      "floor-octagon",
+      "floor-terracotta",
+      "floor-carpet"
+     ],
+     "uv": "box",
+     "default": "floor-oak"
+    }
+   ]
+  },
+  {
+   "id": "floorbed",
+   "label": "Floor, bedroom",
+   "group": "Room",
+   "kind": "surface",
+   "camera": "floorbed",
+   "name": "Floor, bedroom",
+   "price": 1600,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "FloorBed"
+     ],
+     "family": "floor",
+     "finishes": [
+      "floor-oak",
+      "floor-walnut",
+      "floor-weathered",
+      "floor-marble",
+      "floor-travertine",
+      "floor-octagon",
+      "floor-terracotta",
+      "floor-carpet"
+     ],
+     "uv": "box",
+     "default": "floor-oak"
+    }
+   ]
+  },
+  {
+   "id": "floorbath",
+   "label": "Floor, bathroom",
+   "group": "Room",
+   "kind": "surface",
+   "camera": "floorbath",
+   "name": "Floor, bathroom",
+   "price": 800,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "FloorBath"
+     ],
+     "family": "floor",
+     "finishes": [
+      "floor-oak",
+      "floor-walnut",
+      "floor-weathered",
+      "floor-marble",
+      "floor-travertine",
+      "floor-octagon",
+      "floor-terracotta",
+      "floor-carpet"
+     ],
+     "uv": "box",
+     "default": "floor-oak"
+    }
+   ]
+  },
+  {
+   "id": "edgestrip",
+   "label": "Edge strips",
+   "group": "Room",
+   "kind": "surface",
+   "camera": "edgestrip",
+   "name": "Floor edge strips",
+   "price": 240,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "EdgeStrip"
+     ],
+     "family": "edge",
+     "finishes": [
+      "orig-edge",
+      "metal-steel",
+      "metal-brass",
+      "metal-black",
+      "trim-oak",
+      "trim-walnut"
+     ],
+     "default": "orig-edge"
+    }
+   ]
+  },
+  {
+   "id": "walls",
+   "label": "Walls",
+   "group": "Room",
+   "kind": "surface",
+   "camera": "walls",
+   "name": "Walls",
+   "price": 2400,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Colour",
+     "materials": [
+      "Wall"
+     ],
+     "family": "wall",
+     "finishes": [
+      "paint-white",
+      "paint-greige",
+      "paint-sage",
+      "paint-clay",
+      "paint-navy",
+      "paint-charcoal",
+      "plaster-lime",
+      "plaster-clay"
+     ],
+     "uv": "box"
+    },
+    {
+     "id": "skirting",
+     "label": "Skirting",
+     "materials": [
+      "Skirting"
+     ],
+     "family": "trim",
+     "finishes": [
+      "trim-white",
+      "trim-black",
+      "trim-oak",
+      "trim-walnut"
+     ],
+     "uv": "box"
+    }
+   ]
+  },
+  {
+   "id": "fronts",
+   "label": "Cabinet fronts",
+   "group": "Kitchen",
+   "kind": "surface",
+   "camera": "fronts",
+   "name": "Kitchen fronts",
+   "price": 14500,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Base units",
+     "materials": [
+      "Doors"
+     ],
+     "family": "front",
+     "finishes": [
+      "lacquer-sage",
+      "lacquer-white",
+      "lacquer-charcoal",
+      "lacquer-navy",
+      "gloss-black",
+      "veneer-oak",
+      "veneer-walnut",
+      "veneer-smoked"
+     ],
+     "uv": "box"
+    },
+    {
+     "id": "uppers",
+     "label": "Upper units",
+     "materials": [
+      "UpperFronts"
+     ],
+     "family": "front",
+     "finishes": [
+      "veneer-walnut",
+      "veneer-oak",
+      "veneer-mahogany",
+      "veneer-smoked",
+      "lacquer-sage",
+      "lacquer-white",
+      "lacquer-charcoal"
+     ],
+     "uv": "box",
+     "default": "veneer-walnut"
+    }
+   ]
+  },
+  {
+   "id": "benchtop",
+   "label": "Benchtop",
+   "group": "Kitchen",
+   "kind": "surface",
+   "camera": "benchtop",
+   "name": "Benchtop",
+   "price": 4200,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "Benchtop"
+     ],
+     "family": "bench",
+     "finishes": [
+      "bench-marble",
+      "bench-gold",
+      "bench-pavonazzetto",
+      "bench-marquina",
+      "bench-granite",
+      "bench-sage",
+      "bench-walnut",
+      "bench-stainless"
+     ],
+     "uv": "box",
+     "default": "bench-marble"
+    }
+   ]
+  },
+  {
+   "id": "splashback",
+   "label": "Splashback",
+   "group": "Kitchen",
+   "kind": "surface",
+   "camera": "splashback",
+   "name": "Splashback",
+   "price": 1600,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "Splashback"
+     ],
+     "family": "splash",
+     "finishes": [
+      "splash-marble",
+      "splash-gloss",
+      "splash-circle",
+      "splash-diagonal",
+      "splash-octagon",
+      "splash-green",
+      "splash-black"
+     ],
+     "uv": "box"
+    }
+   ]
+  },
+  {
+   "id": "pendants",
+   "label": "Pendant lights",
+   "group": "Kitchen",
+   "kind": "surface",
+   "camera": "benchtop",
+   "name": "Pendant lights",
+   "price": 960,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Shade",
+     "materials": [
+      "Pendant"
+     ],
+     "family": "metal",
+     "finishes": [
+      "metal-black",
+      "metal-brass",
+      "metal-brass-polished",
+      "metal-chrome",
+      "metal-steel",
+      "metal-gunmetal",
+      "metal-gold"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "oven",
+   "label": "Oven",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "oven",
+   "options": [
+    {
+     "id": "pair",
+     "label": "Double",
+     "name": "Oven Double Stack",
+     "dir": "assets/oven_oven-miele-pair",
+     "price": 6900,
+     "thumb": "thumbs/oven_oven-miele-pair.jpg"
+    },
+    {
+     "id": "single",
+     "label": "Single",
+     "name": "Oven Single",
+     "dir": "assets/oven_oven-single",
+     "price": 3200,
+     "thumb": "thumbs/oven_oven-single.jpg"
+    }
+   ]
+  },
+  {
+   "id": "cooktop",
+   "label": "Cooktop",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "cooktop",
+   "options": [
+    {
+     "id": "gas",
+     "label": "Gas",
+     "name": "Cooktop Gas",
+     "dir": "assets/cooktop_cooktop-gas",
+     "price": 1900,
+     "thumb": "thumbs/cooktop_cooktop-gas.jpg"
+    },
+    {
+     "id": "induction",
+     "label": "Induction",
+     "name": "Cooktop Induction",
+     "dir": "assets/cooktop_cooktop-induction",
+     "price": 2600,
+     "thumb": "thumbs/cooktop_cooktop-induction.jpg"
+    }
+   ]
+  },
+  {
+   "id": "sink",
+   "label": "Sink",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "sink",
+   "options": [
+    {
+     "id": "square",
+     "label": "Square",
+     "name": "Sink Square",
+     "dir": "assets/sink_sink-square",
+     "price": 780,
+     "thumb": "thumbs/sink_sink-square.jpg"
+    },
+    {
+     "id": "wide",
+     "label": "Wide",
+     "name": "Sink Wide",
+     "dir": "assets/sink_sink-wide",
+     "price": 1150,
+     "thumb": "thumbs/sink_sink-wide.jpg"
+    }
+   ]
+  },
+  {
+   "id": "tap",
+   "label": "Kitchen tap",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "tap",
+   "anchorSlot": "sink",
+   "anchorKey": "tap",
+   "options": [
+    {
+     "id": "gooseneck",
+     "label": "Gooseneck",
+     "name": "Tap Gooseneck",
+     "glb": "assets/taps/tap-gooseneck-black.glb",
+     "price": 420,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Sink & faucet"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ],
+     "thumb": "thumbs/tap-gooseneck-black.jpg"
+    },
+    {
+     "id": "pullout",
+     "label": "Pull-out",
+     "name": "Tap Pull-Out",
+     "glb": "assets/taps/tap-pull-out-steel.glb",
+     "price": 690,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "FaucetMetal.001"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-chrome"
+      }
+     ],
+     "thumb": "thumbs/tap-pull-out-steel.jpg"
+    },
+    {
+     "id": "flow",
+     "label": "Flow",
+     "name": "Tap Flow",
+     "glb": "assets/taps/flow-single-lever-kitchen-mixer-tap.glb",
+     "price": 540,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Black"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ],
+     "thumb": "thumbs/flow-single-lever-kitchen-mixer-tap.jpg"
+    },
+    {
+     "id": "tall",
+     "label": "Tall 07",
+     "name": "Tap Tall 07",
+     "glb": "assets/taps/tap-07.glb",
+     "price": 760,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "chrome metal"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-chrome"
+      }
+     ],
+     "thumb": "thumbs/tap-07.jpg"
+    }
+   ]
+  },
+  {
+   "id": "hood",
+   "label": "Range hood",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "hood",
+   "default": "builtin",
+   "options": [
+    {
+     "id": "builtin",
+     "label": "Built-in",
+     "name": "Hood built-in",
+     "dir": "assets/hood_hood-builtin",
+     "price": 1200,
+     "thumb": "thumbs/hood_hood-builtin.jpg"
+    },
+    {
+     "id": "canopy",
+     "label": "Canopy",
+     "name": "Hood canopy",
+     "dir": "assets/hood_hood-canopy",
+     "price": 1850,
+     "thumb": "thumbs/hood_hood-canopy.jpg"
+    }
+   ]
+  },
+  {
+   "id": "islandtop",
+   "label": "Island top",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "islandtop",
+   "default": "standard",
+   "options": [
+    {
+     "id": "standard",
+     "label": "Standard",
+     "name": "Island top standard",
+     "dir": "assets/islandtop_island-top-standard",
+     "price": 0,
+     "thumb": "thumbs/islandtop_island-top-standard.jpg"
+    },
+    {
+     "id": "waterfall",
+     "label": "Waterfall",
+     "name": "Island top waterfall",
+     "dir": "assets/islandtop_island-top-waterfall",
+     "price": 2900,
+     "thumb": "thumbs/islandtop_island-top-waterfall.jpg"
+    }
+   ]
+  },
+  {
+   "id": "islandstorage",
+   "label": "Island storage",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "islandstorage",
+   "default": "covered",
+   "options": [
+    {
+     "id": "covered",
+     "label": "Doors",
+     "name": "Island storage with doors",
+     "dir": "assets/islandstorage_island-storage-doors",
+     "price": 1100,
+     "thumb": "thumbs/islandstorage_island-storage-doors.jpg"
+    },
+    {
+     "id": "open",
+     "label": "Open recess",
+     "name": "Island open recess",
+     "none": true
+    }
+   ]
+  },
+  {
+   "id": "dining",
+   "label": "Dining set",
+   "group": "Kitchen",
+   "kind": "model",
+   "camera": "dining",
+   "default": "walnut",
+   "options": [
+    {
+     "id": "walnut",
+     "label": "Walnut dining",
+     "name": "Dining set walnut",
+     "dir": "assets/dining_walnut-dining-set",
+     "price": 5200,
+     "shadow": true,
+     "thumb": "thumbs/dining_walnut-dining-set.jpg",
+     "parts": [
+      {
+       "id": "table",
+       "label": "Table",
+       "materials": [
+        "DiningTable"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-natural-oak",
+        "veneer-walnut",
+        "veneer-oak",
+        "veneer-smoked"
+       ],
+       "default": "orig-natural-oak"
+      },
+      {
+       "id": "frame",
+       "label": "Chair frames",
+       "materials": [
+        "DiningChairFrame"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-natural-oak",
+        "veneer-walnut",
+        "veneer-oak",
+        "veneer-smoked",
+        "metal-black"
+       ],
+       "default": "orig-natural-oak"
+      },
+      {
+       "id": "seat",
+       "label": "Seats",
+       "materials": [
+        "DiningSeat"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "orig-boucle-grey",
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "leather-brown"
+       ],
+       "default": "orig-boucle-grey"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sofa",
+   "label": "Sofa",
+   "group": "Living",
+   "kind": "model",
+   "camera": "sofa",
+   "default": "peru3",
+   "options": [
+    {
+     "id": "peru3",
+     "label": "Peru 3",
+     "name": "Sofa Peru 3",
+     "dir": "assets/sofa_peru-3-seater-sofa",
+     "price": 3400,
+     "shadow": true,
+     "thumb": "thumbs/sofa_peru-3-seater-sofa.jpg",
+     "parts": [
+      {
+       "id": "upholstery",
+       "label": "Upholstery",
+       "materials": [
+        "Sofa",
+        "Sofa Cushion"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "orig-peru",
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ]
+      },
+      {
+       "id": "legs",
+       "label": "Legs",
+       "materials": [
+        "Gold"
+       ],
+       "family": "hard",
+       "finishes": [
+        "metal-brass",
+        "metal-black",
+        "metal-chrome",
+        "metal-gold"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "modular",
+     "label": "DL Modular",
+     "name": "Sofa DL Modular",
+     "dir": "assets/sofa_dl-modular-sofa",
+     "price": 4200,
+     "shadow": true,
+     "thumb": "thumbs/sofa_dl-modular-sofa.jpg",
+     "parts": [
+      {
+       "id": "upholstery",
+       "label": "Upholstery",
+       "materials": [
+        "MTL_Velvet_backrest",
+        "MTL_Velvet_seat",
+        "MTL_Velvet_seams"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ],
+       "default": "fabric-sage"
+      }
+     ],
+     "badge": "Bestseller"
+    },
+    {
+     "id": "corner",
+     "label": "Corner L",
+     "name": "Sofa Corner L",
+     "dir": "assets/sofa_couch-1",
+     "price": 4900,
+     "shadow": true,
+     "thumb": "thumbs/sofa_couch-1.jpg",
+     "parts": [
+      {
+       "id": "upholstery",
+       "label": "Upholstery",
+       "materials": [
+        "Fabric 131"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ],
+       "default": "fabric-stone"
+      },
+      {
+       "id": "cushions",
+       "label": "Cushions",
+       "materials": [
+        "Fabric 05",
+        "Fabric"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ],
+       "default": "fabric-navy"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "feature",
+   "label": "Feature wall",
+   "group": "Living",
+   "kind": "surface",
+   "camera": "feature",
+   "name": "Feature wall",
+   "price": 900,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "FeatureWall"
+     ],
+     "family": "feature",
+     "finishes": [
+      "paint-sage",
+      "paint-greige",
+      "paint-clay",
+      "paint-navy",
+      "plaster-clay",
+      "panel-oak",
+      "panel-walnut",
+      "panel-marble",
+      "panel-green-marble"
+     ],
+     "uv": "box"
+    }
+   ]
+  },
+  {
+   "id": "rug",
+   "label": "Rug",
+   "group": "Living",
+   "kind": "surface",
+   "camera": "rug",
+   "name": "Rug",
+   "price": 1200,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "Rug"
+     ],
+     "family": "rug",
+     "finishes": [
+      "rug-oatmeal",
+      "rug-stone",
+      "rug-moss",
+      "rug-rust",
+      "rug-charcoal"
+     ],
+     "uv": "box"
+    }
+   ]
+  },
+  {
+   "id": "coffeetable",
+   "label": "Coffee table",
+   "group": "Living",
+   "kind": "model",
+   "camera": "coffeetable",
+   "default": "modern",
+   "options": [
+    {
+     "id": "modern",
+     "label": "Modern walnut",
+     "name": "Coffee table modern walnut",
+     "dir": "assets/coffeetable_modern-walnut-coffee-table",
+     "price": 1450,
+     "shadow": true,
+     "thumb": "thumbs/coffeetable_modern-walnut-coffee-table.jpg",
+     "parts": [
+      {
+       "id": "top",
+       "label": "Top",
+       "materials": [
+        "Walnut Carini"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-walnut",
+        "veneer-walnut",
+        "veneer-oak",
+        "veneer-smoked"
+       ],
+       "default": "orig-walnut"
+      },
+      {
+       "id": "legs",
+       "label": "Legs",
+       "materials": [
+        "Gold.001"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-gold",
+        "metal-brass",
+        "metal-black",
+        "metal-chrome",
+        "metal-gold"
+       ],
+       "default": "orig-gold"
+      }
+     ]
+    },
+    {
+     "id": "scandinav",
+     "label": "Scandinavian",
+     "name": "Coffee table Scandinavian",
+     "dir": "assets/coffeetable_scandinav-coffee-table",
+     "price": 980,
+     "shadow": true,
+     "thumb": "thumbs/coffeetable_scandinav-coffee-table.jpg",
+     "parts": [
+      {
+       "id": "table",
+       "label": "Table",
+       "materials": [
+        "Material.006"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-light-oak",
+        "veneer-walnut",
+        "veneer-oak",
+        "veneer-smoked",
+        "metal-black"
+       ],
+       "default": "orig-light-oak"
+      }
+     ]
+    },
+    {
+     "id": "vintage",
+     "label": "Vintage wood",
+     "name": "Coffee table vintage wood",
+     "dir": "assets/coffeetable_vintage-wood-coffee-table",
+     "price": 1250,
+     "shadow": true,
+     "thumb": "thumbs/coffeetable_vintage-wood-coffee-table.jpg",
+     "parts": [
+      {
+       "id": "wood",
+       "label": "Wood",
+       "materials": [
+        "Table_Wood.Maison"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-vintage-wood",
+        "veneer-walnut",
+        "veneer-oak",
+        "veneer-smoked"
+       ],
+       "default": "orig-vintage-wood"
+      },
+      {
+       "id": "metal",
+       "label": "Handles",
+       "materials": [
+        "Chrome.Maison"
+       ],
+       "family": "hard",
+       "finishes": [
+        "orig-chrome",
+        "metal-brass",
+        "metal-black",
+        "metal-chrome",
+        "metal-gold"
+       ],
+       "default": "orig-chrome"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "blind",
+   "label": "Window blind",
+   "group": "Living",
+   "kind": "model",
+   "camera": "blind",
+   "default": "none",
+   "options": [
+    {
+     "id": "none",
+     "label": "No blind",
+     "name": "No blind",
+     "none": true
+    },
+    {
+     "id": "roller",
+     "label": "Roller",
+     "name": "Blind Roller",
+     "dir": "assets/blind_blind-roller",
+     "price": 1250,
+     "thumb": "thumbs/blind_blind-roller.jpg",
+     "parts": [
+      {
+       "id": "fabric",
+       "label": "Fabric",
+       "materials": [
+        "BlindFabric"
+       ],
+       "family": "blind",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-charcoal"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "roman",
+     "label": "Roman",
+     "name": "Blind Roman",
+     "dir": "assets/blind_blind-roman",
+     "price": 1680,
+     "thumb": "thumbs/blind_blind-roman.jpg",
+     "parts": [
+      {
+       "id": "fabric",
+       "label": "Fabric",
+       "materials": [
+        "BlindFabric"
+       ],
+       "family": "blind",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-charcoal"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "curtains",
+     "label": "Curtains",
+     "name": "Curtains, drapes + sheer",
+     "dir": "assets/blind_living-room-curtains",
+     "price": 2200,
+     "thumb": "thumbs/blind_living-room-curtains.jpg",
+     "parts": [
+      {
+       "id": "drapes",
+       "label": "Drapes",
+       "materials": [
+        "FabricDenim003_3K"
+       ],
+       "family": "blind",
+       "finishes": [
+        "orig-denim",
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-charcoal"
+       ],
+       "default": "orig-denim"
+      },
+      {
+       "id": "sheer",
+       "label": "Sheer",
+       "materials": [
+        "Zaclony"
+       ],
+       "family": "sheer",
+       "finishes": [
+        "sheer-white",
+        "sheer-sand",
+        "sheer-grey"
+       ],
+       "default": "sheer-white",
+       "rotation": 90
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bed",
+   "label": "Bed",
+   "group": "Bedroom",
+   "kind": "model",
+   "camera": "bed-el",
+   "default": "floss",
+   "options": [
+    {
+     "id": "floss",
+     "label": "Floss",
+     "name": "Bed Floss",
+     "dir": "assets/bed_floss-bed",
+     "price": 3900,
+     "shadow": true,
+     "thumb": "thumbs/bed_floss-bed.jpg",
+     "parts": [
+      {
+       "id": "frame",
+       "label": "Frame fabric",
+       "materials": [
+        "Fabric 134"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ],
+       "default": "fabric-stone"
+      },
+      {
+       "id": "base",
+       "label": "Base",
+       "materials": [
+        "Imbuia wood"
+       ],
+       "family": "cabinet",
+       "uv": "box",
+       "finishes": [
+        "veneer-walnut",
+        "veneer-oak",
+        "veneer-smoked",
+        "lacquer-charcoal"
+       ]
+      },
+      {
+       "id": "linen",
+       "label": "Linen",
+       "materials": [
+        "black blanket"
+       ],
+       "family": "linen",
+       "finishes": [
+        "linen-white",
+        "linen-sand",
+        "linen-sage",
+        "linen-charcoal"
+       ],
+       "default": "linen-charcoal"
+      }
+     ]
+    },
+    {
+     "id": "soft",
+     "label": "Soft Modern",
+     "name": "Bed Soft Modern",
+     "dir": "assets/bed_soft-modern-bed",
+     "price": 4600,
+     "shadow": true,
+     "thumb": "thumbs/bed_soft-modern-bed.jpg",
+     "parts": [
+      {
+       "id": "frame",
+       "label": "Frame fabric",
+       "materials": [
+        "Fabric.001"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ],
+       "default": "fabric-charcoal"
+      },
+      {
+       "id": "linen",
+       "label": "Linen",
+       "materials": [
+        "Blanket",
+        "Sheet",
+        "Pillows"
+       ],
+       "family": "linen",
+       "finishes": [
+        "linen-white",
+        "linen-sand",
+        "linen-sage",
+        "linen-charcoal"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "suite",
+     "label": "Suite One",
+     "name": "Bed Suite One",
+     "dir": "assets/bed_bedroom-kit-one",
+     "price": 5800,
+     "shadow": true,
+     "thumb": "thumbs/bed_bedroom-kit-one.jpg",
+     "parts": [
+      {
+       "id": "frame",
+       "label": "Upholstery",
+       "materials": [
+        "Yellow Miracle soft Fabric"
+       ],
+       "family": "upholstery",
+       "finishes": [
+        "fabric-linen",
+        "fabric-stone",
+        "fabric-sage",
+        "fabric-rust",
+        "fabric-navy",
+        "fabric-charcoal",
+        "fabric-quilted",
+        "leather-brown",
+        "leather-aubergine"
+       ],
+       "default": "fabric-linen"
+      },
+      {
+       "id": "linen",
+       "label": "Linen",
+       "materials": [
+        "Yellow Miracle soft Fabric.001"
+       ],
+       "family": "linen",
+       "finishes": [
+        "linen-white",
+        "linen-sand",
+        "linen-sage",
+        "linen-charcoal"
+       ],
+       "default": "linen-white"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "vanity",
+   "label": "Vanity",
+   "group": "Bathroom",
+   "kind": "model",
+   "camera": "vanity",
+   "default": "single",
+   "options": [
+    {
+     "id": "single",
+     "label": "Single 1200",
+     "name": "Vanity Single 1200",
+     "dir": "assets/vanity_single-bathroom-vanity",
+     "price": 2400,
+     "thumb": "thumbs/vanity_single-bathroom-vanity.jpg",
+     "parts": [
+      {
+       "id": "cabinet",
+       "label": "Cabinet",
+       "materials": [
+        "Material.005"
+       ],
+       "family": "cabinet",
+       "finishes": [
+        "orig-walnut",
+        "veneer-oak",
+        "lacquer-white",
+        "lacquer-charcoal",
+        "lacquer-navy"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "floating",
+     "label": "Floating 1500",
+     "name": "Vanity Floating 1500",
+     "dir": "assets/vanity_bathroom-furniture-set",
+     "price": 3100,
+     "thumb": "thumbs/vanity_bathroom-furniture-set.jpg",
+     "parts": [
+      {
+       "id": "cabinet",
+       "label": "Cabinet",
+       "materials": [
+        "Wood Painted White"
+       ],
+       "family": "cabinet",
+       "finishes": [
+        "orig-white-paint",
+        "veneer-oak",
+        "veneer-walnut",
+        "lacquer-charcoal",
+        "lacquer-navy",
+        "lacquer-sage2"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "double",
+     "label": "Beira Double",
+     "name": "Vanity Beira Double 1800",
+     "dir": "assets/vanity_beira-double-bathroom-vanity",
+     "price": 4300,
+     "thumb": "thumbs/vanity_beira-double-bathroom-vanity.jpg",
+     "parts": [
+      {
+       "id": "cabinet",
+       "label": "Cabinet",
+       "materials": [
+        "Procedural Wood"
+       ],
+       "family": "cabinet",
+       "uv": "box",
+       "finishes": [
+        "veneer-oak",
+        "veneer-walnut",
+        "veneer-smoked",
+        "lacquer-white",
+        "lacquer-charcoal"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "basintap",
+   "label": "Basin tap",
+   "group": "Bathroom",
+   "kind": "model",
+   "camera": "basintap",
+   "anchorSlot": "vanity",
+   "anchorKey": "tap",
+   "options": [
+    {
+     "id": "flow",
+     "label": "Flow",
+     "name": "Tap Flow",
+     "glb": "assets/taps/flow-single-lever-kitchen-mixer-tap.glb",
+     "price": 540,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Black"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ],
+     "thumb": "thumbs/flow-single-lever-kitchen-mixer-tap.jpg"
+    },
+    {
+     "id": "gooseneck",
+     "label": "Gooseneck",
+     "name": "Tap Gooseneck",
+     "glb": "assets/taps/tap-gooseneck-black.glb",
+     "price": 420,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Sink & faucet"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ],
+     "thumb": "thumbs/tap-gooseneck-black.jpg"
+    },
+    {
+     "id": "slim",
+     "label": "Basin slim",
+     "name": "Tap Basin Slim",
+     "glb": "assets/taps/faucet-tap-matt-black.glb",
+     "price": 290,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "CCL Matte Metal Black"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ],
+     "thumb": "thumbs/faucet-tap-matt-black.jpg"
+    },
+    {
+     "id": "classic",
+     "label": "Basin classic",
+     "name": "Tap Basin Classic",
+     "glb": "assets/taps/faucet-tap-chrome.glb",
+     "price": 310,
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Clean chrome"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-chrome"
+      }
+     ],
+     "thumb": "thumbs/faucet-tap-chrome.jpg"
+    },
+    {
+     "id": "basin-tall",
+     "label": "Tall mixer",
+     "name": "Basin mixer tall",
+     "glb": "assets/taps/basin-mixer-tall.glb",
+     "price": 480,
+     "thumb": "thumbs/basin-mixer-tall.jpg",
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "faucet"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-chrome"
+      }
+     ]
+    },
+    {
+     "id": "basin-compact",
+     "label": "Compact mixer",
+     "name": "Basin mixer compact",
+     "glb": "assets/taps/basin-mixer-compact.glb",
+     "price": 360,
+     "thumb": "thumbs/basin-mixer-compact.jpg",
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Procedural pearl black painted plastic"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ]
+    },
+    {
+     "id": "wall",
+     "label": "Wall mixer",
+     "name": "Basin wall mixer",
+     "glb": "assets/taps/basin-wall-mixer.glb",
+     "price": 620,
+     "thumb": "thumbs/basin-wall-mixer.jpg",
+     "parts": [
+      {
+       "id": "metal",
+       "label": "Finish",
+       "materials": [
+        "Black_metal"
+       ],
+       "family": "metal",
+       "finishes": [
+        "metal-chrome",
+        "metal-steel",
+        "metal-brass",
+        "metal-brass-polished",
+        "metal-gold",
+        "metal-black",
+        "metal-gunmetal"
+       ],
+       "default": "metal-black"
+      }
+     ]
+    }
+   ],
+   "default": "basin-tall"
+  },
+  {
+   "id": "vanitywall",
+   "label": "Vanity wall",
+   "group": "Bathroom",
+   "kind": "surface",
+   "camera": "vanitywall",
+   "name": "Vanity wall",
+   "price": 1900,
+   "parts": [
+    {
+     "id": "finish",
+     "label": "Finish",
+     "materials": [
+      "VanityWall"
+     ],
+     "family": "vanitywall",
+     "finishes": [
+      "vw-calacatta",
+      "vw-marble-tiles",
+      "vw-black",
+      "vw-green",
+      "vw-travertine",
+      "vw-circle",
+      "vw-terracotta"
+     ],
+     "uv": "box"
+    }
+   ]
+  }
+ ],
+ "presets": {
+  "kitchen": {
+   "label": "Kitchen",
+   "zone": "kitchen"
+  },
+  "flooring": {
+   "label": "Flooring",
+   "zone": "living",
+   "element": "floorliving",
+   "state": {
+    "floorliving": "floor-walnut",
+    "floorbed": "floor-walnut",
+    "floorbath": "floor-walnut"
+   }
+  },
+  "beds": {
+   "label": "Beds",
+   "zone": "bed",
+   "element": "bed"
+  },
+  "blinds": {
+   "label": "Blinds",
+   "zone": "living",
+   "element": "blind",
+   "state": {
+    "blind": "roman"
+   }
+  },
+  "bathroom": {
+   "label": "Bathroom",
+   "zone": "bath"
+  },
+  "living": {
+   "label": "Living",
+   "zone": "living"
+  }
+ },
+ "looks": [
+  {
+   "id": "warm-oak",
+   "label": "Warm Oak",
+   "line": "Light oak, white walls, soft linen",
+   "state": {
+    "floorliving": "floor-oak",
+    "floorbed": "floor-oak",
+    "floorbath": "floor-oak",
+    "edgestrip": "orig-edge",
+    "walls": "paint-white.trim-white",
+    "fronts": "veneer-oak.veneer-oak",
+    "benchtop": "bench-marble",
+    "splashback": "splash-marble",
+    "pendants": "metal-brass",
+    "oven": "pair",
+    "cooktop": "induction",
+    "sink": "square",
+    "tap": "gooseneck.metal-brass",
+    "hood": "builtin",
+    "islandtop": "standard",
+    "islandstorage": "covered",
+    "dining": "walnut.veneer-oak.veneer-oak.fabric-linen",
+    "sofa": "peru3.fabric-linen.metal-brass",
+    "feature": "paint-greige",
+    "rug": "rug-oatmeal",
+    "coffeetable": "scandinav.orig-light-oak",
+    "blind": "roman.fabric-linen",
+    "bed": "floss.fabric-linen.veneer-oak.linen-sand",
+    "vanity": "double.veneer-oak",
+    "basintap": "classic.metal-brass",
+    "vanitywall": "vw-travertine"
+   }
+  },
+  {
+   "id": "dark-walnut",
+   "label": "Dark Walnut",
+   "line": "Charcoal fronts, walnut, matte black",
+   "state": {
+    "floorliving": "floor-walnut",
+    "floorbed": "floor-walnut",
+    "floorbath": "floor-walnut",
+    "edgestrip": "metal-black",
+    "walls": "paint-greige.trim-black",
+    "fronts": "lacquer-charcoal.veneer-walnut",
+    "benchtop": "bench-granite",
+    "splashback": "splash-black",
+    "pendants": "metal-black",
+    "oven": "pair",
+    "cooktop": "gas",
+    "sink": "wide",
+    "tap": "pullout.metal-black",
+    "hood": "canopy",
+    "islandtop": "waterfall",
+    "islandstorage": "covered",
+    "dining": "walnut.veneer-walnut.metal-black.fabric-charcoal",
+    "sofa": "peru3.leather-brown.metal-black",
+    "feature": "panel-walnut",
+    "rug": "rug-charcoal",
+    "coffeetable": "modern.veneer-walnut.metal-black",
+    "blind": "roller.fabric-charcoal",
+    "bed": "floss.fabric-charcoal.veneer-walnut.linen-charcoal",
+    "vanity": "single.lacquer-charcoal",
+    "basintap": "wall.metal-black",
+    "vanitywall": "vw-black"
+   }
+  },
+  {
+   "id": "coastal-white",
+   "label": "Coastal White",
+   "line": "White lacquer, pale stone, linen",
+   "state": {
+    "floorliving": "floor-weathered",
+    "floorbed": "floor-weathered",
+    "floorbath": "floor-weathered",
+    "edgestrip": "metal-steel",
+    "walls": "paint-white.trim-white",
+    "fronts": "lacquer-white.lacquer-white",
+    "benchtop": "bench-marble",
+    "splashback": "splash-circle",
+    "pendants": "metal-chrome",
+    "oven": "single",
+    "cooktop": "induction",
+    "sink": "square",
+    "tap": "tall.metal-chrome",
+    "hood": "builtin",
+    "islandtop": "standard",
+    "islandstorage": "open",
+    "dining": "walnut.veneer-oak.veneer-oak.fabric-linen",
+    "sofa": "modular.fabric-linen",
+    "feature": "plaster-lime",
+    "rug": "rug-stone",
+    "coffeetable": "scandinav.orig-light-oak",
+    "blind": "curtains.fabric-linen.sheer-white",
+    "bed": "suite.fabric-linen.linen-white",
+    "vanity": "floating.lacquer-white",
+    "basintap": "basin-tall.metal-chrome",
+    "vanitywall": "vw-marble-tiles"
+   }
+  },
+  {
+   "id": "stone-brass",
+   "label": "Stone & Brass",
+   "line": "Marble, brushed brass, warm grey",
+   "state": {
+    "floorliving": "floor-travertine",
+    "floorbed": "floor-travertine",
+    "floorbath": "floor-travertine",
+    "edgestrip": "metal-brass",
+    "walls": "paint-greige.paint-greige",
+    "fronts": "lacquer-navy.veneer-smoked",
+    "benchtop": "bench-gold",
+    "splashback": "splash-gold_marble_04",
+    "pendants": "metal-brass-polished",
+    "oven": "pair",
+    "cooktop": "gas",
+    "sink": "wide",
+    "tap": "flow.metal-brass",
+    "hood": "canopy",
+    "islandtop": "waterfall",
+    "islandstorage": "covered",
+    "dining": "walnut.veneer-smoked.metal-black.fabric-stone",
+    "sofa": "corner.fabric-stone.fabric-navy",
+    "feature": "panel-marble",
+    "rug": "rug-stone",
+    "coffeetable": "vintage.veneer-smoked.metal-brass",
+    "blind": "roman.fabric-stone",
+    "bed": "soft.fabric-stone.linen-white",
+    "vanity": "single.orig-walnut",
+    "basintap": "basin-tall.metal-brass",
+    "vanitywall": "vanitywall-gold_marble_04"
+   }
+  }
+ ],
+ "cta": [
+  {
+   "id": "quote",
+   "label": "Request a quote",
+   "kind": "url",
+   "primary": true,
+   "copy": true,
+   "href": "https://glimmerfell.com/?enquiry={summary}#enquire",
+   "pdfText": "glimmerfell.com/#enquire"
+  },
+  {
+   "id": "measure",
+   "label": "Book a measure-up",
+   "kind": "mailto",
+   "href": "mailto:manny@glimmerfell.com",
+   "subject": "Measure-up booking ({code})",
+   "body": "Hello,\n\nI would like to book a measure-up for this configuration:\n{summary}\n\n{items}\n\nThanks,\n"
+  },
+  {
+   "id": "showroom",
+   "label": "Visit the showroom",
+   "kind": "url",
+   "href": "https://glimmerfell.com"
+  }
+ ],
+ "ruleReasons": {
+  "vanity": {
+   "single": "Doesn't fit the vessel basin",
+   "floating": "Can't reach over the vessel basin",
+   "double": "Wall mount not offered on this vanity"
+  }
+ },
+ "surfaces": {
+  "Mirror": "mirror",
+  "mirror": "mirror",
+  "AR3DMat Procedural Realistic Mirror": "mirror",
+  "LIGHT": "emissive:20",
+  "PendantBulb": "emissive:10",
+  "Black_metal": "paint:#1a1a1b:0.32:0.85",
+  "Black_plast": "paint:#141414:0.45:0",
+  "Procedural Liquid Soap": "paint:#b88a3e:0.06:0",
+  "SBM_SBM_SBM_Red car lights glass": "paint:#2b1d17:0.05:0"
+ },
+ "look": {
+  "skyBackdrop": 0.92,
+  "skyReflection": 1,
+  "reflections": 1.2,
+  "probeSize": 256,
+  "specularOcclusion": 0.35,
+  "specularOcclusionFloor": 0.12,
+  "glassTransmission": 0.93,
+  "glassReflection": 0.3,
+  "maxTextureSize": 1024,
+  "sheerGlow": 0.4
+ },
+ "legacyParams": {
+  "floor": [
+   "floorliving",
+   "floorbed",
+   "floorbath"
+  ]
+ }
+}

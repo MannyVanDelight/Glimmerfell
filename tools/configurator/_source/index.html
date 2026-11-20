@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glimmerfell Configurator</title>
+<!-- not released yet: keep it out of search results (remove at launch) -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="./brand/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+<div id="app">
+  <div id="poster">
+    <img src="./brand/logo.png" alt="">
+    <div class="mark">Glimmerfell</div>
+    <div class="note" id="poster-note">Loading the room…</div>
+  </div>
+
+  <header id="top">
+    <a class="brand" href="https://glimmerfell.com" target="_blank" rel="noopener">
+      <img src="./brand/logo.png" alt=""><span>Glimmerfell</span>
+    </a>
+    <nav id="zones" aria-label="Areas"></nav>
+    <div class="actions">
+      <button id="btn-reset" title="Back to the starting configuration">Reset</button>
+      <button id="btn-share" title="Copy a link to this configuration">Share</button>
+      <button id="btn-total" class="total" aria-haspopup="dialog" title="Open the summary">
+        <span class="t-label">Indicative total</span><span class="t-value" id="total-value">–</span>
+      </button>
+    </div>
+  </header>
+
+  <aside id="rail" aria-label="What you can change here"></aside>
+
+  <div id="stage">
+    <canvas id="view" aria-label="3D view of the room. Drag to look around, scroll or pinch to zoom."></canvas>
+    <div id="hotspots"></div>
+  </div>
+
+  <section id="looks" aria-label="Looks" hidden>
+    <div class="lk-head"><span class="lk-title">Start from a look</span></div>
+    <div class="lk-row" id="looks-row"></div>
+  </section>
+
+
+  <section id="panel" aria-label="Options" aria-hidden="true">
+    <div class="sheet-grip" id="panel-grip" aria-hidden="true"><span></span></div>
+    <div class="p-head" id="panel-head">
+      <button class="p-back" id="panel-back"></button>
+      <div class="p-title">
+        <span class="p-eyebrow" id="panel-eyebrow"></span>
+        <h2 id="panel-title"></h2>
+        <span class="p-line" id="panel-line"></span>
+      </div>
+      <button class="p-close" id="panel-close" aria-label="Close options">×</button>
+    </div>
+    <div class="p-body" id="panel-body"></div>
+    <div class="p-foot" id="panel-foot">
+      <button class="p-prev" id="panel-prev"></button>
+      <button class="p-next" id="panel-next"></button>
+    </div>
+  </section>
+
+  <div id="scrim" hidden></div>
+  <aside id="summary" role="dialog" aria-modal="true" aria-labelledby="sum-title" hidden>
+    <div class="sum-head">
+      <h2 id="sum-title">Your configuration</h2>
+      <button id="sum-close" aria-label="Close summary">×</button>
+    </div>
+    <div id="sum-body"></div>
+    <div class="sum-foot">
+      <div class="sum-cta" id="sum-cta"></div>
+      <button id="btn-pdf">Download PDF</button>
+      <button id="btn-copy">Copy link</button>
+      <div class="sum-cta2" id="sum-cta2"></div>
+    </div>
+  </aside>
+
+  <div id="busy" hidden>Loading…</div>
+  <div id="toast" hidden role="status"></div>
+</div>
+<script type="module" src="./src/main.ts"></script>
+</body>
+</html>

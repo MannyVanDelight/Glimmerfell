@@ -1,0 +1,47 @@
+{
+ "source": "kloofendal_48d_partly_cloudy_puresky_2k.exr",
+ "convention": "Equirect as three.js samples it (equirectUv: u = atan2(d.z, d.x)/2pi + 0.5, v = asin(d.y)/pi + 0.5, image top = +Y). With three = (Blender X, Blender Z, -Blender Y) this is identical to Blender's world Environment Texture mapping (u = 0.5 - atan2(bY, bX)/2pi), so rotationY = 0 in three.js matches an unrotated Blender world. The image centre (u=0.5) faces three.js +X (= Blender +X); u=0.25 faces three.js -Z (Blender +Y).",
+ "sunDirection": [
+  0.55438,
+  0.74167,
+  0.3776
+ ],
+ "sunAzimuthDeg": 124.26,
+ "sunAzimuthConvention": "degrees from three.js -Z towards +X (clockwise seen from above)",
+ "sunElevationDeg": 47.87,
+ "sunUV": [
+  0.59517,
+  0.76597
+ ],
+ "sunUVcheck_three": [
+  0.59517,
+  0.76597
+ ],
+ "meanLuminance": 0.6939,
+ "skyMedianLuminance": 0.346,
+ "sunPeakLuminance": 72870.2,
+ "backdropExposureEV": 0.0,
+ "backdropToneMap": "extended Reinhard, white point 4.0, per channel, then sRGB OETF",
+ "files": {
+  "backdrop": "sky.jpg",
+  "env": "sky_env.hdr"
+ },
+ "size": {
+  "backdrop": [
+   2048,
+   1024
+  ],
+  "env": [
+   512,
+   256
+  ]
+ },
+ "blender": {
+  "sunAzimuthDegFromX": 325.74,
+  "sunDirection": [
+   0.55438,
+   -0.3776,
+   0.74167
+  ]
+ }
+}
