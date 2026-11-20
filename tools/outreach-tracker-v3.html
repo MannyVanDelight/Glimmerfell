@@ -229,7 +229,7 @@ body.sheet-open { overflow: hidden }
 <script data-own>
 const SEED = (() => { try { return JSON.parse(document.getElementById("tracker-data").textContent); } catch { return { companies: [], contacts: [] }; } })();
 /* ---------- countries: each has its own data file, its own copy on this device and its own Drive folder ---------- */
-const REGIONS = { nz: { label: "New Zealand", file: "outreach-nz.json" }, au: { label: "Australia", file: "outreach-au.json" }, dubai: { label: "Dubai", file: "outreach-dubai.json" } };
+const REGIONS = { nz: { label: "New Zealand", file: "outreach-nz.json" }, au: { label: "Australia", file: "outreach-au.json" }, dubai: { label: "Dubai", file: "outreach-dubai.json" }, configurator: { label: "Web Configurator", file: "outreach-configurator.json" } };
 const URLQ = new URLSearchParams(location.search);
 const REGION = (() => { let r = (URLQ.get("country") || "").toLowerCase(); if (!REGIONS[r]) { try { r = localStorage.getItem("outreach-country"); } catch {} } return REGIONS[r] ? r : "nz"; })();
 try { localStorage.setItem("outreach-country", REGION); } catch {}
@@ -445,9 +445,9 @@ function helpSheet() {
         <p>The counters at the top filter the list. Tap a company name to fold it to one line.</p>
       </section>
       <section class="help-sec">
-        <h4>Countries</h4>
-        <p>New Zealand, Australia and Dubai each keep their own list, saved on this device and synced to their own file: <b>outreach-nz.json</b>, <b>outreach-au.json</b> and <b>outreach-dubai.json</b>. Keep each file in its own Drive folder and link each country to its folder once. A file from another country is never merged in.</p>
-        <p>To share one country with a collaborator, share only that country's Drive folder and send them this page's link ending in <b>?country=au&amp;only=1</b> (or <b>nz</b>, <b>dubai</b>). They see just that country, with no switcher.</p>
+        <h4>Lists</h4>
+        <p>New Zealand, Australia, Dubai and Web Configurator each keep their own list, saved on this device and synced to their own file: <b>outreach-nz.json</b>, <b>outreach-au.json</b>, <b>outreach-dubai.json</b> and <b>outreach-configurator.json</b>. Keep each file in its own Drive folder and link each list to its folder once. A file from another list is never merged in.</p>
+        <p>To share one country with a collaborator, share only that country's Drive folder and send them this page's link ending in <b>?country=au&amp;only=1</b> (or <b>nz</b>, <b>dubai</b>, <b>configurator</b>). They see just that country, with no switcher.</p>
       </section>
       ${sync}
     </div>
