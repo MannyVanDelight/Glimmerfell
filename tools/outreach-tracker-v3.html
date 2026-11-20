@@ -57,6 +57,8 @@ h1 { font-family: var(--serif); font-weight: 300; font-size: clamp(25px, 3.6vw, 
 .chead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 6px }
 .chead h2 { font-family: var(--serif); font-weight: 400; font-size: 21px; line-height: 1.25; margin: 0; min-width: 0; overflow-wrap: anywhere; flex: 1 1 180px }
 .chead .note { width: 100%; color: var(--muted); font-size: 12.5px; margin: 0; max-width: 58ch }
+.chead .note .link { color: var(--gold-ink); text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere }
+.chead .note .link:hover { color: var(--ink) }
 .conotes { width: 100%; margin: 2px 0 0; font-size: 13.5px; color: var(--body) }
 .conotes summary { cursor: pointer; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-ink); padding: 4px 0; width: fit-content }
 .conotes summary:hover { color: var(--ink) }
@@ -255,6 +257,20 @@ const FOLLOW_DAYS = 7;
 const STAGES = ["Replied", "Call scheduled", "In discussion", "Sent materials", "Proposal sent", "Negotiating", "Agreed", "Declined"];
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+/* Escape text and turn web addresses and emails in it into clickable links */
+const LINK_RE = /([\w.+-]+@[\w-]+(?:\.[\w-]+)*\.[a-z]{2,})|((?:https?:\/\/|www\.)[^\s<>"'·]+|\b[a-z0-9][a-z0-9-]*(?:\.[a-z0-9-]+)*\.[a-z]{2,24}\b(?:\/[^\s<>"'·]*)?)/gi;
+const linkify = s => {
+  s = String(s ?? ""); let out = "", last = 0;
+  for (const m of s.matchAll(LINK_RE)) {
+    let text = m[0], i = m.index;
+    if (m[2] && i > 0 && s[i - 1] === "@") continue;
+    const trail = text.match(/[.,;:!?)\]]+$/); if (trail) text = text.slice(0, -trail[0].length);
+    const href = m[1] ? "mailto:" + text : (/^https?:\/\//i.test(text) ? text : "https://" + text);
+    out += esc(s.slice(last, i)) + `<a class="link" href="${esc(href)}"${m[1] ? "" : ` target="_blank" rel="noopener noreferrer"`}>${esc(text)}</a>`;
+    last = i + text.length;
+  }
+  return out + esc(s.slice(last));
+};
 const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
 const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
 const daysSince = s => s ? Math.max(0, Math.round((parse(today()) - parse(s)) / 864e5)) : 0;
@@ -397,7 +413,7 @@ function companyHTML(co, ppl, all, isFolded) {
       <h2><button class="fold" data-fold="${co.id}" type="button" aria-expanded="${!isFolded}"><span class="chev" aria-hidden="true"></span>${esc(co.name) || "Untitled company"}</button></h2>
       <span class="count">${total} ${total === 1 ? "person" : "people"}</span>
       <button class="btn small ghost" data-editco="${co.id}" type="button">Edit</button>
-      ${isFolded ? `<p class="summary">${summaryOf(all)}</p>` : (co.note ? `<p class="note">${esc(co.note)}</p>` : "") + (co.notes ? `<details class="conotes"><summary>Approach notes</summary><div>${esc(co.notes)}</div></details>` : "")}
+      ${isFolded ? `<p class="summary">${summaryOf(all)}</p>` : (co.note ? `<p class="note">${linkify(co.note)}</p>` : "") + (co.notes ? `<details class="conotes"><summary>Approach notes</summary><div>${esc(co.notes)}</div></details>` : "")}
     </div>
     ${rows}
     ${isFolded ? "" : `<div class="addp"><button class="btn small" data-addp="${co.id}" type="button">+ Add person</button></div>`}
