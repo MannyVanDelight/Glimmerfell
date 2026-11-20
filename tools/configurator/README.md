@@ -187,7 +187,7 @@ black button and also printed on the PDF; the others are links underneath.
 
 ```json
 "cta": [
-  { "id": "quote", "label": "Request a quote", "kind": "url", "primary": true, "copy": true,
+  { "id": "quote", "label": "Request a quote", "kind": "url", "primary": true,
     "href": "https://glimmerfell.com/?enquiry={summary}#enquire", "pdfText": "glimmerfell.com/#enquire" },
   { "id": "measure", "label": "Book a measure-up", "kind": "mailto", "href": "mailto:manny@glimmerfell.com",
     "subject": "Measure-up booking ({code})", "body": "…{summary}…{items}…" },
@@ -200,26 +200,25 @@ black button and also printed on the PDF; the others are links underneath.
 - Placeholders in `href`, `subject` and `body`: `{summary}` (a few lines: code, total, link), `{code}`,
   `{total}`, `{url}` (the share link), `{items}` (the item list, shortened).
 - `copy: true` also copies `{summary}` to the clipboard and says "Configuration copied: paste it into
-  the message", for a form that can't be prefilled.
+  the message", for a form that can't be prefilled (a client's site, for example).
 - To rebrand for an exhibitor, change only this list.
 
-**Prefilling the glimmerfell.com enquiry form.** "Request a quote" opens
-`https://glimmerfell.com/?enquiry=<code, total, link>#enquire`. The site's form doesn't read that yet,
-so for now the visitor pastes the copied text. Adding these lines to the site, after the form's script,
-fills the message box automatically:
+**The glimmerfell.com enquiry form is prefilled.** "Request a quote" opens
+`https://glimmerfell.com/?enquiry=<code, total, link>#enquire`. The homepage's contact-form script
+(`index.html` in the repository root, end of the "Contact form" script in the `#enquire` section) reads
+`?enquiry=`, puts the text in the message box and removes it from the address bar:
 
-```html
-<script>
-  // prefill the enquiry form when coming from the configurator (?enquiry=…#enquire)
-  (function () {
-    var text = new URLSearchParams(location.search).get('enquiry');
-    var box = document.getElementById('gf-message');
-    if (text && box && !box.value) box.value = text.slice(0, 2000);
-  })();
-</script>
+```js
+var enquiry = new URLSearchParams(location.search).get('enquiry');
+if (enquiry && !val('gf-message')) {
+  $('gf-message').value = enquiry.slice(0, 5000);
+  if (history.replaceState) history.replaceState(null, '', location.pathname + location.hash);
+}
 ```
 
-Once that is live, `"copy": true` can be removed from the quote button.
+It only acts when the address carries `?enquiry=`, which only the configurator's button adds. The
+site's ordinary "Enquire" / "Request a demonstration" links (`#enquire`) leave the form empty, and
+text a visitor has already typed is never replaced.
 
 ## 7. Links you can send
 

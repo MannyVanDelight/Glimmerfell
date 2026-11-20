@@ -751,6 +751,15 @@
       var link = e.target.closest('a[href="#enquire"]');
       if (link && !form.hidden) setTimeout(function () { $('gf-name').focus({ preventScroll: true }); }, 700);
     });
+
+    /* Coming from the configurator's "Request a quote" (?enquiry=…#enquire): put the configuration
+       (code, total, link) in the message box. Plain #enquire links are not affected. */
+    var enquiry = new URLSearchParams(location.search).get('enquiry');
+    if (enquiry && !val('gf-message')) {
+      $('gf-message').value = enquiry.slice(0, 5000);
+      // tidy the address bar, so a bookmark or shared homepage link doesn't carry the configuration
+      if (history.replaceState) history.replaceState(null, '', location.pathname + location.hash);
+    }
   })();
   </script>
 </section>

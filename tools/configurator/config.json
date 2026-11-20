@@ -3304,7 +3304,6 @@
    "label": "Request a quote",
    "kind": "url",
    "primary": true,
-   "copy": true,
    "href": "https://glimmerfell.com/?enquiry={summary}#enquire",
    "pdfText": "glimmerfell.com/#enquire"
   },
